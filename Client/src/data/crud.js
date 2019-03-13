@@ -1,11 +1,25 @@
+import { auth } from "../constants/constants";
+
 function request(method) {
+  const getAuthHeader = () => {
+    const authToken = window.localStorage.getItem(auth.authToken);
+    return authToken ? { Authorization: `Bearer ${authToken}` } : {};
+  };
+
   return async (url, data = {}, options = {}) => {
+    const authHeader = getAuthHeader();
+
+    const headers = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      ...authHeader
+    };
+
+    console.log(headers);
+
     const response = await fetch(url, {
       method,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
+      headers,
       body: Object.keys(data).length ? JSON.stringify(data) : undefined,
       ...options
     });

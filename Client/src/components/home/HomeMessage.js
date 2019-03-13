@@ -6,7 +6,7 @@ const HomeMessage = props => {
   return (
     <div className="welcome">
       <h1>
-        {message}, {username || "Guest"} !
+        {message}, {username || "Guest"}!
       </h1>
 
       <p>{children}</p>

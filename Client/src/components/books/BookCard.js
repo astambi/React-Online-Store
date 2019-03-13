@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { paths } from "../../constants/constants";
 
 const BookCard = props => {
   const { book } = props;
@@ -21,9 +22,8 @@ const BookCard = props => {
 
       <div className="card-footer">
         <small className="text-muted" />
-
         <Link
-          to={`/details/${id}`}
+          to={`${paths.details}/${id}`}
           type="button"
           className="btn btn-primary float-right btn-sm"
         >
