@@ -22,6 +22,11 @@ const dbConstants = {
 };
 
 const notifications = {
+  welcomeMsg: "Welcome to our book store",
+  goToHome: "Go to home",
+  goToStore: "Go to store",
+  viewOrders: "View your orders",
+  notFound: "Page not found",
   credentialsRequired: "Please provide credentials",
   emailRequired: "Please provide your email address",
   passwordRequired: "Please provide your password",
@@ -31,17 +36,30 @@ const notifications = {
 
 const paths = {
   // auth
-  register: "/signup",
-  login: "/login",
-  logout: "/logout",
+  registerPath: "/signup",
+  registerName: "Register",
+  loginPath: "/login",
+  loginName: "Login",
+  logoutPath: "/logout",
+  logoutName: "Logout",
   // home
-  index: "/",
-  home: "/home",
+  indexPath: "/",
+  indexName: "Book store",
+  homePath: "/home",
+  homeName: "Home",
   // books
-  store: "/store",
-  orders: "/orders",
-  cart: "/cart",
-  details: "/details"
+  storePath: "/store",
+  storeName: "Store",
+  ordersPath: "/orders",
+  ordersName: "My orders",
+  detailsPath: "/details",
+  detailsName: "Details",
+  cartPath: "/cart",
+  cartName: "Cart",
+
+  // user
+  profilePath: "/profile",
+  profileName: "profile"
 };
 
 export { auth, dbConstants, notifications, paths };

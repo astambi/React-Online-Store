@@ -39,10 +39,16 @@ nav.navbar-menu a {
   justify-content: space-evenly;
   text-decoration: none;
   color: white;
-  width: 15%;
+  /* width: 15%; */
+  min-width: 10%; /**/
   align-items: center;
   padding: 20px 10px;
   border: 1px solid rgb(88, 182, 92);
+}
+
+/* active nav link */
+nav.navbar-menu a.active {
+  color: green;
 }
 
 nav.navbar-menu a:hover {

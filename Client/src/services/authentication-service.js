@@ -10,7 +10,7 @@ import { dbConstants } from "../constants/constants";
 // export default AuthenticationService;
 
 const authenticationService = {
-  loginUser: userCredential => post(dbConstants.loginUrl, userCredential),
+  loginUser: useData => post(dbConstants.loginUrl, useData),
   logoutUser: () => post(dbConstants.logoutUrl),
   registerUser: userData => post(dbConstants.registerUrl, userData)
 };

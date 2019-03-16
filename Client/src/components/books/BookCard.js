@@ -23,11 +23,11 @@ const BookCard = props => {
       <div className="card-footer">
         <small className="text-muted" />
         <Link
-          to={`${paths.details}/${id}`}
+          to={`${paths.detailsPath}/${id}`}
           type="button"
           className="btn btn-primary float-right btn-sm"
         >
-          Details
+          {paths.detailsName}
         </Link>
 
         <button type="button" className="btn btn-warning float-right btn-sm">

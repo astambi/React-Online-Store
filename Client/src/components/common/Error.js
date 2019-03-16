@@ -1,10 +1,10 @@
 import React from "react";
 
-const textDanger = "text-danger";
+const errorStyle = "text-danger";
 
 const Error = props => {
   const { notification } = props;
-  return notification ? <div className={textDanger}>{notification}</div> : null;
+  return notification ? <div className={errorStyle}>{notification}</div> : null;
 };
 
 export default Error;

@@ -1,23 +1,20 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Error from "../common/Error";
+import { UserConsumer } from "../contexts/user-context";
 import authenticationService from "../../services/authentication-service";
 import { auth, notifications, paths } from "../../constants/constants";
 
 class Login extends Component {
-  // static authService = new AuthenticationService(); // static
-
   constructor(props) {
     super(props);
-
-    // this.authService = new AuthenticationService();
 
     this.state = {
       user: {
         email: "",
         password: ""
       },
-      isLoggedIn: false,
+      // isLoggedIn: false, // replaced by UserContext
       error: {
         message: "",
         errors: {} // { email, password }
@@ -38,8 +35,6 @@ class Login extends Component {
   handleSubmit = async event => {
     event.preventDefault();
 
-    console.log(this.state);
-
     // Input Validation
     if (!this.isValidInput()) {
       return;
@@ -53,8 +48,6 @@ class Login extends Component {
       const { user } = this.state;
 
       const response = await authenticationService.loginUser(user);
-      // const response = await Login.authService.loginUser(user);
-      // const response = await this.authService.loginUser(user);
       console.log(response);
 
       const { success, message, errors, token, user: authUser } = response;
@@ -64,12 +57,20 @@ class Login extends Component {
         const error = { message, errors };
         this.setState({ error });
       } else {
-        // Save token
+        // Save Token to storage
         window.localStorage.setItem(auth.authToken, token);
-        window.localStorage.setItem(auth.authUser, authUser.username);
+        // window.localStorage.setItem(auth.authUser, authUser.username); // replaced by context
 
-        this.setState({
+        // Update UserContext state
+        const { updateUser } = this.props; // UserContext;
+        updateUser({
           isLoggedIn: true,
+          ...authUser // { roles, username }
+        });
+
+        // Update Login state
+        this.setState({
+          // isLoggedIn: true, // replaced by UserContext
           error: {}
         });
       }
@@ -82,31 +83,39 @@ class Login extends Component {
   isValidInput() {
     const { user } = this.state;
 
-    if (!user.email || !user.password) {
-      const message = notifications.credentialsRequired;
-      const errors = {};
+    let isValid = true;
+    const errors = {};
 
-      if (!user.email) {
-        errors.email = notifications.emailRequired;
-      }
-
-      if (!user.password) {
-        errors.password = notifications.passwordRequired;
-      }
-
-      const validationError = { message, errors };
-      this.setState({ error: validationError });
-      return false;
+    if (!user.email) {
+      isValid = false;
+      errors.email = notifications.emailRequired;
     }
 
-    return true;
+    if (!user.password) {
+      isValid = false;
+      errors.password = notifications.passwordRequired;
+    }
+
+    if (!isValid) {
+      const message = notifications.credentialsRequired;
+      const validationError = { message, errors };
+
+      this.setState({ error: validationError });
+    }
+
+    return isValid;
   }
 
   render() {
-    if (this.state.isLoggedIn) {
-      return <Redirect to={paths.index} />;
+    // const { isLoggedIn } = this.state; // replaced by UserContext
+    const { isLoggedIn } = this.props; // UserContext
+
+    // Redirect
+    if (isLoggedIn) {
+      return <Redirect to={paths.indexPath} />;
     }
 
+    // Render Login Form
     const { user, error } = this.state;
     const { email, password } = user;
     const { message, errors } = error;
@@ -162,4 +171,14 @@ class Login extends Component {
   }
 }
 
-export default Login;
+// UserContext
+const LoginWithContext = props => (
+  <UserConsumer>
+    {({ user, updateUser }) => (
+      <Login {...props} isLoggedIn={user.isLoggedIn} updateUser={updateUser} />
+    )}
+  </UserConsumer>
+);
+
+// export default Login;
+export default LoginWithContext; // UserContext

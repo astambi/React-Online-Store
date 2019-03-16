@@ -8,14 +8,11 @@ function request(method) {
 
   return async (url, data = {}, options = {}) => {
     const authHeader = getAuthHeader();
-
     const headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
       ...authHeader
     };
-
-    console.log(headers);
 
     const response = await fetch(url, {
       method,

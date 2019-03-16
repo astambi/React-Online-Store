@@ -107,6 +107,7 @@ class Register extends Component {
     if (!isValid) {
       const message = notifications.credentialsRequired;
       const validationError = { message, errors };
+
       this.setState({ error: validationError });
     }
 
@@ -117,7 +118,7 @@ class Register extends Component {
     console.log(this.state);
 
     if (this.state.isRegistered) {
-      return <Redirect to={paths.login} />;
+      return <Redirect to={paths.loginPath} />;
     }
 
     const { user, error } = this.state;
