@@ -14,7 +14,6 @@ class Login extends Component {
         email: "",
         password: ""
       },
-      // isLoggedIn: false, // replaced by UserContext
       error: {
         message: "",
         errors: {} // { email, password }
@@ -46,7 +45,6 @@ class Login extends Component {
     // Login user
     try {
       const { user } = this.state;
-
       const response = await authenticationService.loginUser(user);
       console.log(response);
 
@@ -57,22 +55,19 @@ class Login extends Component {
         const error = { message, errors };
         this.setState({ error });
       } else {
-        // Save Token to storage
+        // Save to storage
         window.localStorage.setItem(auth.authToken, token);
-        // window.localStorage.setItem(auth.authUser, authUser.username); // replaced by context
+        window.localStorage.setItem(auth.authUser, JSON.stringify(authUser));
 
         // Update UserContext state
-        const { updateUser } = this.props; // UserContext;
+        const { updateUser } = this.props;
         updateUser({
           isLoggedIn: true,
           ...authUser // { roles, username }
         });
 
         // Update Login state
-        this.setState({
-          // isLoggedIn: true, // replaced by UserContext
-          error: {}
-        });
+        this.setState({ error: {} });
       }
     } catch (error) {
       console.log(error);
@@ -107,7 +102,6 @@ class Login extends Component {
   }
 
   render() {
-    // const { isLoggedIn } = this.state; // replaced by UserContext
     const { isLoggedIn } = this.props; // UserContext
 
     // Redirect

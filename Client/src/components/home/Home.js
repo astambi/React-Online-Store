@@ -29,7 +29,11 @@ const HomeWithContext = props => {
   return (
     <UserConsumer>
       {({ user }) => (
-        <Home {...props} isLoggedIn={user.isLoggedIn} username={user.user} />
+        <Home
+          {...props}
+          isLoggedIn={user.isLoggedIn}
+          username={user.username}
+        />
       )}
     </UserConsumer>
   );

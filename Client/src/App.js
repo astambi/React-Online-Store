@@ -3,13 +3,23 @@ import AppRouter from "./AppRouter";
 import Header from "./components/navigation/Header";
 import Footer from "./components/navigation/Footer";
 import { UserProvider, defaultUser } from "./components/contexts/user-context"; // UserContext
+import { auth } from "./constants/constants";
 
 class App extends Component {
   constructor(props) {
     super(props);
 
+    // Load user from storage
+    const authUser = JSON.parse(window.localStorage.getItem(auth.authUser));
+    const username =
+      authUser && authUser.username ? authUser.username : defaultUser.username;
+
     this.state = {
-      user: defaultUser // UserContext
+      user: {
+        ...defaultUser,
+        isLoggedIn: authUser !== null,
+        username
+      } // UserContext
     };
   }
 
@@ -17,11 +27,6 @@ class App extends Component {
 
   render() {
     const { user } = this.state; // UserContext
-
-    // Clear Storage
-    if (!user.isLoggedIn) {
-      window.localStorage.clear();
-    }
 
     return (
       <div className="App">
