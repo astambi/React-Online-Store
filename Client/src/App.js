@@ -11,16 +11,14 @@ class App extends Component {
 
     // Load user from storage
     const authUser = JSON.parse(window.localStorage.getItem(auth.authUser));
-    const username =
-      authUser && authUser.username ? authUser.username : defaultUser.username;
+    const user = authUser
+      ? {
+          isLoggedIn: true,
+          ...authUser // { roles, username }
+        }
+      : defaultUser;
 
-    this.state = {
-      user: {
-        ...defaultUser,
-        isLoggedIn: authUser !== null,
-        username
-      } // UserContext
-    };
+    this.state = { user };
   }
 
   updateUser = user => this.setState({ user }); // UserContext
