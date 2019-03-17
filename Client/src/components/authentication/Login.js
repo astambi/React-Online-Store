@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import Error from "../common/Error";
+import LoginForm from "./LoginForm";
 import { UserConsumer } from "../contexts/user-context";
 import authenticationService from "../../services/authentication-service";
 import { auth, notifications, paths } from "../../constants/constants";
@@ -43,35 +43,7 @@ class Login extends Component {
     this.setState({ error: {} });
 
     // Login user
-    try {
-      const { user } = this.state;
-      const response = await authenticationService.loginUser(user);
-      console.log(response);
-
-      const { success, message, errors, token, user: authUser } = response;
-
-      if (!success) {
-        const error = { message, errors };
-        this.setState({ error });
-      } else {
-        // Save to storage
-        window.localStorage.setItem(auth.authToken, token);
-        window.localStorage.setItem(auth.authUser, JSON.stringify(authUser));
-
-        // Update UserContext state
-        const { updateUser } = this.props;
-        updateUser({
-          isLoggedIn: true,
-          ...authUser // { roles, username }
-        });
-
-        // Update Login state
-        this.setState({ error: {} });
-      }
-    } catch (error) {
-      console.log(error);
-      this.setState({ error });
-    }
+    await this.tryLoginUser();
   };
 
   isValidInput() {
@@ -100,66 +72,52 @@ class Login extends Component {
     return isValid;
   }
 
+  async tryLoginUser() {
+    try {
+      const { user } = this.state;
+
+      const response = await authenticationService.loginUser(user);
+      console.log(response);
+      const { success, message, errors, token, user: authUser } = response;
+
+      if (!success) {
+        this.setState({
+          error: { message, errors }
+        });
+      } else {
+        // Save to storage
+        window.localStorage.setItem(auth.authToken, token);
+        window.localStorage.setItem(auth.authUser, JSON.stringify(authUser));
+
+        // Update UserContext state
+        const { updateUser } = this.props;
+        updateUser({
+          isLoggedIn: true,
+          ...authUser // { roles, username }
+        });
+
+        // Update Login state
+        this.setState({ error: {} });
+      }
+    } catch (error) {
+      console.log(error);
+      this.setState({ error });
+    }
+  }
+
   render() {
     const { isLoggedIn } = this.props; // UserContext
 
-    // Redirect
     if (isLoggedIn) {
       return <Redirect to={paths.indexPath} />;
     }
 
-    // Render Login Form
-    const { user, error } = this.state;
-    const { email, password } = user;
-    const { message, errors } = error;
-
     return (
-      <div className="form-wrapper">
-        <h1>Login</h1>
-
-        <form onSubmit={this.handleSubmit}>
-          {// Error Notification
-          message ? <Error notification={message} /> : null}
-
-          {/* Email */}
-          <div className="form-group">
-            <label htmlFor="email">E-mail</label>
-            <input
-              // required
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Enter e-mail"
-              value={email}
-              onChange={this.handleChange}
-            />
-            {// Error Notification
-            errors && errors.email ? (
-              <Error notification={errors.email} />
-            ) : null}
-          </div>
-
-          {/* Password */}
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              // required
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Enter password"
-              value={password}
-              onChange={this.handleChange}
-            />
-            {// Error Notification
-            errors && errors.password ? (
-              <Error notification={errors.password} />
-            ) : null}
-          </div>
-
-          <input type="submit" value="Login" />
-        </form>
-      </div>
+      <LoginForm
+        {...this.state} // user, error
+        handleChange={this.handleChange}
+        handleSubmit={this.handleSubmit}
+      />
     );
   }
 }
