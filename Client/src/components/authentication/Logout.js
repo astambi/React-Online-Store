@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { UserConsumer, defaultUser } from "../contexts/user-context";
-import { paths } from "../../constants/constants";
+import { paths, auth } from "../../constants/constants";
 
 class Logout extends Component {
-  componentDidMount() {
-    // Clear Token
-    window.localStorage.clear();
+  componentWillUnmount() {
+    // Clear Storage
+    window.localStorage.removeItem(auth.authToken);
+    window.localStorage.removeItem(auth.authUser);
 
     // Reset UserContext
     const { updateUser } = this.props;
-    updateUser({ ...defaultUser });
+    updateUser(defaultUser);
   }
 
   render() {

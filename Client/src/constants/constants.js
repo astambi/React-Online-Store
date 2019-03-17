@@ -56,10 +56,15 @@ const paths = {
   detailsName: "Details",
   cartPath: "/cart",
   cartName: "Cart",
+  bookCreatePath: "/book/create",
 
   // user
   profilePath: "/profile",
   profileName: "profile"
 };
 
-export { auth, dbConstants, notifications, paths };
+const roles = {
+  adminRole: "Admin"
+};
+
+export { auth, dbConstants, notifications, paths, roles };

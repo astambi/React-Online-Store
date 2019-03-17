@@ -9,17 +9,20 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    // Load user from storage
+    const user = this.tryLoadUserFromStorage();
+
+    this.state = { user };
+  }
+
+  tryLoadUserFromStorage = () => {
     const authUser = JSON.parse(window.localStorage.getItem(auth.authUser));
-    const user = authUser
+    return authUser
       ? {
           isLoggedIn: true,
           ...authUser // { roles, username }
         }
       : defaultUser;
-
-    this.state = { user };
-  }
+  };
 
   updateUser = user => this.setState({ user }); // UserContext
 

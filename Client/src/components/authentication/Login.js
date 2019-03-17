@@ -51,7 +51,6 @@ class Login extends Component {
       const { success, message, errors, token, user: authUser } = response;
 
       if (!success) {
-        // const errorValues = Object.values(errors).join(" ");
         const error = { message, errors };
         this.setState({ error });
       } else {
