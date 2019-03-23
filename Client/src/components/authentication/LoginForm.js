@@ -11,14 +11,11 @@ const LoginForm = props => {
       <h1>Login</h1>
 
       <form onSubmit={handleSubmit}>
-        {// Error Notification
-        message ? <Error notification={message} /> : null}
+        {message ? <Error notification={message} /> : null}
 
-        {/* Email */}
         <div className="form-group">
           <label htmlFor="email">E-mail</label>
           <input
-            // required
             type="email"
             name="email"
             id="email"
@@ -26,15 +23,14 @@ const LoginForm = props => {
             value={email}
             onChange={handleChange}
           />
-          {// Error Notification
-          errors && errors.email ? <Error notification={errors.email} /> : null}
+          {errors && errors.email ? (
+            <Error notification={errors.email} />
+          ) : null}
         </div>
 
-        {/* Password */}
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
-            // required
             type="password"
             name="password"
             id="password"
@@ -42,8 +38,7 @@ const LoginForm = props => {
             value={password}
             onChange={handleChange}
           />
-          {// Error Notification
-          errors && errors.password ? (
+          {errors && errors.password ? (
             <Error notification={errors.password} />
           ) : null}
         </div>

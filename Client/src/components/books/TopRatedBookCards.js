@@ -8,31 +8,28 @@ class TopRatedBookCards extends Component {
     super(props);
 
     this.state = {
-      books: [],
       isLoading: false,
+      books: [],
       error: ""
     };
   }
 
-  static bookService = new bookService(); // static service
-
   async componentDidMount() {
-    // this.setState({ isLoading: true });
+    this.setState({ isLoading: true });
 
     try {
-      const books = await TopRatedBookCards.bookService.getTopRatedBooks();
-      this.setState({
-        books,
-        isLoading: false
-      });
+      const books = await bookService.getTopRatedBooks();
+      console.log(books);
 
-      console.log(this.state.books);
+      this.setState({
+        isLoading: false,
+        books
+      });
     } catch (error) {
       console.log(error);
-
       this.setState({
-        error,
-        isLoading: false
+        isLoading: false,
+        error
       });
     }
   }
@@ -45,20 +42,23 @@ class TopRatedBookCards extends Component {
       return <Loading />;
     }
 
-    // No books
-    if (!isLoading && !books && !books.length) {
-      return <h2>No books found</h2>;
-    }
-
-    // Book Cards
-    const bookCards = books.map(book => <BookCard key={book.id} {...book} />);
+    const bookCards =
+      books.length !== 0 ? (
+        <div className="row">
+          <div className="card-deck space-top">
+            {books.map(book => (
+              <BookCard key={book._id} {...book} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <h3>No books found</h3>
+      );
 
     return (
       <Fragment>
         <h2>Top Rated</h2>
-        <div className="row">
-          <div className="card-deck space-top">{bookCards}</div>
-        </div>
+        {bookCards}
       </Fragment>
     );
   }

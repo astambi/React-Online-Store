@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import { UserConsumer } from "../contexts/user-context";
 import authenticationService from "../../services/authentication-service";
+import { handleInputChange } from "../../services/helpers";
 import { auth, notifications, paths } from "../../constants/constants";
 
 class Login extends Component {
@@ -21,15 +22,7 @@ class Login extends Component {
     };
   }
 
-  handleChange = event => {
-    const { name, value } = event.target;
-    const { user } = this.state;
-
-    user[name] = value;
-    this.setState({ user });
-
-    console.log(this.state.user);
-  };
+  handleChange = event => handleInputChange.bind(this)(event, "user");
 
   handleSubmit = async event => {
     event.preventDefault();

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import RegisterForm from "./RegisterForm";
 import authenticationService from "../../services/authentication-service";
+import { handleInputChange } from "../../services/helpers";
 import { notifications, paths } from "../../constants/constants";
 
 class Register extends Component {
@@ -23,13 +24,7 @@ class Register extends Component {
     };
   }
 
-  handleChange = event => {
-    const { name, value } = event.target;
-    const { user } = this.state;
-
-    user[name] = value;
-    this.setState({ user });
-  };
+  handleChange = event => handleInputChange.bind(this)(event, "user");
 
   handleSubmit = async event => {
     event.preventDefault();

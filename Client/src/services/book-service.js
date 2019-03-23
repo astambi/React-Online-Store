@@ -1,8 +1,9 @@
-import { get } from "../data/crud";
+import { get, post } from "../data/crud";
 import { dbConstants } from "../constants/constants";
 
-class BookService {
-  getTopRatedBooks = () => get(dbConstants.booksAllUrl);
-}
+const bookService = {
+  getTopRatedBooks: () => get(dbConstants.booksAllUrl),
+  createBook: book => post(dbConstants.bookCreateUrl, book)
+};
 
-export default BookService;
+export default bookService;

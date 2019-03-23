@@ -24,10 +24,10 @@ class App extends Component {
       : defaultUser;
   };
 
-  updateUser = user => this.setState({ user }); // UserContext
+  updateUser = user => this.setState({ user });
 
   render() {
-    const { user } = this.state; // UserContext
+    const { user } = this.state;
 
     return (
       <div className="App">

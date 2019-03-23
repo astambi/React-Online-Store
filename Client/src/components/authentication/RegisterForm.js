@@ -12,14 +12,11 @@ const RegisterForm = props => {
       <h1>Register</h1>
 
       <form onSubmit={handleSubmit}>
-        {// Error notification
-        message ? <Error notification={message} /> : null}
+        {message ? <Error notification={message} /> : null}
 
-        {/* Email */}
         <div className="form-group">
           <label htmlFor="email">E-mail</label>
           <input
-            // required
             type="email"
             name="email"
             id="email"
@@ -27,15 +24,14 @@ const RegisterForm = props => {
             value={email}
             onChange={handleChange}
           />
-          {// Error notification
-          errors && errors.email ? <Error notification={errors.email} /> : null}
+          {errors && errors.email ? (
+            <Error notification={errors.email} />
+          ) : null}
         </div>
 
-        {/* Username */}
         <div className="form-group">
           <label htmlFor="username">Username</label>
           <input
-            // required
             type="text"
             name="username"
             id="username"
@@ -43,17 +39,14 @@ const RegisterForm = props => {
             value={username}
             onChange={handleChange}
           />
-          {// Error notification
-          errors && errors.username ? (
+          {errors && errors.username ? (
             <Error notification={errors.username} />
           ) : null}
         </div>
 
-        {/* Password */}
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
-            // required
             type="password"
             name="password"
             id="password"
@@ -61,17 +54,14 @@ const RegisterForm = props => {
             value={password}
             onChange={handleChange}
           />
-          {// Error notification
-          errors && errors.password ? (
+          {errors && errors.password ? (
             <Error notification={errors.password} />
           ) : null}
         </div>
 
-        {/* Confirm Password */}
         <div className="form-group">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
-            // required
             type="password"
             name="confirmPassword"
             id="confirmPassword"
@@ -79,8 +69,7 @@ const RegisterForm = props => {
             value={confirmPassword}
             onChange={handleChange}
           />
-          {// Error notification
-          errors && errors.confirmPassword ? (
+          {errors && errors.confirmPassword ? (
             <Error notification={errors.confirmPassword} />
           ) : null}
         </div>

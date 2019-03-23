@@ -31,7 +31,14 @@ const notifications = {
   emailRequired: "Please provide your email address",
   passwordRequired: "Please provide your password",
   passwordsDoNotMatch: "Passwords do not match",
-  usernameRequired: "Please provide your username"
+  usernameRequired: "Please provide your username",
+  bookTitleRequired: "Please provide book title",
+  bookAuthorRequired: "Please provide book author",
+  bookGenresRequired: "Please provide book genres",
+  bookImageRequired: "Please provide book image URL",
+  bookPriceRequired: "Please provide valid book price",
+  bookDescriptionRequired: "Please provide book description",
+  bookDataRequired: "Please provide book data"
 };
 
 const paths = {
@@ -56,7 +63,10 @@ const paths = {
   detailsName: "Details",
   cartPath: "/cart",
   cartName: "Cart",
-  bookCreatePath: "/book/create",
+  bookCreatePath: "/admin/create",
+  bookCreateName: "Create new book",
+  ordersPendingPath: "/admin/orders/pending",
+  ordersPendingName: "Pending orders",
 
   // user
   profilePath: "/profile",

@@ -6,9 +6,9 @@ const defaultUser = {
   username: ""
 };
 
-const { Consumer, Provider } = createContext({
+const { Consumer: UserConsumer, Provider: UserProvider } = createContext({
   defaultUser,
   updateUser: () => {}
 });
 
-export { Consumer as UserConsumer, Provider as UserProvider, defaultUser };
+export { UserConsumer, UserProvider, defaultUser };

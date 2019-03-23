@@ -24,12 +24,12 @@ class AppRouter extends Component {
           <Route path={paths.homePath} component={Home} />
           <Route path={paths.loginPath} component={Login} />
           <Route path={paths.registerPath} component={Register} />
+          <Route path={paths.logoutPath} component={Logout} />
 
           {/* Admin */}
           <AdminRoute path={paths.bookCreatePath} component={BookCreate} />
 
           {/* LoggedIn */}
-          <LoggedInRoute path={paths.logoutPath} component={Logout} />
           <LoggedInRoute path={paths.cartPath} component={Cart} />
 
           {/* Not Found */}

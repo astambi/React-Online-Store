@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from "react";
 import HeaderLink from "./HeaderLink";
 import { UserConsumer } from "../contexts/user-context";
-import { paths } from "../../constants/constants";
+import { paths, roles } from "../../constants/constants";
 
 class Header extends Component {
   render() {
-    const { isLoggedIn, username } = this.props; // UserContext
+    const { isLoggedIn, isAdmin, username } = this.props;
     const profileName = `${username}'s ${paths.profileName}`;
 
     return (
@@ -16,13 +16,28 @@ class Header extends Component {
           <HeaderLink to={paths.storePath} name={paths.storeName} />
 
           {isLoggedIn ? (
-            // Authenticated
-            <Fragment>
-              <HeaderLink to={paths.ordersPath} name={paths.ordersName} />
-              <HeaderLink to={paths.cartPath} name={paths.cartName} />
-              <HeaderLink to={paths.profilePath} name={profileName} />
-              <HeaderLink to={paths.logoutPath} name={paths.logoutName} />
-            </Fragment>
+            isAdmin ? (
+              // Admin
+              <Fragment>
+                <HeaderLink
+                  to={paths.bookCreatePath}
+                  name={paths.bookCreateName}
+                />
+                <HeaderLink
+                  to={paths.ordersPendingPath}
+                  name={paths.ordersPendingName}
+                />
+                <HeaderLink to={paths.logoutPath} name={paths.logoutName} />
+              </Fragment>
+            ) : (
+              // Authenticated
+              <Fragment>
+                <HeaderLink to={paths.ordersPath} name={paths.ordersName} />
+                <HeaderLink to={paths.cartPath} name={paths.cartName} />
+                <HeaderLink to={paths.profilePath} name={profileName} />
+                <HeaderLink to={paths.logoutPath} name={paths.logoutName} />
+              </Fragment>
+            )
           ) : (
             // Anonymous
             <Fragment>
@@ -42,6 +57,7 @@ const HeaderWithContext = props => (
       <Header
         {...props}
         isLoggedIn={user.isLoggedIn}
+        isAdmin={user.roles.includes(roles.adminRole)}
         username={user.username}
       />
     )}
