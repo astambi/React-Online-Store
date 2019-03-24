@@ -16,15 +16,14 @@ class App extends Component {
 
   tryLoadUserFromStorage = () => {
     const authUser = JSON.parse(window.localStorage.getItem(auth.authUser));
-    return authUser
-      ? {
-          isLoggedIn: true,
-          ...authUser // { roles, username, cart }
-        }
-      : defaultUser;
+    const userFromStorage = { ...authUser, isLoggedIn: true };
+    return authUser ? userFromStorage : defaultUser;
   };
 
-  updateUser = user => this.setState({ user });
+  updateUser = user => {
+    window.localStorage.setItem(auth.authUser, JSON.stringify(user));
+    this.setState({ user });
+  };
 
   render() {
     const { user } = this.state;

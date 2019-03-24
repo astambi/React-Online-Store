@@ -78,21 +78,13 @@ class Login extends Component {
           error: { message, errors }
         });
       } else {
-        // Save to storage
-        const authUser = {
-          cart: [],
-          ...resUser // { roles, username }
-        };
-
+        // Save token to storage
         window.localStorage.setItem(auth.authToken, token);
-        window.localStorage.setItem(auth.authUser, JSON.stringify(authUser));
 
         // Update UserContext state
         const { updateUser } = this.props;
-        updateUser({
-          isLoggedIn: true,
-          ...authUser
-        });
+        const userToUpdate = { ...resUser, isLoggedIn: true, cart: [] }; // { username, roles }
+        updateUser(userToUpdate);
 
         // Update Login state
         this.setState({ error: {} });

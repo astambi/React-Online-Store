@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { UserConsumer } from "../contexts/user-context";
-import { paths, auth } from "../../constants/constants";
+import { paths } from "../../constants/constants";
 
 class BookCard extends Component {
   constructor(props) {
@@ -12,23 +12,31 @@ class BookCard extends Component {
     };
   }
 
+  addBookToCart(book, cart) {
+    const { _id, title, image, genres, price } = book;
+    cart.push({ _id, title, image, genres, price, quantity: 1 });
+  }
+
+  updateBookQuantity(bookToOrder) {
+    bookToOrder.quantity += 1;
+  }
+
   orderBook = () => {
     const { user, updateUser, book } = this.props;
     let cart = user.cart.slice();
-    let orderedBook = cart.find(b => b._id === book._id);
 
     // Add book to cart
-    if (orderedBook === null || orderedBook === undefined) {
-      cart.push({ ...book, quantity: 1 }); // add new book
+    let bookToOrder = cart.find(b => b._id === book._id);
+    if (bookToOrder === null || bookToOrder === undefined) {
+      this.addBookToCart(book, cart);
     } else {
-      orderedBook.quantity += 1; // update book quantity
+      this.updateBookQuantity(bookToOrder);
     }
-    console.log(cart);
 
     // Update user cart
     const userToUpdate = { ...user, cart };
-    window.localStorage.setItem(auth.authUser, JSON.stringify(userToUpdate));
     updateUser(userToUpdate);
+
     this.setState({ isOrdered: true });
   };
 

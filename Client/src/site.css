@@ -161,6 +161,11 @@ table.table {
   margin-bottom: 3rem; /**/
 }
 
+/* table last row vertical-align */
+tfoot tr:last-child td {
+  vertical-align: middle;
+}
+
 th {
   width: 100% !important;
 }

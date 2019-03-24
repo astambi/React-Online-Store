@@ -1,53 +1,77 @@
-import React from "react";
+import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
+import { UserConsumer } from "../contexts/user-context";
 
-const CartTableRow = props => {
-  console.log("Row ", props);
+class CartTableRow extends Component {
+  removeBookFromCart = () => {
+    const { book, user, updateUser } = this.props;
 
-  const { book } = props;
-  if (!book) {
-    return null;
-  }
+    // Update Shopping cart
+    const cart = user.cart.filter(cartItem => cartItem._id !== book._id);
 
-  const removeBookFromCart = bookIdToRemove => {
-    console.log(bookIdToRemove);
-    console.log("TODO Remove book");
+    // Update User
+    const userToUpdate = { ...user, cart };
+    updateUser(userToUpdate);
   };
 
-  const { _id, genres, image, price, quantity, title } = book;
+  updateBookInCart = () => {
+    console.log("TODO Cart Item refresh");
+  };
 
-  return (
-    <tr>
-      <td data-th="Product">
-        <div className="row">
-          <div className="col-sm-4 hidden-xs">
-            <img src={image} alt={title} className="cart-image" />
-          </div>
-          <div className="col-sm-8">
-            <h4 className="nomargin">{title}</h4>
-            <p>{genres}</p>
-          </div>
-        </div>
-      </td>
-      <td data-th="Price">${price}</td>
-      <td data-th="Quantity">x {quantity}</td>
-      <td data-th="Subtotal" className="text-center">
-        ${price * quantity}
-      </td>
-      <td className="actions" data-th="">
-        <button className="btn btn-info btn-sm">
-          <FontAwesomeIcon icon={faSyncAlt} />
-        </button>
-        <button
-          onClick={() => removeBookFromCart(_id)}
-          className="btn btn-danger btn-sm"
-        >
-          <FontAwesomeIcon icon={faTrash} />
-        </button>
-      </td>
-    </tr>
-  );
-};
+  render() {
+    const { book } = this.props;
 
-export default CartTableRow;
+    if (!book) {
+      return null;
+    }
+
+    const { title, genres, image, price, quantity } = book;
+
+    return (
+      <tr>
+        <td data-th="Product">
+          <div className="row">
+            <div className="col-sm-4 hidden-xs">
+              <img src={image} alt={title} className="cart-image" />
+            </div>
+            <div className="col-sm-8">
+              <h4 className="nomargin">{title}</h4>
+              <p>{genres}</p>
+            </div>
+          </div>
+        </td>
+        <td data-th="Price">${price}</td>
+        <td data-th="Quantity">x {quantity}</td>
+        <td data-th="Subtotal" className="text-center">
+          ${price * quantity}
+        </td>
+        <td className="actions" data-th="">
+          <button
+            className="btn btn-info btn-sm"
+            onClick={this.updateBookInCart}
+          >
+            <FontAwesomeIcon icon={faSyncAlt} />
+          </button>
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={this.removeBookFromCart}
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+        </td>
+      </tr>
+    );
+  }
+}
+
+const CartTableRowWithContext = props => (
+  <UserConsumer>
+    {({ user, updateUser }) => (
+      <CartTableRow {...props} user={user} updateUser={updateUser} />
+    )}
+  </UserConsumer>
+);
+
+// export default CartTableRow;
+export default CartTableRowWithContext;

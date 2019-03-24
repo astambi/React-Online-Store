@@ -12,8 +12,6 @@ class Cart extends Component {
   };
 
   render() {
-    console.log("Cart", this.props);
-
     const { books } = this.props;
     const orderTotal = this.calculateOrderTotal(books);
 
