@@ -45,7 +45,7 @@ class BookCreate extends Component {
     await this.createBook();
   };
 
-  async createBook() {
+  createBook = async () => {
     const { book } = this.state;
 
     try {
@@ -69,7 +69,7 @@ class BookCreate extends Component {
       console.log(error);
       this.setState({ error });
     }
-  }
+  };
 
   isValidInput() {
     const { book } = this.state;

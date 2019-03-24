@@ -6,6 +6,7 @@ const auth = {
 const baseUrl = "http://localhost:5000";
 const authUrl = `${baseUrl}/auth`;
 const bookUrl = `${baseUrl}/book`;
+const ordersUrl = `${baseUrl}/orders`;
 
 const dbConstants = {
   // auth
@@ -18,7 +19,9 @@ const dbConstants = {
   bookReviewUrl: `${bookUrl}/review`,
   bookLikeUrl: `${bookUrl}/like`,
   bookUnlikeUrl: `${bookUrl}/unlike`,
-  bookDeleteUrl: `${bookUrl}/delete`
+  bookDeleteUrl: `${bookUrl}/delete`,
+  // orders
+  orderCreateUrl: `${ordersUrl}/submit`
 };
 
 const notifications = {
@@ -55,22 +58,25 @@ const paths = {
   homePath: "/home",
   homeName: "Home",
   // books
-  storePath: "/store",
-  storeName: "Store",
-  ordersPath: "/orders",
-  ordersName: "My orders",
-  detailsPath: "/details",
-  detailsName: "Details",
-  cartPath: "/cart",
-  cartName: "Cart",
   bookCreatePath: "/admin/create",
   bookCreateName: "Create new book",
+  bookDetailsPath: "/book/details",
+  bookDetailsName: "Details",
+  storePath: "/store",
+  storeName: "Store",
+  // cart
+  cartPath: "/cart",
+  cartName: "Cart",
+  // orders
+  ordersPath: "/orders",
+  ordersName: "My orders",
+  orderDetailsPath: "/orders/details",
+  orderDetailsName: "View",
   ordersPendingPath: "/admin/orders/pending",
   ordersPendingName: "Pending orders",
-
   // user
   profilePath: "/profile",
-  profileName: "profile"
+  profileName: "Profile"
 };
 
 const roles = {

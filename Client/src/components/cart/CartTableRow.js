@@ -9,8 +9,6 @@ class CartTableRow extends Component {
 
     // Update Shopping cart
     const cart = user.cart.filter(cartItem => cartItem._id !== book._id);
-
-    // Update User
     const userToUpdate = { ...user, cart };
     updateUser(userToUpdate);
   };

@@ -5,7 +5,7 @@ import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { paths } from "../../constants/constants";
 
 const CartTableFooter = props => {
-  const { orderTotal } = props;
+  const { orderTotal, checkout } = props;
 
   return (
     <tfoot>
@@ -19,7 +19,7 @@ const CartTableFooter = props => {
           <strong>Total ${orderTotal}</strong>
         </td>
         <td colSpan="2">
-          <button className="btn btn-success btn-block">
+          <button className="btn btn-success btn-block" onClick={checkout}>
             Checkout <FontAwesomeIcon icon={faAngleRight} />
           </button>
         </td>

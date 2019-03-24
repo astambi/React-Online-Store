@@ -59,11 +59,11 @@ class BookCard extends Component {
         </div>
         <div className="card-footer">
           <Link
-            to={`${paths.detailsPath}/${_id}`}
+            to={`${paths.bookDetailsPath}/${_id}`}
             type="button"
             className="btn btn-primary float-right btn-sm"
           >
-            {paths.detailsName}
+            {paths.bookDetailsName}
           </Link>
           <button
             type="button"

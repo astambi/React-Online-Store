@@ -10,9 +10,9 @@ import Logout from "./components/authentication/Logout";
 import Register from "./components/authentication/Register";
 import Store from "./components/store/Store";
 import Cart from "./components/cart/Cart";
+import MyOrders from "./components/orders/MyOrders";
 import BookCreate from "./components/books/BookCreate";
 import NotFound from "./components/common/NotFound";
-
 import { paths } from "./constants/constants";
 
 class AppRouter extends Component {
@@ -33,6 +33,7 @@ class AppRouter extends Component {
 
           {/* LoggedIn */}
           <LoggedInRoute path={paths.cartPath} component={Cart} />
+          <LoggedInRoute path={paths.ordersPath} component={MyOrders} />
 
           {/* Not Found */}
           <Route component={NotFound} />
