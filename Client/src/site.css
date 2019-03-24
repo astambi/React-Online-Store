@@ -167,7 +167,7 @@ tfoot tr:last-child td {
 }
 
 th {
-  width: 100% !important;
+  /* width: 100% !important; */
 }
 
 @media screen and (max-width: 800px) {

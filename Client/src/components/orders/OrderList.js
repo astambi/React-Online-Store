@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Order from "./Order";
+import orderService from "../../services/order-service";
 
 class OrderList extends Component {
   constructor(props) {
@@ -10,22 +11,9 @@ class OrderList extends Component {
     };
   }
 
-  componentDidMount() {
-    // TODO fetch
-    const orders = [
-      {
-        _id: "5c76a2aa157aaa2c6084dc54",
-        date: new Date(),
-        total: 5,
-        status: "Approved"
-      },
-      {
-        _id: "5c76a2aa1554",
-        date: new Date(),
-        total: 15,
-        status: "Pending"
-      }
-    ];
+  async componentDidMount() {
+    const orders = await orderService.getUserOrders();
+    console.log(orders);
 
     this.setState({ orders });
   }

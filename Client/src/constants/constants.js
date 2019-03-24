@@ -21,7 +21,8 @@ const dbConstants = {
   bookUnlikeUrl: `${bookUrl}/unlike`,
   bookDeleteUrl: `${bookUrl}/delete`,
   // orders
-  orderCreateUrl: `${ordersUrl}/submit`
+  orderCreateUrl: `${ordersUrl}/submit`,
+  ordersByUserUrl: `${ordersUrl}/user`
 };
 
 const notifications = {
