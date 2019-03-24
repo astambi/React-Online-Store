@@ -19,7 +19,7 @@ class App extends Component {
     return authUser
       ? {
           isLoggedIn: true,
-          ...authUser // { roles, username }
+          ...authUser // { roles, username, cart }
         }
       : defaultUser;
   };
@@ -28,6 +28,7 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
+    console.log(user);
 
     return (
       <div className="App">

@@ -68,10 +68,10 @@ class Login extends Component {
   async tryLoginUser() {
     try {
       const { user } = this.state;
-
       const response = await authenticationService.loginUser(user);
       console.log(response);
-      const { success, message, errors, token, user: authUser } = response;
+
+      const { success, message, errors, token, user: resUser } = response;
 
       if (!success) {
         this.setState({
@@ -79,6 +79,11 @@ class Login extends Component {
         });
       } else {
         // Save to storage
+        const authUser = {
+          cart: [],
+          ...resUser // { roles, username }
+        };
+
         window.localStorage.setItem(auth.authToken, token);
         window.localStorage.setItem(auth.authUser, JSON.stringify(authUser));
 
@@ -86,7 +91,7 @@ class Login extends Component {
         const { updateUser } = this.props;
         updateUser({
           isLoggedIn: true,
-          ...authUser // { roles, username }
+          ...authUser
         });
 
         // Update Login state

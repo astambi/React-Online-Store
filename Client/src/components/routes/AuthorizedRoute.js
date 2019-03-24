@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { UserConsumer } from "../contexts/user-context";
 import { paths } from "../../constants/constants";
 
@@ -33,7 +33,6 @@ class AuthorizedRoute extends Component {
     }
 
     return <ComponentFromRoute {...otherProps} />; //
-    // return <Route {...otherProps} />;
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import BookCard from "./BookCard";
+import BookList from "./BookList";
 import Loading from "../common/Loading";
 import bookService from "../../services/book-service";
 
@@ -42,23 +42,10 @@ class TopRatedBookCards extends Component {
       return <Loading />;
     }
 
-    const bookCards =
-      books.length !== 0 ? (
-        <div className="row">
-          <div className="card-deck space-top">
-            {books.map(book => (
-              <BookCard key={book._id} {...book} />
-            ))}
-          </div>
-        </div>
-      ) : (
-        <h3>No books found</h3>
-      );
-
     return (
       <Fragment>
         <h2>Top Rated</h2>
-        {bookCards}
+        <BookList books={books} />
       </Fragment>
     );
   }

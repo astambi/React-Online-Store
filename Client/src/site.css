@@ -21,6 +21,7 @@ a {
 }
 
 img {
+  width: 100%; /**/
   max-width: 200px;
   height: auto;
   margin: 0 auto;
@@ -154,6 +155,10 @@ footer {
   padding: 10px 0;
   font-size: 18px;
   font-weight: bold;
+}
+
+table.table {
+  margin-bottom: 3rem; /**/
 }
 
 th {

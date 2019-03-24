@@ -2,8 +2,9 @@ import { createContext } from "react";
 
 const defaultUser = {
   isLoggedIn: false,
+  username: "",
   roles: [],
-  username: ""
+  cart: []
 };
 
 const { Consumer: UserConsumer, Provider: UserProvider } = createContext({
