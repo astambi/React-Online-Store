@@ -59,9 +59,7 @@ const paths = {
   homePath: "/home",
   homeName: "Home",
   // books
-  bookCreatePath: "/admin/create",
-  bookCreateName: "Create new book",
-  bookDetailsPath: "/book/details",
+  bookDetailsPath: "/books/details",
   bookDetailsName: "Details",
   storePath: "/store",
   storeName: "Store",
@@ -73,6 +71,9 @@ const paths = {
   ordersName: "My orders",
   orderDetailsPath: "/orders/details",
   orderDetailsName: "View",
+  // admin
+  bookCreatePath: "/admin/create",
+  bookCreateName: "Create new book",
   ordersPendingPath: "/admin/orders/pending",
   ordersPendingName: "Pending orders",
   // user

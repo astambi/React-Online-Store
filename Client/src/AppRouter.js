@@ -11,6 +11,7 @@ import Register from "./components/authentication/Register";
 import Store from "./components/store/Store";
 import Cart from "./components/cart/Cart";
 import MyOrders from "./components/orders/MyOrders";
+import OrderDetails from "./components/orders/OrderDetails";
 import BookCreate from "./components/books/BookCreate";
 import NotFound from "./components/common/NotFound";
 import { paths } from "./constants/constants";
@@ -33,6 +34,10 @@ class AppRouter extends Component {
 
           {/* LoggedIn */}
           <LoggedInRoute path={paths.cartPath} component={Cart} />
+          <LoggedInRoute
+            path={`${paths.orderDetailsPath}/:id`}
+            component={OrderDetails}
+          />
           <LoggedInRoute path={paths.ordersPath} component={MyOrders} />
 
           {/* Not Found */}
