@@ -59,7 +59,10 @@ class BookCard extends Component {
         </div>
         <div className="card-footer">
           <Link
-            to={`${paths.bookDetailsPath}/${_id}`}
+            to={{
+              pathname: `${paths.bookDetailsPath}/${_id}`,
+              state: { book }
+            }}
             type="button"
             className="btn btn-primary float-right btn-sm"
           >

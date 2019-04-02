@@ -146,6 +146,40 @@ div.welcome p {
   font-weight: bold;
 }
 
+.book-details-container {
+  display: flex;
+  padding: 20px;
+}
+
+.book-details-article {
+  padding: 10px;
+}
+
+.book-details-title {
+  color: rgb(88, 182, 92);
+  font-weight: bold;
+}
+
+.book-details-line {
+  padding-top: 10px;
+}
+
+.book-details-button-group {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.book-details-btn {
+  width: 30%;
+}
+
+.review-form {
+  /* text-align: center; */
+  padding: 20px;
+  margin: auto;
+}
+
 footer {
   position: fixed;
   width: 100%;

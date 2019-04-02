@@ -16,10 +16,10 @@ const dbConstants = {
   // books
   bookCreateUrl: `${bookUrl}/create`,
   booksAllUrl: `${bookUrl}/all`,
-  bookReviewUrl: `${bookUrl}/review`,
-  bookLikeUrl: `${bookUrl}/like`,
-  bookUnlikeUrl: `${bookUrl}/unlike`,
-  bookDeleteUrl: `${bookUrl}/delete`,
+  bookReviewByIdUrl: `${bookUrl}/review/`,
+  bookLikeByIdUrl: `${bookUrl}/like/`,
+  bookUnlikeByIdUrl: `${bookUrl}/unlike/`,
+  bookDeleteByIdUrl: `${bookUrl}/delete/`,
   // orders
   orderCreateUrl: `${ordersUrl}/submit`,
   ordersByUserUrl: `${ordersUrl}/user`,
