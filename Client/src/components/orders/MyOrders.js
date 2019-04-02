@@ -1,15 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
+import OrdersList from "./OrdersList";
 import OrdersTable from "./OrdersTable";
-import OrderList from "./OrderList";
 
-class MyOrders extends Component {
-  render() {
-    return (
-      <OrdersTable>
-        <OrderList />
-      </OrdersTable>
-    );
-  }
-}
+const MyOrders = () => (
+  <OrdersTable>
+    <OrdersList />
+  </OrdersTable>
+);
 
 export default MyOrders;

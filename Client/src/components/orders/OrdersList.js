@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Order from "./Order";
 import orderService from "../../services/order-service";
 
-class OrderList extends Component {
+class OrdersList extends Component {
   constructor(props) {
     super(props);
 
@@ -11,15 +11,23 @@ class OrderList extends Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount = async () => {
     const orders = await orderService.getUserOrders();
     console.log(orders);
 
     this.setState({ orders });
-  }
+  };
 
   render() {
     const { orders } = this.state;
+
+    if (orders.length === 0) {
+      return (
+        <tr>
+          <td colSpan={5}>No orders</td>
+        </tr>
+      );
+    }
 
     return orders.map((order, index) => (
       <Order key={order._id} order={order} index={index + 1} />
@@ -27,4 +35,4 @@ class OrderList extends Component {
   }
 }
 
-export default OrderList;
+export default OrdersList;

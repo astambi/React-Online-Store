@@ -1,7 +1,7 @@
 import React from "react";
 import CartTableRow from "./CartTableRow";
 
-const CardTableBody = props => {
+const CartTableBody = props => {
   const { books } = props;
 
   return (
@@ -17,4 +17,4 @@ const CardTableBody = props => {
   );
 };
 
-export default CardTableBody;
+export default CartTableBody;

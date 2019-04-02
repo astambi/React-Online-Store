@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { UserConsumer } from "../contexts/user-context";
-import CartTable from "./CartTable";
-import CartTableHeader from "./CartTableHeader";
 import CartTableBody from "./CartTableBody";
 import CartTableFooter from "./CartTableFooter";
+import ProductsTable from "../products/ProductsTable";
+import ProductsTableHeader from "../products/ProductsTableHeader";
 import orderService from "../../services/order-service";
 import { paths } from "../../constants/constants";
+import { calculateOrderTotal } from "../../services/helpers";
 
 class Cart extends Component {
   constructor(props) {
@@ -20,12 +21,6 @@ class Cart extends Component {
       }
     };
   }
-
-  calculateOrderTotal = books => {
-    let orderTotal = 0;
-    books.map(book => (orderTotal += book.price * book.quantity));
-    return orderTotal;
-  };
 
   checkout = async () => {
     const { books } = this.props;
@@ -61,19 +56,24 @@ class Cart extends Component {
 
   render() {
     const { isOrderCreated } = this.state;
+
     if (isOrderCreated) {
       return <Redirect to={paths.ordersPath} />;
     }
 
     const { books } = this.props;
-    const orderTotal = this.calculateOrderTotal(books);
+    const orderTotal = calculateOrderTotal(books);
 
     return (
-      <CartTable>
-        <CartTableHeader />
+      <ProductsTable>
+        <ProductsTableHeader>
+          <th style={{ width: 10 + "px" }}>Actions</th>
+        </ProductsTableHeader>
+
         <CartTableBody books={books} />
+
         <CartTableFooter orderTotal={orderTotal} checkout={this.checkout} />
-      </CartTable>
+      </ProductsTable>
     );
   }
 }

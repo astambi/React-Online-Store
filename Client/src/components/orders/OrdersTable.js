@@ -20,6 +20,7 @@ const OrdersTable = props => {
                     <th>View</th>
                   </tr>
                 </thead>
+
                 <tbody>{children}</tbody>
               </table>
             </div>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { paths } from "../../constants/constants";
+import { toCurrency } from "../../services/helpers";
 
 const CartTableFooter = props => {
   const { orderTotal, checkout } = props;
@@ -15,9 +16,11 @@ const CartTableFooter = props => {
             <FontAwesomeIcon icon={faAngleLeft} /> Continue Shopping
           </Link>
         </td>
+
         <td colSpan="2" className="hidden-xs text-center">
-          <strong>Total ${orderTotal}</strong>
+          <strong>Total {toCurrency(orderTotal)}</strong>
         </td>
+
         <td colSpan="2">
           <button className="btn btn-success btn-block" onClick={checkout}>
             Checkout <FontAwesomeIcon icon={faAngleRight} />

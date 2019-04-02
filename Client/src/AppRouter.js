@@ -36,9 +36,10 @@ class AppRouter extends Component {
           <LoggedInRoute path={paths.cartPath} component={Cart} />
           <LoggedInRoute
             path={`${paths.orderDetailsPath}/:id`}
+            exact
             component={OrderDetails}
           />
-          <LoggedInRoute path={paths.ordersPath} component={MyOrders} />
+          <LoggedInRoute path={paths.ordersPath} exact component={MyOrders} />
 
           {/* Not Found */}
           <Route component={NotFound} />

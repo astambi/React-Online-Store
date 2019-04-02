@@ -12,4 +12,29 @@ function handleInputChange(event, stateObj) {
   console.log(state);
 }
 
-export { handleInputChange };
+const calculateOrderTotal = books => {
+  let orderTotal = 0;
+  books.map(book => {
+    if (book && book.price && book.quantity) {
+      orderTotal += book.price * book.quantity;
+    }
+  });
+  return orderTotal;
+};
+
+const getProductsTitles = products =>
+  products
+    .filter(p => p !== null)
+    .map(p => p.title)
+    .join(", ");
+
+const toCurrency = number => `$${(+number).toFixed(2)}`;
+const toShortDate = dateStr => dateStr.slice(0, 16).replace("T", " ");
+
+export {
+  handleInputChange,
+  calculateOrderTotal,
+  getProductsTitles,
+  toShortDate,
+  toCurrency
+};
