@@ -23,6 +23,8 @@ const dbConstants = {
   // orders
   orderCreateUrl: `${ordersUrl}/submit`,
   ordersByUserUrl: `${ordersUrl}/user`,
+  ordersPendingUrl: `${ordersUrl}/pending`,
+  ordersApproveByIdUrl: `${ordersUrl}/approve`,
   orderDetailsUrl: `${ordersUrl}/`
 };
 

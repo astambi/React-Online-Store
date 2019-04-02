@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import {
   calculateOrderTotal,
@@ -10,8 +10,16 @@ import { paths } from "../../constants/constants";
 
 const Order = props => {
   const { order, index } = props;
-  const { _id, date, status, products } = order;
 
+  if (!order) {
+    return (
+      <tr>
+        <td colSpan={5}>Order does not exist</td>
+      </tr>
+    );
+  }
+
+  const { _id, date, status, products } = order;
   const orderTotal = calculateOrderTotal(products);
   const productTitles = getProductsTitles(products);
 
@@ -27,7 +35,10 @@ const Order = props => {
       </td>
       <td>
         <Link
-          to={`${paths.orderDetailsPath}/${_id}`}
+          to={{
+            pathname: `${paths.orderDetailsPath}/${_id}`,
+            state: { order }
+          }}
           className="btn btn-outline-warning btn-sm"
         >
           {paths.orderDetailsName}

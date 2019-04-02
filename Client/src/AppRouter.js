@@ -13,6 +13,7 @@ import Cart from "./components/cart/Cart";
 import MyOrders from "./components/orders/MyOrders";
 import OrderDetails from "./components/orders/OrderDetails";
 import BookCreate from "./components/books/BookCreate";
+import AdminPendingOrders from "./components/orders/AdminPendingOrders";
 import NotFound from "./components/common/NotFound";
 import { paths } from "./constants/constants";
 
@@ -31,6 +32,11 @@ class AppRouter extends Component {
 
           {/* Admin */}
           <AdminRoute path={paths.bookCreatePath} component={BookCreate} />
+          <AdminRoute
+            exact
+            path={paths.ordersPendingPath}
+            component={AdminPendingOrders}
+          />
 
           {/* LoggedIn */}
           <LoggedInRoute path={paths.cartPath} component={Cart} />

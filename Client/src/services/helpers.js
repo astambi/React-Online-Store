@@ -14,11 +14,15 @@ function handleInputChange(event, stateObj) {
 
 const calculateOrderTotal = books => {
   let orderTotal = 0;
-  books.map(book => {
-    if (book && book.price && book.quantity) {
-      orderTotal += book.price * book.quantity;
-    }
-  });
+  books
+    .filter(
+      book =>
+        book !== null &&
+        book !== undefined &&
+        book.price !== null &&
+        book.quantity !== null
+    )
+    .map(book => (orderTotal += book.price * book.quantity));
   return orderTotal;
 };
 
