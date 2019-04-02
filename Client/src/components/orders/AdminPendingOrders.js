@@ -9,7 +9,8 @@ class AdminPendingOrders extends Component {
     super(props);
 
     this.state = {
-      orders: []
+      orders: [],
+      error: null
     };
   }
 
@@ -18,8 +19,26 @@ class AdminPendingOrders extends Component {
     this.setState({ orders });
   };
 
-  approveOrder = id => {
-    console.log("Approved " + id);
+  approveOrder = async id => {
+    if (!id) {
+      this.setState({ error: "Invalid Order Id" });
+      return;
+    }
+
+    const result = await orderService.approveOrderById(id);
+    const { message, success } = result;
+    console.log(result);
+
+    if (!success) {
+      this.setState({ error: message });
+    } else {
+      // Update pending orders
+      const orders = await orderService.getPendingOrders();
+      this.setState({
+        orders,
+        error: null
+      });
+    }
   };
 
   render() {

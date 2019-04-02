@@ -24,8 +24,7 @@ const dbConstants = {
   orderCreateUrl: `${ordersUrl}/submit`,
   ordersByUserUrl: `${ordersUrl}/user`,
   ordersPendingUrl: `${ordersUrl}/pending`,
-  ordersApproveByIdUrl: `${ordersUrl}/approve`,
-  orderDetailsUrl: `${ordersUrl}/`
+  ordersApproveByIdUrl: `${ordersUrl}/approve/`
 };
 
 const notifications = {

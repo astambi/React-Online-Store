@@ -15,6 +15,11 @@ class PendingOrdersTableRow extends Component {
 
   render() {
     const { order, index } = this.props;
+
+    if (!order) {
+      return null;
+    }
+
     const { _id, date, products, status } = order;
     const orderTotal = calculateOrderTotal(products);
 
