@@ -33,7 +33,7 @@ const getProductsTitles = products =>
     .join(", ");
 
 const toCurrency = number => `$${(+number).toFixed(2)}`;
-const toShortDate = dateStr => dateStr.slice(0, 16).replace("T", " ");
+const toShortDate = dateStr => new Date(dateStr).toLocaleString("en-GB");
 
 export {
   handleInputChange,

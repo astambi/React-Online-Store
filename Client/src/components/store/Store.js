@@ -19,7 +19,7 @@ class Store extends Component {
     this.setState({ isLoading: true });
 
     try {
-      const books = await bookService.getTopRatedBooks();
+      const books = await bookService.getAllBooks();
       console.log(books);
 
       this.setState({

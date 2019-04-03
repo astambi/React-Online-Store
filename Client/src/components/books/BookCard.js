@@ -64,13 +64,13 @@ class BookCard extends Component {
               state: { book }
             }}
             type="button"
-            className="btn btn-primary float-right btn-sm"
+            className="btn btn-primary btn-sm"
           >
             {paths.bookDetailsName}
           </Link>
           <button
             type="button"
-            className="btn btn-warning float-right btn-sm"
+            className="btn btn-warning btn-sm"
             onClick={this.orderBook}
           >
             Order

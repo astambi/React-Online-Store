@@ -29,7 +29,7 @@ const Order = props => {
         #{index} {productTitles}
       </th>
       <td>{toShortDate(date)}</td>
-      <td>{toCurrency(orderTotal)}</td>
+      <td className="text-right">{toCurrency(orderTotal)}</td>
       <td>
         <span className="label label-info">{status}</span>
       </td>

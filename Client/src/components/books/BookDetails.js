@@ -1,6 +1,6 @@
 import React from "react";
-import ReviewCreateForm from "../reviews/ReviewCreateForm";
 import BookDetailsView from "./BookDetailsView";
+import ReviewCreateForm from "../reviews/ReviewCreateForm";
 import bookService from "../../services/book-service";
 
 class BookDetails extends React.Component {
@@ -98,7 +98,10 @@ class BookDetails extends React.Component {
           </button>
         </BookDetailsView>
 
-        <ReviewCreateForm submitReview={this.handleSubmitReview} />
+        <ReviewCreateForm
+          handleChange={null}
+          handleSubmit={this.handleSubmitReview}
+        />
       </div>
     );
   }

@@ -14,7 +14,7 @@ import MyOrders from "./components/orders/MyOrders";
 import OrderDetails from "./components/orders/OrderDetails";
 import BookCreate from "./components/books/BookCreate";
 import BookDetails from "./components/books/BookDetails";
-import AdminPendingOrders from "./components/orders/AdminPendingOrders";
+import PendingOrders from "./components/orders/PendingOrders";
 import NotFound from "./components/common/NotFound";
 import { paths } from "./constants/constants";
 
@@ -30,24 +30,26 @@ class AppRouter extends Component {
           <Route path={paths.loginPath} component={Login} />
           <Route path={paths.registerPath} component={Register} />
           <Route path={paths.logoutPath} component={Logout} />
-          <Route path={paths.bookDetailsPath} component={BookDetails} />
+          <Route
+            path={`${paths.bookDetailsPath}/:id`}
+            component={BookDetails}
+          />
 
           {/* Admin */}
           <AdminRoute path={paths.bookCreatePath} component={BookCreate} />
           <AdminRoute
-            exact
             path={paths.ordersPendingPath}
-            component={AdminPendingOrders}
+            component={PendingOrders}
           />
 
           {/* LoggedIn */}
           <LoggedInRoute path={paths.cartPath} component={Cart} />
+          <LoggedInRoute path={paths.profilePath} component={NotFound} />
+          <LoggedInRoute exact path={paths.ordersPath} component={MyOrders} />
           <LoggedInRoute
             path={`${paths.orderDetailsPath}/:id`}
-            exact
             component={OrderDetails}
           />
-          <LoggedInRoute path={paths.ordersPath} exact component={MyOrders} />
 
           {/* Not Found */}
           <Route component={NotFound} />

@@ -14,16 +14,20 @@ class TopRatedBookCards extends Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount = async () => {
     this.setState({ isLoading: true });
 
     try {
-      const books = await bookService.getTopRatedBooks();
-      console.log(books);
+      const allBooks = await bookService.getAllBooks();
+      const topRatedBooks = allBooks
+        .filter(b => b.likes.length > 0)
+        .sort((a, b) => b.likes.length - a.likes.length) // desc
+        .slice(0, 3);
+      console.log(topRatedBooks);
 
       this.setState({
         isLoading: false,
-        books
+        books: topRatedBooks
       });
     } catch (error) {
       console.log(error);
@@ -32,7 +36,7 @@ class TopRatedBookCards extends Component {
         error
       });
     }
-  }
+  };
 
   render() {
     const { books, isLoading } = this.state;

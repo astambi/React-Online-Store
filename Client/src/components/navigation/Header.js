@@ -11,6 +11,7 @@ class Header extends Component {
     return (
       <header>
         <nav className="navbar-menu">
+          {/* All Users */}
           <HeaderLink to={paths.indexPath} name={paths.indexName} />
           <HeaderLink to={paths.homePath} name={paths.homeName} />
           <HeaderLink to={paths.storePath} name={paths.storeName} />

@@ -4,7 +4,7 @@ import PendingOrdersTableHeader from "./PendingOrdersTableHeader";
 import PendingOrdersTableRow from "./PendingOrdersTableRow";
 import orderService from "../../services/order-service";
 
-class AdminPendingOrders extends Component {
+class PendingOrders extends Component {
   constructor(props) {
     super(props);
 
@@ -69,4 +69,4 @@ class AdminPendingOrders extends Component {
   }
 }
 
-export default AdminPendingOrders;
+export default PendingOrders;
