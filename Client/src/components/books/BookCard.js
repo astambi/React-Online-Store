@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
+import BookCardView from "./BookCardView";
 import { UserConsumer } from "../contexts/user-context";
 import { paths } from "../../constants/constants";
 
@@ -21,7 +22,7 @@ class BookCard extends Component {
     bookToOrder.quantity += 1;
   }
 
-  orderBook = () => {
+  handleOrderBook = () => {
     const { user, updateUser, book } = this.props;
     let cart = user.cart.slice();
 
@@ -48,35 +49,28 @@ class BookCard extends Component {
     }
 
     const { book } = this.props;
-    const { _id, description, image, title } = book;
+    const { _id } = book;
 
     return (
-      <div className="card col-4">
-        <img className="card-img-top card-image" src={image} alt={title} />
-        <div className="card-body">
-          <h5 className="card-title">{title}</h5>
-          <p className="card-text">{description}</p>
-        </div>
-        <div className="card-footer">
-          <Link
-            to={{
-              pathname: `${paths.bookDetailsPath}/${_id}`,
-              state: { book }
-            }}
-            type="button"
-            className="btn btn-primary btn-sm"
-          >
-            {paths.bookDetailsName}
-          </Link>
-          <button
-            type="button"
-            className="btn btn-warning btn-sm"
-            onClick={this.orderBook}
-          >
-            Order
-          </button>
-        </div>
-      </div>
+      <BookCardView book={book}>
+        <Link
+          to={{
+            pathname: `${paths.bookDetailsPath}/${_id}`,
+            state: { book }
+          }}
+          type="button"
+          className="btn btn-primary btn-sm"
+        >
+          {paths.bookDetailsName}
+        </Link>
+        <button
+          type="button"
+          className="btn btn-warning btn-sm"
+          onClick={this.handleOrderBook}
+        >
+          Order
+        </button>
+      </BookCardView>
     );
   }
 }

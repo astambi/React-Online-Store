@@ -24,7 +24,7 @@ class BookDetails extends React.Component {
     if (state === undefined || !state || !state.book) {
       return;
     }
-
+    console.log(state);
     const { book } = this.props.location.state;
     this.setState({ book });
   }
@@ -56,8 +56,8 @@ class BookDetails extends React.Component {
     this.updateBook(result);
   };
 
-  handleOrder = () => {
-    console.log("TODO Ordered book");
+  handleOrderBook = () => {
+    console.log("TODO Order book");
   };
 
   handleReviewsVisibility = () => {
@@ -96,52 +96,47 @@ class BookDetails extends React.Component {
       <div className="container">
         <BookDetailsView book={book}>
           <button
-            className="btn btn-primary book-details-btn"
+            className="btn btn-outline-primary book-details-btn"
             type="button"
             onClick={this.handleLike}
           >
             Like
           </button>
           <button
-            className="btn btn-danger book-details-btn"
+            className="btn btn-outline-danger book-details-btn"
             type="button"
             onClick={this.handleUnlike}
           >
             Unlike
           </button>
           <button
-            className="btn btn-warning book-details-btn"
-            type="button"
-            onClick={this.handleOrder}
-          >
-            Order
-          </button>
-          <button
-            className="btn btn-info book-details-btn"
+            className="btn btn-outline-info book-details-btn"
             type="button"
             onClick={this.handleReviewsVisibility}
           >
             Reviews
           </button>
+          <button
+            className="btn btn-outline-warning book-details-btn"
+            type="button"
+            onClick={this.handleOrderBook}
+          >
+            Order
+          </button>
         </BookDetailsView>
 
-        <section className="row">
-          {showReviews ? (
-            <Fragment>
-              <h3 className="col-md-3">Reviews</h3>
-
-              <section className="col-md-9">
-                <ReviewCreateForm
-                  {...otherProps} // review, error
-                  handleChange={this.handleChange}
-                  handleSubmit={this.handleSubmitReview}
-                />
-
-                <ReviewsList reviews={book.reviews} />
-              </section>
-            </Fragment>
-          ) : null}
-        </section>
+        {showReviews ? (
+          <section className="row justify-content-end">
+            <section className="col-md-9">
+              <ReviewCreateForm
+                {...otherProps} // review, error
+                handleChange={this.handleChange}
+                handleSubmit={this.handleSubmitReview}
+              />
+              <ReviewsList reviews={book.reviews} />
+            </section>
+          </section>
+        ) : null}
       </div>
     );
   }

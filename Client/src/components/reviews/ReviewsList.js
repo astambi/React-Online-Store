@@ -8,11 +8,7 @@ const BookReviewsView = props => {
     <Fragment>
       {reviews && reviews.length > 0 ? (
         reviews.map((review, index) => (
-          <Review
-            key={JSON.stringify(review)}
-            review={review}
-            index={index + 1}
-          />
+          <Review key={index} review={review} index={index + 1} />
         ))
       ) : (
         <h5>No reviews</h5>
