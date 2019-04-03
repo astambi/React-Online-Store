@@ -171,13 +171,11 @@ div.welcome p {
 }
 
 .book-details-btn {
-  width: 30%;
+  width: 23%;
 }
 
-.review-form {
-  /* text-align: center; */
-  padding: 20px;
-  margin: auto;
+.review {
+  padding-bottom: 15px;
 }
 
 footer {

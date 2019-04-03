@@ -6,14 +6,13 @@ const BookDetailsView = props => {
   const { image, title, description, genres, author, price, likes } = book;
 
   return (
-    <section className="book-details-container">
-      <article className="book-details-article">
-        <div>
+    <section className="book-details-container row">
+      <article className="book-details-article col-md-3">
+        <div className="text-center">
           <img src={image} alt={title} />
         </div>
       </article>
-
-      <article className="book-details-article">
+      <article className="book-details-article col-md-9">
         <h1>{title}</h1>
         <div className="book-details-line">
           <span className="book-details-title">Author: </span>

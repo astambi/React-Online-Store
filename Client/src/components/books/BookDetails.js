@@ -1,14 +1,20 @@
-import React from "react";
+import React, { Fragment } from "react";
 import BookDetailsView from "./BookDetailsView";
 import ReviewCreateForm from "../reviews/ReviewCreateForm";
+import ReviewsList from "../reviews/ReviewsList";
 import bookService from "../../services/book-service";
+import { handleInputChange } from "../../services/helpers";
 
 class BookDetails extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      showReviews: false,
       book: null,
+      review: {
+        content: ""
+      },
       error: ""
     };
   }
@@ -22,6 +28,8 @@ class BookDetails extends React.Component {
     const { book } = this.props.location.state;
     this.setState({ book });
   }
+
+  handleChange = event => handleInputChange.bind(this)(event, "review");
 
   handleLike = async () => {
     const { book } = this.state;
@@ -37,6 +45,27 @@ class BookDetails extends React.Component {
     this.updateBook(result);
   };
 
+  handleSubmitReview = async event => {
+    event.preventDefault();
+
+    const { book, review } = this.state;
+
+    const result = await bookService.reviewBookById(book._id, {
+      review: review.content
+    });
+    this.updateBook(result);
+  };
+
+  handleOrder = () => {
+    console.log("TODO Ordered book");
+  };
+
+  handleReviewsVisibility = () => {
+    this.setState(prevState => ({
+      showReviews: !prevState.showReviews
+    }));
+  };
+
   updateBook = result => {
     console.log(result);
     const { success, message, data } = result;
@@ -46,23 +75,14 @@ class BookDetails extends React.Component {
     } else {
       this.setState({
         book: data,
+        review: { content: "" },
         error: ""
       });
     }
   };
 
-  handleOrder = () => {
-    console.log("TODO Ordered book");
-  };
-
-  handleSubmitReview = event => {
-    event.preventDefault();
-
-    console.log("TODO Submitted review");
-  };
-
   render() {
-    const { book } = this.state;
+    const { book, showReviews, ...otherProps } = this.state;
 
     if (!book) {
       return (
@@ -96,12 +116,32 @@ class BookDetails extends React.Component {
           >
             Order
           </button>
+          <button
+            className="btn btn-info book-details-btn"
+            type="button"
+            onClick={this.handleReviewsVisibility}
+          >
+            Reviews
+          </button>
         </BookDetailsView>
 
-        <ReviewCreateForm
-          handleChange={null}
-          handleSubmit={this.handleSubmitReview}
-        />
+        <section className="row">
+          {showReviews ? (
+            <Fragment>
+              <h3 className="col-md-3">Reviews</h3>
+
+              <section className="col-md-9">
+                <ReviewCreateForm
+                  {...otherProps} // review, error
+                  handleChange={this.handleChange}
+                  handleSubmit={this.handleSubmitReview}
+                />
+
+                <ReviewsList reviews={book.reviews} />
+              </section>
+            </Fragment>
+          ) : null}
+        </section>
       </div>
     );
   }

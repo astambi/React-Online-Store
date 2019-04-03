@@ -1,24 +1,25 @@
 import React from "react";
 
-class ReviewCreateForm extends React.Component {
-  render() {
-    const { handleChange, handleSubmit } = this.props;
+const ReviewCreateForm = props => {
+  const { handleChange, handleSubmit, review } = props;
+  const { content } = review;
 
-    return (
-      <form className="review-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="review">Leave a review</label>
-          <textarea
-            onChange={handleChange}
-            className="form-control"
-            id="review"
-            rows="3"
-          />
-          <input type="submit" className="btn btn-info" value="Submit review" />
-        </div>
-      </form>
-    );
-  }
-}
+  return (
+    <form className="review-form" onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label htmlFor="review">Leave a review</label>
+        <textarea
+          className="form-control"
+          rows="2"
+          id="review"
+          name="content"
+          value={content}
+          onChange={handleChange}
+        />
+        <input type="submit" className="btn btn-info" value="Submit review" />
+      </div>
+    </form>
+  );
+};
 
 export default ReviewCreateForm;
