@@ -1,4 +1,11 @@
-import React, { Fragment } from "react";
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faThumbsUp,
+  faThumbsDown,
+  faComments,
+  faShoppingCart
+} from "@fortawesome/free-solid-svg-icons";
 import BookDetailsView from "./BookDetailsView";
 import ReviewCreateForm from "../reviews/ReviewCreateForm";
 import ReviewsList from "../reviews/ReviewsList";
@@ -100,28 +107,28 @@ class BookDetails extends React.Component {
             type="button"
             onClick={this.handleLike}
           >
-            Like
+            <FontAwesomeIcon icon={faThumbsUp} /> Like
           </button>
           <button
             className="btn btn-outline-danger book-details-btn"
             type="button"
             onClick={this.handleUnlike}
           >
-            Unlike
+            <FontAwesomeIcon icon={faThumbsDown} /> Unlike
           </button>
           <button
             className="btn btn-outline-info book-details-btn"
             type="button"
             onClick={this.handleReviewsVisibility}
           >
-            Reviews
+            <FontAwesomeIcon icon={faComments} /> Reviews
           </button>
           <button
             className="btn btn-outline-warning book-details-btn"
             type="button"
             onClick={this.handleOrderBook}
           >
-            Order
+            <FontAwesomeIcon icon={faShoppingCart} /> Order
           </button>
         </BookDetailsView>
 

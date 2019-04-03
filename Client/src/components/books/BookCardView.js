@@ -18,7 +18,9 @@ const BookCardView = props => {
         <p className="card-text">{description}</p>
       </div>
 
-      <div className="card-footer bg-transparent">{children}</div>
+      <div className="card-footer bg-transparent row justify-content-around">
+        {children}
+      </div>
     </div>
   );
 };
