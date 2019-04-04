@@ -15,6 +15,10 @@ body {
   font: 16px/1.5 "Montserrat", sans-serif;
 }
 
+main {
+  padding-bottom: 50px;
+}
+
 a {
   font-size: 20px;
   font-weight: bold;

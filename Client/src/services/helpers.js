@@ -32,6 +32,9 @@ const getProductsTitles = products =>
     .map(p => p.title)
     .join(", ");
 
+const stringContains = (source, queryString) =>
+  source.toLowerCase().includes(queryString.trim().toLowerCase());
+
 const toCurrency = number => `$${(+number).toFixed(2)}`;
 const toShortDate = dateStr => new Date(dateStr).toLocaleString("en-GB");
 
@@ -39,6 +42,7 @@ export {
   handleInputChange,
   calculateOrderTotal,
   getProductsTitles,
+  stringContains,
   toShortDate,
   toCurrency
 };

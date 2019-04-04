@@ -1,7 +1,6 @@
 import React from "react";
 
 const Review = props => {
-  console.log(props);
   const { review, index } = props;
 
   if (!review) {

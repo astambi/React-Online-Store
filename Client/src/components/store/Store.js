@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import BookList from "../books/BookList";
+import SearchForm from "./SearchForm";
 import bookService from "../../services/book-service";
+import { handleInputChange, stringContains } from "../../services/helpers";
 
 class Store extends Component {
   constructor(props) {
@@ -11,15 +11,19 @@ class Store extends Component {
     this.state = {
       isLoading: false,
       books: [],
+      search: { query: "" },
       error: ""
     };
   }
 
-  async componentDidMount() {
+  componentDidMount = async () => await this.getAllBooks();
+
+  getAllBooks = async () => {
     this.setState({ isLoading: true });
 
+    let books = [];
     try {
-      const books = await bookService.getAllBooks();
+      books = await bookService.getAllBooks();
       console.log(books);
 
       this.setState({
@@ -33,30 +37,47 @@ class Store extends Component {
         error
       });
     }
-  }
+
+    return books;
+  };
+
+  handleChangeQuery = event => handleInputChange.bind(this)(event, "search");
+
+  handleSubmitQuery = async event => {
+    event.preventDefault();
+
+    const { search } = this.state;
+    const { query } = search;
+
+    if (!query || query.trim() === "") {
+      return;
+    }
+
+    const allBooks = await this.getAllBooks();
+    const queryBooks = allBooks.filter(
+      b =>
+        stringContains(b.title, query) ||
+        stringContains(b.author, query) ||
+        stringContains(b.description, query)
+    );
+    this.setState({ books: queryBooks, isLoading: false });
+  };
 
   render() {
-    const { books } = this.state;
+    const { books, search } = this.state;
     console.log(books);
 
     return (
       <div className="container">
-        {/* Search */}
         <div className="row space-top">
           <div className="col-md-12">
             <h1 className="jumbotron-heading text-center">Store</h1>
 
-            <form className="form-inline md-form form-sm active-cyan active-cyan-2">
-              <FontAwesomeIcon icon={faSearch} aria-hidden="true" />
-              <input
-                className="form-control form-control-sm ml-3 w-75"
-                type="text"
-                placeholder="Search for the book you are looking for..."
-                aria-label="Search"
-                name="query"
-                value=""
-              />
-            </form>
+            <SearchForm
+              search={search}
+              onChange={this.handleChangeQuery}
+              onSubmit={this.handleSubmitQuery}
+            />
           </div>
         </div>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faThumbsUp,
@@ -9,14 +10,17 @@ import {
 import BookDetailsView from "./BookDetailsView";
 import ReviewCreateForm from "../reviews/ReviewCreateForm";
 import ReviewsList from "../reviews/ReviewsList";
+import { UserConsumer } from "../contexts/user-context";
 import bookService from "../../services/book-service";
 import { handleInputChange } from "../../services/helpers";
+import { paths } from "../../constants/constants";
 
 class BookDetails extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      isOrdered: false,
       showReviews: false,
       book: null,
       review: {
@@ -63,8 +67,33 @@ class BookDetails extends React.Component {
     this.updateBook(result);
   };
 
+  addBookToCart(book, cart) {
+    const { _id, title, image, genres, price } = book;
+    cart.push({ _id, title, image, genres, price, quantity: 1 });
+  }
+
+  updateBookQuantity(bookToOrder) {
+    bookToOrder.quantity += 1;
+  }
+
   handleOrderBook = () => {
-    console.log("TODO Order book");
+    const { user, updateUser } = this.props;
+    const { book } = this.state;
+    let cart = user.cart.slice();
+
+    // Add book to cart
+    let bookToOrder = cart.find(b => b._id === book._id);
+    if (bookToOrder === null || bookToOrder === undefined) {
+      this.addBookToCart(book, cart);
+    } else {
+      this.updateBookQuantity(bookToOrder);
+    }
+
+    // Update user cart
+    const userToUpdate = { ...user, cart };
+    updateUser(userToUpdate);
+
+    this.setState({ isOrdered: true });
   };
 
   handleReviewsVisibility = () => {
@@ -89,7 +118,11 @@ class BookDetails extends React.Component {
   };
 
   render() {
-    const { book, showReviews, ...otherProps } = this.state;
+    const { isOrdered, book, showReviews, ...otherProps } = this.state;
+
+    if (isOrdered) {
+      return <Redirect to={paths.cartPath} />;
+    }
 
     if (!book) {
       return (
@@ -121,7 +154,8 @@ class BookDetails extends React.Component {
             type="button"
             onClick={this.handleReviewsVisibility}
           >
-            <FontAwesomeIcon icon={faComments} /> Reviews
+            <FontAwesomeIcon icon={faComments} /> Reviews ({book.reviews.length}
+            )
           </button>
           <button
             className="btn btn-outline-warning book-details-btn"
@@ -134,7 +168,7 @@ class BookDetails extends React.Component {
 
         {showReviews ? (
           <section className="row justify-content-end">
-            <section className="col-md-9">
+            <section className="col-lg-9">
               <ReviewCreateForm
                 {...otherProps} // review, error
                 handleChange={this.handleChange}
@@ -149,4 +183,13 @@ class BookDetails extends React.Component {
   }
 }
 
-export default BookDetails;
+const BookDetailsWithContext = props => (
+  <UserConsumer>
+    {({ user, updateUser }) => (
+      <BookDetails {...props} user={user} updateUser={updateUser} />
+    )}
+  </UserConsumer>
+);
+
+// export default BookDetails;
+export default BookDetailsWithContext;

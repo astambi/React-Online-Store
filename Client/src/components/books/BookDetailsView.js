@@ -7,12 +7,12 @@ const BookDetailsView = props => {
 
   return (
     <section className="book-details-container row">
-      <article className="book-details-article col-md-3">
+      <article className="book-details-article col-lg-3">
         <div className="text-center">
           <img src={image} alt={title} />
         </div>
       </article>
-      <article className="book-details-article col-md-9">
+      <article className="book-details-article col-lg-9">
         <h1>{title}</h1>
         <div className="book-details-line">
           <span className="book-details-title">Author: </span>
