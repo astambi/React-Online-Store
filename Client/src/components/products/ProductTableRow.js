@@ -30,7 +30,7 @@ const ProductTableRow = props => {
       </td>
 
       {children ? (
-        <td data-th="Actions" className="actions">
+        <td data-th="Actions" className="actions d-flex justify-content-around">
           {children}
         </td>
       ) : null}

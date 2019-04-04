@@ -1,25 +1,72 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faSyncAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMinus,
+  faPlus,
+  faSyncAlt,
+  faTrash
+} from "@fortawesome/free-solid-svg-icons";
 import ProductTableRow from "../products/ProductTableRow";
 import { UserConsumer } from "../contexts/user-context";
 
 class CartTableRow extends Component {
-  removeBookFromCart = () => {
-    const { book, user, updateUser } = this.props;
+  constructor(props) {
+    super(props);
 
-    // Update Shopping cart
-    const cart = user.cart.filter(cartItem => cartItem._id !== book._id);
+    this.state = {
+      book: {}
+    };
+  }
+
+  componentDidMount = () => {
+    const { book } = this.props;
+    this.setState({ book });
+  };
+
+  changeQuantity = change => {
+    if (change === 0) {
+      return;
+    }
+
+    const { user, updateUser } = this.props;
+    let { book } = this.state;
+
+    if (change > 0) {
+      book.quantity++;
+    } else {
+      book.quantity--;
+    }
+    this.setState({ book });
+
+    let bookFromCart = user.cart.find(b => b._id === book._id);
+    bookFromCart = book;
+    const cart = user.cart.filter(cartItem => cartItem.quantity > 0);
+
     const userToUpdate = { ...user, cart };
     updateUser(userToUpdate);
   };
 
-  updateBookInCart = () => {
+  handleDecreaseQuantity = () => this.changeQuantity(-1);
+
+  handleIncreaseQuantity = () => this.changeQuantity(1);
+
+  handleRemoveBookFromCart = () => {
+    const { user, updateUser } = this.props;
+    const { book } = this.state;
+
+    // Update Shopping cart
+    const cart = user.cart.filter(cartItem => cartItem._id !== book._id);
+
+    const userToUpdate = { ...user, cart };
+    updateUser(userToUpdate);
+  };
+
+  handleUpdateBookInCart = () => {
     console.log("TODO Cart Item refresh");
   };
 
   render() {
-    const { book } = this.props;
+    const { book } = this.state;
 
     if (!book) {
       return null;
@@ -27,13 +74,27 @@ class CartTableRow extends Component {
 
     return (
       <ProductTableRow product={book}>
-        <button className="btn btn-info btn-sm" onClick={this.updateBookInCart}>
+        <button
+          className="btn btn-outline-warning btn-sm"
+          onClick={this.handleDecreaseQuantity}
+        >
+          <FontAwesomeIcon icon={faMinus} />
+        </button>
+        <button
+          className="btn btn-outline-success btn-sm"
+          onClick={this.handleIncreaseQuantity}
+        >
+          <FontAwesomeIcon icon={faPlus} />
+        </button>
+        <button
+          className="btn btn-outline-info btn-sm"
+          onClick={this.handleUpdateBookInCart}
+        >
           <FontAwesomeIcon icon={faSyncAlt} />
         </button>
-
         <button
-          className="btn btn-danger btn-sm"
-          onClick={this.removeBookFromCart}
+          className="btn btn-outline-danger btn-sm"
+          onClick={this.handleRemoveBookFromCart}
         >
           <FontAwesomeIcon icon={faTrash} />
         </button>
