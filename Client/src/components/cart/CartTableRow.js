@@ -24,14 +24,12 @@ class CartTableRow extends Component {
   };
 
   changeQuantity = change => {
-    if (change === 0) {
-      return;
-    }
-
     const { user, updateUser } = this.props;
     let { book } = this.state;
 
-    if (change > 0) {
+    if (change === 0) {
+      book.quantity = 0;
+    } else if (change > 0) {
       book.quantity++;
     } else {
       book.quantity--;
@@ -50,16 +48,7 @@ class CartTableRow extends Component {
 
   handleIncreaseQuantity = () => this.changeQuantity(1);
 
-  handleRemoveBookFromCart = () => {
-    const { user, updateUser } = this.props;
-    const { book } = this.state;
-
-    // Update Shopping cart
-    const cart = user.cart.filter(cartItem => cartItem._id !== book._id);
-
-    const userToUpdate = { ...user, cart };
-    updateUser(userToUpdate);
-  };
+  handleRemoveBookFromCart = () => this.changeQuantity(0);
 
   handleUpdateBookInCart = () => {
     console.log("TODO Cart Item refresh");
