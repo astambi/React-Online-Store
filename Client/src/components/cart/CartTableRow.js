@@ -8,40 +8,28 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ProductTableRow from "../products/ProductTableRow";
 import { UserConsumer } from "../contexts/user-context";
+import bookService from "../../services/book-service";
 
 class CartTableRow extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      book: {}
-    };
-  }
-
-  componentDidMount = () => {
-    const { book } = this.props;
-    this.setState({ book });
-  };
-
   changeQuantity = change => {
-    const { user, updateUser } = this.props;
-    let { book } = this.state;
+    const { user, book } = this.props;
 
-    if (change === 0) {
-      book.quantity = 0;
-    } else if (change > 0) {
-      book.quantity++;
+    // Update book quantity
+    let updatedBook = { ...book };
+    if (change > 0) {
+      updatedBook.quantity++;
+    } else if (change < 0) {
+      updatedBook.quantity--;
     } else {
-      book.quantity--;
+      updatedBook.quantity = 0;
     }
-    this.setState({ book });
 
-    let bookFromCart = user.cart.find(b => b._id === book._id);
-    bookFromCart = book;
-    const cart = user.cart.filter(cartItem => cartItem.quantity > 0);
+    // Find book in cart
+    const bookFromCart = user.cart.find(b => b._id === book._id);
+    const bookIndexInCart = user.cart.indexOf(bookFromCart);
 
-    const userToUpdate = { ...user, cart };
-    updateUser(userToUpdate);
+    // Update storage & state
+    this.updateBook(updatedBook, bookIndexInCart);
   };
 
   handleDecreaseQuantity = () => this.changeQuantity(-1);
@@ -50,12 +38,48 @@ class CartTableRow extends Component {
 
   handleRemoveBookFromCart = () => this.changeQuantity(0);
 
-  handleUpdateBookInCart = () => {
-    console.log("TODO Cart Item refresh");
+  handleUpdateBookDetails = async () => {
+    const { user, book } = this.props;
+
+    // Find book in db
+    const allBooks = await bookService.getAllBooks();
+    const bookFromDb = allBooks.find(b => b._id === book._id);
+    const { image, genres, title, price } = bookFromDb;
+
+    // Find book in cart
+    const bookFromCart = user.cart.find(b => b._id === book._id);
+    const bookIndexInCart = user.cart.indexOf(bookFromCart);
+
+    // Update book details other than quantity
+    const updatedBook = {
+      ...bookFromCart, // id
+      image,
+      genres,
+      title,
+      price,
+      quantity: bookFromCart.quantity
+    };
+
+    // Update storage & state
+    this.updateBook(updatedBook, bookIndexInCart);
+  };
+
+  updateBook = (book, bookIndexInCart) => {
+    const { user, updateUser } = this.props;
+
+    // Update book in cart
+    user.cart[bookIndexInCart] = book;
+
+    // Remove 0 quantity books from cart
+    const cart = user.cart.filter(cartItem => cartItem.quantity > 0);
+
+    // Update user cart
+    const userToUpdate = { ...user, cart };
+    updateUser(userToUpdate);
   };
 
   render() {
-    const { book } = this.state;
+    const { book } = this.props;
 
     if (!book) {
       return null;
@@ -77,7 +101,7 @@ class CartTableRow extends Component {
         </button>
         <button
           className="btn btn-outline-info btn-sm"
-          onClick={this.handleUpdateBookInCart}
+          onClick={this.handleUpdateBookDetails}
         >
           <FontAwesomeIcon icon={faSyncAlt} />
         </button>
