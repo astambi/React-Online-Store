@@ -5,12 +5,14 @@ import bookService from "../../services/book-service";
 import { handleInputChange } from "../../services/helpers";
 import { notifications, paths } from "../../constants/constants";
 
-class BookCreate extends Component {
+class BookAdminCreateEdit extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isCreated: false,
+      isUpdated: false,
+      action: "", // create / edit
+      btnColor: "",
       book: {
         title: "",
         genres: "",
@@ -28,6 +30,26 @@ class BookCreate extends Component {
     };
   }
 
+  componentDidMount = () => {
+    const { path } = this.props;
+
+    // On Edit load book from Link
+    if (path.includes(paths.bookCreatePath)) {
+      this.setState({
+        action: "create",
+        btnColor: "success"
+      });
+    } else if (path.includes(paths.bookEditPath)) {
+      const { book } = this.props.location.state;
+
+      this.setState({
+        book,
+        action: "edit",
+        btnColor: "warning"
+      });
+    }
+  };
+
   handleChange = event => handleInputChange.bind(this)(event, "book");
 
   handleSubmit = async event => {
@@ -41,30 +63,16 @@ class BookCreate extends Component {
     // Clear errors
     this.setState({ error: {} });
 
-    // Create in Db
-    await this.createBook();
-  };
-
-  createBook = async () => {
-    const { book } = this.state;
-
     try {
-      const response = await bookService.createBook(book);
-      console.log(response);
+      const { book } = this.state;
 
-      const { success, message, errors } = response;
+      // Update book in Db
+      const result =
+        this.state.action === "create"
+          ? await bookService.createBook(book)
+          : await bookService.editBookById(book._id, book);
 
-      if (!success) {
-        this.setState({
-          error: { message, errors }
-        });
-      } else {
-        // Created
-        this.setState({
-          isCreated: true,
-          error: {}
-        });
-      }
+      this.updateState(result);
     } catch (error) {
       console.log(error);
       this.setState({ error });
@@ -117,23 +125,48 @@ class BookCreate extends Component {
     return isValid;
   }
 
-  render() {
-    const { isCreated, ...otherProps } = this.state;
+  updateState(result) {
+    console.log(result);
+    const { success, message, errors, data } = result;
 
-    if (isCreated) {
-      return <Redirect to={paths.indexPath} />;
+    if (!success) {
+      this.setState({
+        error: { message, errors }
+      });
+    } else {
+      this.setState({
+        isUpdated: true,
+        book: data,
+        error: {}
+      });
+    }
+  }
+
+  render() {
+    console.log(this.state);
+    const { isUpdated, ...otherProps } = this.state;
+
+    if (isUpdated) {
+      const { book } = this.state;
+
+      return (
+        <Redirect
+          to={{
+            pathname: `${paths.bookDetailsPath}/${book._id}`,
+            state: { book }
+          }}
+        />
+      );
     }
 
     return (
       <BookForm
-        {...otherProps} // book, error
+        {...otherProps} // book, error, action, btnColor
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
-        action="create"
-        btnColor="success"
       />
     );
   }
 }
 
-export default BookCreate;
+export default BookAdminCreateEdit;

@@ -12,10 +12,9 @@ import Store from "./components/store/Store";
 import Cart from "./components/cart/Cart";
 import MyOrders from "./components/orders/MyOrders";
 import OrderDetails from "./components/orders/OrderDetails";
-import BookCreate from "./components/books/BookCreate";
+import BookAdminCreateEdit from "./components/books/BookAdminCreateEdit";
+import BookAdminDelete from "./components/books/BookAdminDelete";
 import BookDetails from "./components/books/BookDetails";
-import BookEdit from "./components/books/BookEdit";
-import BookDelete from "./components/books/BookDelete";
 import PendingOrders from "./components/orders/PendingOrders";
 import NotFound from "./components/common/NotFound";
 import { paths } from "./constants/constants";
@@ -38,11 +37,17 @@ class AppRouter extends Component {
           />
 
           {/* Admin */}
-          <AdminRoute path={paths.bookCreatePath} component={BookCreate} />
-          <AdminRoute path={`${paths.bookEditPath}/:id`} component={BookEdit} />
+          <AdminRoute
+            path={paths.bookCreatePath}
+            component={BookAdminCreateEdit}
+          />
+          <AdminRoute
+            path={`${paths.bookEditPath}/:id`}
+            component={BookAdminCreateEdit}
+          />
           <AdminRoute
             path={`${paths.bookDeletePath}/:id`}
-            component={BookDelete}
+            component={BookAdminDelete}
           />
           <AdminRoute
             path={paths.ordersPendingPath}

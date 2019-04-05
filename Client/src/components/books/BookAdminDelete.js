@@ -45,7 +45,7 @@ class BookDelete extends Component {
       <BookForm
         {...otherProps} // error
         book={book}
-        handleChange={null}
+        handleChange={() => {}}
         handleSubmit={this.handleSubmitDelete}
         action="delete"
         btnColor="danger"

@@ -58,6 +58,7 @@ const BookForm = props => {
 
         <div className="form-group">
           <label htmlFor="image">Image URL</label>
+          <img src={image} alt={title} />
           <input
             type="text"
             name="image"
