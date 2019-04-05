@@ -20,6 +20,7 @@ const dbConstants = {
   bookLikeByIdUrl: `${bookUrl}/like/`,
   bookUnlikeByIdUrl: `${bookUrl}/unlike/`,
   bookDeleteByIdUrl: `${bookUrl}/delete/`,
+  bookEditByIdUrl: `${bookUrl}/edit/`,
   // orders
   orderCreateUrl: `${ordersUrl}/submit`,
   ordersByUserUrl: `${ordersUrl}/user`,
