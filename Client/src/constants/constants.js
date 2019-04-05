@@ -76,6 +76,10 @@ const paths = {
   // admin
   bookCreatePath: "/admin/create",
   bookCreateName: "Create new book",
+  bookEditPath: "/admin/edit",
+  bookEditName: "Edit book",
+  bookDeletePath: "/admin/delete",
+  bookDeleteName: "Delete book",
   ordersPendingPath: "/admin/orders/pending",
   ordersPendingName: "Pending orders",
   // user

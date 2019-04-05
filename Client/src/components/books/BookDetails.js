@@ -1,19 +1,14 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faThumbsUp,
-  faThumbsDown,
-  faComments,
-  faShoppingCart
-} from "@fortawesome/free-solid-svg-icons";
+import BookActionsAdmin from "./BookActionsAdmin";
+import BookActionsUser from "./BookActionsUser";
 import BookDetailsView from "./BookDetailsView";
 import ReviewCreateForm from "../reviews/ReviewCreateForm";
 import ReviewsList from "../reviews/ReviewsList";
 import { UserConsumer } from "../contexts/user-context";
 import bookService from "../../services/book-service";
 import { handleInputChange } from "../../services/helpers";
-import { paths } from "../../constants/constants";
+import { paths, roles } from "../../constants/constants";
 
 class BookDetails extends React.Component {
   constructor(props) {
@@ -132,52 +127,44 @@ class BookDetails extends React.Component {
       );
     }
 
+    const { user } = this.props;
+    const isAdmin =
+      user.roles &&
+      user.roles.length > 0 &&
+      user.roles.includes(roles.adminRole);
+    const reviewsCount =
+      book.reviews && book.reviews.length ? book.reviews.length : 0;
+
     return (
       <div className="container">
         <BookDetailsView book={book}>
-          <button
-            className="btn btn-outline-primary book-details-btn"
-            type="button"
-            onClick={this.handleLike}
-          >
-            <FontAwesomeIcon icon={faThumbsUp} /> Like
-          </button>
-          <button
-            className="btn btn-outline-danger book-details-btn"
-            type="button"
-            onClick={this.handleUnlike}
-          >
-            <FontAwesomeIcon icon={faThumbsDown} /> Unlike
-          </button>
-          <button
-            className="btn btn-outline-info book-details-btn"
-            type="button"
-            onClick={this.handleReviewsVisibility}
-          >
-            <FontAwesomeIcon icon={faComments} /> Reviews ({book.reviews.length}
-            )
-          </button>
-          <button
-            className="btn btn-outline-warning book-details-btn"
-            type="button"
-            onClick={this.handleOrderBook}
-          >
-            <FontAwesomeIcon icon={faShoppingCart} /> Order
-          </button>
+          <BookActionsUser
+            reviewsCount={reviewsCount}
+            handleLike={this.handleLike}
+            handleUnlike={this.handleUnlike}
+            handleOrderBook={this.handleOrderBook}
+            handleReviewsVisibility={this.handleReviewsVisibility}
+          />
         </BookDetailsView>
 
-        {showReviews ? (
-          <section className="row justify-content-end">
-            <section className="col-lg-9">
+        <section className="row justify-content-end">
+          {showReviews ? (
+            <article className="col-lg-9">
               <ReviewCreateForm
                 {...otherProps} // review, error
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmitReview}
               />
               <ReviewsList reviews={book.reviews} />
-            </section>
-          </section>
-        ) : null}
+            </article>
+          ) : null}
+
+          {isAdmin ? (
+            <article className="d-flex justify-content-around col-lg-9 p-2">
+              <BookActionsAdmin bookId={book._id} />
+            </article>
+          ) : null}
+        </section>
       </div>
     );
   }
