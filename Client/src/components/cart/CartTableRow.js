@@ -44,6 +44,13 @@ class CartTableRow extends Component {
     // Find book in db
     const allBooks = await bookService.getAllBooks();
     const bookFromDb = allBooks.find(b => b._id === book._id);
+
+    // Book not found in DB
+    if (!bookFromDb || bookFromDb === undefined) {
+      this.changeQuantity(0);
+      return;
+    }
+
     const { image, genres, title, price } = bookFromDb;
 
     // Find book in cart
