@@ -3,22 +3,28 @@ import { Link } from "react-router-dom";
 import { paths } from "../../constants/constants";
 
 const BookActionsAdmin = props => {
-  const { bookId } = props;
+  const { book } = props;
 
-  if (!bookId) {
+  if (!book) {
     return null;
   }
 
   return (
     <Fragment>
       <Link
-        to={`${paths.bookEditPath}/${bookId}`}
+        to={{
+          pathname: `${paths.bookEditPath}/${book._id}`,
+          state: { book }
+        }}
         className="btn btn-lg btn-outline-warning"
       >
         {paths.bookEditName}
       </Link>
       <Link
-        to={`${paths.bookDeletePath}/${bookId}`}
+        to={{
+          pathname: `${paths.bookDeletePath}/${book._id}`,
+          state: { book }
+        }}
         className="btn btn-lg btn-outline-danger"
       >
         {paths.bookDeleteName}

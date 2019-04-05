@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import BookCreateForm from "./BookCreateForm";
+import BookForm from "./BookForm";
 import bookService from "../../services/book-service";
 import { handleInputChange } from "../../services/helpers";
 import { notifications, paths } from "../../constants/constants";
@@ -125,10 +125,12 @@ class BookCreate extends Component {
     }
 
     return (
-      <BookCreateForm
+      <BookForm
         {...otherProps} // book, error
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
+        action="create"
+        btnColor="success"
       />
     );
   }

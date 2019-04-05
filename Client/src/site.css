@@ -134,18 +134,18 @@ div.welcome p {
 .form-wrapper input[type="submit"] {
   padding: 10px 20px;
   margin: 20px;
-  background-color: rgb(88, 182, 92);
-  color: white;
-  border: none;
+  /* background-color: rgb(88, 182, 92);
+  color: white; */
+  /* border: none; */
   font-size: 18px;
   font-weight: bold;
-  border: 2px solid rgb(88, 182, 92);
+  /* border: 2px solid rgb(88, 182, 92); */
 }
 
 .form-wrapper input[type="submit"]:hover {
-  background-color: white;
+  /* background-color: white;
   color: rgb(88, 182, 92);
-  border: 2px solid rgb(88, 182, 92);
+  border: 2px solid rgb(88, 182, 92); */
   font-size: 18px;
   font-weight: bold;
 }

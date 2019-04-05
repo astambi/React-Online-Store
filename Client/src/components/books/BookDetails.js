@@ -161,7 +161,7 @@ class BookDetails extends React.Component {
 
           {isAdmin ? (
             <article className="d-flex justify-content-around col-lg-9 p-2">
-              <BookActionsAdmin bookId={book._id} />
+              <BookActionsAdmin book={book} />
             </article>
           ) : null}
         </section>

@@ -1,14 +1,14 @@
 import React from "react";
 import Error from "../common/Error";
 
-const BookCreateForm = props => {
-  const { handleChange, handleSubmit, book, error } = props;
+const BookForm = props => {
+  const { handleChange, handleSubmit, book, error, action, btnColor } = props;
   const { title, genres, description, image, author, price } = book;
   const { message, errors } = error;
 
   return (
     <div className="form-wrapper">
-      <h1>Create New Book</h1>
+      <h1 className="text-capitalize">{action} book</h1>
 
       <form onSubmit={handleSubmit}>
         {message ? <Error notification={message} /> : null}
@@ -94,7 +94,7 @@ const BookCreateForm = props => {
             id="price"
             placeholder="Enter book price"
             // min="0.00" //
-            step="0.01" //
+            step="1" //
             value={price}
             onChange={handleChange}
           />
@@ -103,10 +103,14 @@ const BookCreateForm = props => {
           ) : null}
         </div>
 
-        <input type="submit" value="Create" />
+        <input
+          type="submit"
+          value={action}
+          className={`btn btn-outline-${btnColor} border-${btnColor} text-capitalize`}
+        />
       </form>
     </div>
   );
 };
 
-export default BookCreateForm;
+export default BookForm;
