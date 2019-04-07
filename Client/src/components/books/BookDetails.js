@@ -113,8 +113,14 @@ class BookDetails extends React.Component {
 
     const { book, review } = this.state;
 
+    // Input Validation
+    if (!this.isValidInput(review)) {
+      notificationService.warningMsg(notificationMessages.invalidInput);
+      return;
+    }
+
     const result = await bookService.reviewBookById(book._id, {
-      review: review.content
+      review: review.content.trim()
     });
     this.updateBook(result);
   };
@@ -141,6 +147,19 @@ class BookDetails extends React.Component {
     }
 
     return isUserAuthenticated;
+  };
+
+  isValidInput = review => {
+    if (!review) {
+      return false;
+    }
+
+    const { content } = review;
+    if (!content || content.trim() === "") {
+      return false;
+    }
+
+    return true;
   };
 
   updateBook = result => {
