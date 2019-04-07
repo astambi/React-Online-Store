@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import RegisterForm from "./RegisterForm";
 import authenticationService from "../../services/authentication-service";
+import notificationService from "../../services/notification-service";
 import { handleInputChange } from "../../services/helpers";
 import { notifications, paths } from "../../constants/constants";
 
@@ -82,7 +83,7 @@ class Register extends Component {
     return isValid;
   }
 
-  async tryRegisterUser() {
+  tryRegisterUser = async () => {
     try {
       const { user } = this.state;
 
@@ -94,17 +95,26 @@ class Register extends Component {
         this.setState({
           error: { message, errors }
         });
+
+        // Error Notification
+        notificationService.errorMsg(message);
       } else {
         this.setState({
           isRegistered: true,
           error: {}
         });
+
+        // Success Notification
+        notificationService.successMsg(message);
       }
     } catch (error) {
       console.log(error);
       this.setState({ error });
+
+      // Error Notification
+      notificationService.errorMsg(error);
     }
-  }
+  };
 
   render() {
     const { isRegistered, ...otherProps } = this.state;

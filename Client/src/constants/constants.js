@@ -28,6 +28,7 @@ const dbConstants = {
   ordersApproveByIdUrl: `${ordersUrl}/approve/`
 };
 
+// Input notifications
 const notifications = {
   welcomeMsg: "Welcome to our book store",
   goToHome: "Go to home",
@@ -46,6 +47,33 @@ const notifications = {
   bookPriceRequired: "Please provide valid book price",
   bookDescriptionRequired: "Please provide book description",
   bookDataRequired: "Please provide book data"
+};
+
+const notificationMessages = {
+  // Auth
+  loginRequiredMsg: "Please login to continue",
+  logoutSuccessMsg: "You have successfully logged out",
+  // Books
+  bookCreatedMsg: "Book created",
+  bookDeletedMsg: "Book deleted",
+  bookEditedMsg: "Book updated",
+  bookLikeddMsg: "Book liked",
+  bookUnlikeddMsg: "Book unliked",
+  bookAddedToCartMsg: "Book added to cart",
+  bookRemovedFromCartMsg: "Book removed from cart",
+  bookInfoUpdatedMsg: "Book info & price updated",
+  bookQuantityUpdatedMsg: "Book quantity updated",
+  bookNotFoundMsg: "Book does not exist",
+  // Cart
+  cartEmpty: "Cart is empty",
+  // Orders
+  orderCreateMsg: "Order created",
+  orderApprovedMsg: "Order approved",
+  // Reviews
+  reviewCreatedMsg: "Review added",
+  // Invalid
+  invalidInput: "Invalid input",
+  errorMsg: "Something went wrong. Please try again"
 };
 
 const paths = {
@@ -92,4 +120,4 @@ const roles = {
   adminRole: "Admin"
 };
 
-export { auth, dbConstants, notifications, paths, roles };
+export { auth, dbConstants, notifications, notificationMessages, paths, roles };

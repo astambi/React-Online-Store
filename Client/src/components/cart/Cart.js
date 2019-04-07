@@ -6,8 +6,9 @@ import CartTableFooter from "./CartTableFooter";
 import ProductsTable from "../products/ProductsTable";
 import ProductsTableHeader from "../products/ProductsTableHeader";
 import orderService from "../../services/order-service";
-import { paths } from "../../constants/constants";
+import notificationService from "../../services/notification-service";
 import { calculateOrderTotal } from "../../services/helpers";
+import { paths, notificationMessages } from "../../constants/constants";
 
 class Cart extends Component {
   constructor(props) {
@@ -27,6 +28,8 @@ class Cart extends Component {
 
     // No books in cart
     if (!books || books.length === 0) {
+      // Warning Notification
+      notificationService.warningMsg(notificationMessages.cartEmpty);
       return;
     }
 
@@ -47,10 +50,16 @@ class Cart extends Component {
         updateUser(userToUpdate);
 
         this.setState({ isOrderCreated: true, error: {} });
+
+        // Success Notification
+        notificationService.successMsg(message);
       }
     } catch (error) {
       console.log(error);
       this.setState({ error });
+
+      // Error Notification
+      notificationService.errorMsg(error);
     }
   };
 

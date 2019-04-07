@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import BookForm from "./BookForm";
 import bookService from "../../services/book-service";
+import notificationService from "../../services/notification-service";
 import { paths } from "../../constants/constants";
 
 class BookDelete extends Component {
@@ -28,8 +29,14 @@ class BookDelete extends Component {
         isDeleted: true,
         error: ""
       });
+
+      // Success Notification
+      notificationService.successMsg(message);
     } else {
       this.setState({ error: message });
+
+      // Error Notification
+      notificationService.errorMsg(message);
     }
   };
 

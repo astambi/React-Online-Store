@@ -9,13 +9,15 @@ import {
 import ProductTableRow from "../products/ProductTableRow";
 import { UserConsumer } from "../contexts/user-context";
 import bookService from "../../services/book-service";
+import notificationService from "../../services/notification-service";
+import { notificationMessages } from "../../constants/constants";
 
 class CartTableRow extends Component {
   changeQuantity = change => {
     const { user, book } = this.props;
 
     // Update book quantity
-    let updatedBook = { ...book };
+    const updatedBook = { ...book };
     if (change > 0) {
       updatedBook.quantity++;
     } else if (change < 0) {
@@ -32,11 +34,26 @@ class CartTableRow extends Component {
     this.updateBook(updatedBook, bookIndexInCart);
   };
 
-  handleDecreaseQuantity = () => this.changeQuantity(-1);
+  handleDecreaseQuantity = () => {
+    this.changeQuantity(-1);
 
-  handleIncreaseQuantity = () => this.changeQuantity(1);
+    // Success Notification
+    notificationService.successMsg(notificationMessages.bookQuantityUpdatedMsg);
+  };
 
-  handleRemoveBookFromCart = () => this.changeQuantity(0);
+  handleIncreaseQuantity = () => {
+    this.changeQuantity(1);
+
+    // Success Notification
+    notificationService.successMsg(notificationMessages.bookQuantityUpdatedMsg);
+  };
+
+  handleRemoveBookFromCart = () => {
+    this.changeQuantity(0);
+
+    // Success Notification
+    notificationService.successMsg(notificationMessages.bookRemovedFromCartMsg);
+  };
 
   handleUpdateBookDetails = async () => {
     const { user, book } = this.props;
@@ -48,6 +65,7 @@ class CartTableRow extends Component {
     // Book not found in DB
     if (!bookFromDb || bookFromDb === undefined) {
       this.changeQuantity(0);
+      notificationService.infoMsg(notificationMessages.bookNotFoundMsg);
       return;
     }
 
@@ -69,6 +87,9 @@ class CartTableRow extends Component {
 
     // Update storage & state
     this.updateBook(updatedBook, bookIndexInCart);
+
+    // Success Notification
+    notificationService.successMsg(notificationMessages.bookInfoUpdatedMsg);
   };
 
   updateBook = (book, bookIndexInCart) => {

@@ -3,6 +3,7 @@ import PendingOrdersTable from "./PendingOrdersTable";
 import PendingOrdersTableHeader from "./PendingOrdersTableHeader";
 import PendingOrdersTableRow from "./PendingOrdersTableRow";
 import orderService from "../../services/order-service";
+import notificationService from "../../services/notification-service";
 
 class PendingOrders extends Component {
   constructor(props) {
@@ -31,6 +32,9 @@ class PendingOrders extends Component {
 
     if (!success) {
       this.setState({ error: message });
+
+      // Error Notification
+      notificationService.errorMsg(message);
     } else {
       // Update pending orders
       const orders = await orderService.getPendingOrders();
@@ -38,6 +42,9 @@ class PendingOrders extends Component {
         orders,
         error: null
       });
+
+      // Success Notification
+      notificationService.successMsg(message);
     }
   };
 

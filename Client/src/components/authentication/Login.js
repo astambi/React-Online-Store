@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import { UserConsumer } from "../contexts/user-context";
 import authenticationService from "../../services/authentication-service";
+import notificationService from "../../services/notification-service";
 import { handleInputChange } from "../../services/helpers";
 import { auth, notifications, paths } from "../../constants/constants";
 
@@ -65,7 +66,7 @@ class Login extends Component {
     return isValid;
   }
 
-  async tryLoginUser() {
+  tryLoginUser = async () => {
     try {
       const { user } = this.state;
       const response = await authenticationService.loginUser(user);
@@ -77,6 +78,9 @@ class Login extends Component {
         this.setState({
           error: { message, errors }
         });
+
+        // Error Notification
+        notificationService.errorMsg(message);
       } else {
         // Save token to storage
         window.localStorage.setItem(auth.authToken, token);
@@ -88,12 +92,18 @@ class Login extends Component {
 
         // Update Login state
         this.setState({ error: {} });
+
+        // Success Notification
+        notificationService.successMsg(message);
       }
     } catch (error) {
       console.log(error);
       this.setState({ error });
+
+      // Error Notification
+      notificationService.errorMsg(error);
     }
-  }
+  };
 
   render() {
     const { isLoggedIn } = this.props; // UserContext

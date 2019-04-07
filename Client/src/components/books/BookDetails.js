@@ -7,14 +7,16 @@ import ReviewCreateForm from "../reviews/ReviewCreateForm";
 import ReviewsList from "../reviews/ReviewsList";
 import { UserConsumer } from "../contexts/user-context";
 import bookService from "../../services/book-service";
+import notificationService from "../../services/notification-service";
 import { handleInputChange } from "../../services/helpers";
-import { paths, roles } from "../../constants/constants";
+import { paths, roles, notificationMessages } from "../../constants/constants";
 
 class BookDetails extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      isLoginRequired: false,
       isOrdered: false,
       showReviews: false,
       book: null,
@@ -30,29 +32,84 @@ class BookDetails extends React.Component {
     if (state === undefined || !state || !state.book) {
       return;
     }
-    console.log(state);
+
     const { book } = this.props.location.state;
     this.setState({ book });
   }
 
+  addBookToCart = (book, cart) => {
+    const { _id, title, image, genres, price } = book;
+    cart.push({ _id, title, image, genres, price, quantity: 1 });
+  };
+
+  getReviewsCount = () => {
+    const { book } = this.state;
+    return book.reviews && book.reviews.length ? book.reviews.length : 0;
+  };
+
   handleChange = event => handleInputChange.bind(this)(event, "review");
 
   handleLike = async () => {
+    if (!this.isAuthenticated()) {
+      return;
+    }
+
     const { book } = this.state;
     const { _id } = book;
+
     const result = await bookService.likeBookById(_id);
     this.updateBook(result);
   };
 
   handleUnlike = async () => {
+    if (!this.isAuthenticated()) {
+      return;
+    }
+
     const { book } = this.state;
     const { _id } = book;
+
     const result = await bookService.unlikeBookById(_id);
     this.updateBook(result);
   };
 
+  handleOrderBook = () => {
+    if (!this.isAuthenticated()) {
+      return;
+    }
+
+    const { user, updateUser } = this.props;
+    const { book } = this.state;
+    let cart = user.cart.slice();
+
+    // Add book to cart
+    const bookInCart = cart.find(b => b._id === book._id);
+    if (bookInCart === null || bookInCart === undefined) {
+      this.addBookToCart(book, cart);
+    } else {
+      this.updateBookQuantity(bookInCart);
+    }
+
+    // Update user cart
+    const userToUpdate = { ...user, cart };
+    updateUser(userToUpdate);
+
+    // Update state
+    this.setState({ isOrdered: true });
+
+    // Success Notification
+    notificationService.successMsg(notificationMessages.bookAddedToCartMsg);
+  };
+
+  handleReviewsVisibility = () =>
+    this.setState(prevState => ({ showReviews: !prevState.showReviews }));
+
   handleSubmitReview = async event => {
     event.preventDefault();
+
+    if (!this.isAuthenticated()) {
+      return;
+    }
 
     const { book, review } = this.state;
 
@@ -62,39 +119,28 @@ class BookDetails extends React.Component {
     this.updateBook(result);
   };
 
-  addBookToCart(book, cart) {
-    const { _id, title, image, genres, price } = book;
-    cart.push({ _id, title, image, genres, price, quantity: 1 });
-  }
+  isAdmin = () => {
+    const { user } = this.props;
 
-  updateBookQuantity(bookToOrder) {
-    bookToOrder.quantity += 1;
-  }
-
-  handleOrderBook = () => {
-    const { user, updateUser } = this.props;
-    const { book } = this.state;
-    let cart = user.cart.slice();
-
-    // Add book to cart
-    let bookToOrder = cart.find(b => b._id === book._id);
-    if (bookToOrder === null || bookToOrder === undefined) {
-      this.addBookToCart(book, cart);
-    } else {
-      this.updateBookQuantity(bookToOrder);
-    }
-
-    // Update user cart
-    const userToUpdate = { ...user, cart };
-    updateUser(userToUpdate);
-
-    this.setState({ isOrdered: true });
+    return (
+      user.roles &&
+      user.roles.length > 0 &&
+      user.roles.includes(roles.adminRole)
+    );
   };
 
-  handleReviewsVisibility = () => {
-    this.setState(prevState => ({
-      showReviews: !prevState.showReviews
-    }));
+  isAuthenticated = () => {
+    const { user } = this.props;
+    const isUserAuthenticated = user.isLoggedIn;
+
+    if (!isUserAuthenticated) {
+      this.setState({ isLoginRequired: true });
+
+      // Info Notification
+      notificationService.infoMsg(notificationMessages.loginRequiredMsg);
+    }
+
+    return isUserAuthenticated;
   };
 
   updateBook = result => {
@@ -103,16 +149,30 @@ class BookDetails extends React.Component {
 
     if (!success) {
       this.setState({ error: message });
+
+      // Error Notification
+      notificationService.errorMsg(message);
     } else {
       this.setState({
         book: data,
         review: { content: "" },
         error: ""
       });
+
+      // Success Notification
+      notificationService.successMsg(message);
     }
   };
 
+  updateBookQuantity = bookInCart => (bookInCart.quantity += 1);
+
   render() {
+    const { isLoginRequired } = this.state;
+
+    if (isLoginRequired) {
+      return <Redirect to={paths.loginPath} />;
+    }
+
     const { isOrdered, book, showReviews, ...otherProps } = this.state;
 
     if (isOrdered) {
@@ -127,13 +187,8 @@ class BookDetails extends React.Component {
       );
     }
 
-    const { user } = this.props;
-    const isAdmin =
-      user.roles &&
-      user.roles.length > 0 &&
-      user.roles.includes(roles.adminRole);
-    const reviewsCount =
-      book.reviews && book.reviews.length ? book.reviews.length : 0;
+    const isAdmin = this.isAdmin();
+    const reviewsCount = this.getReviewsCount();
 
     return (
       <div className="container">
@@ -155,6 +210,7 @@ class BookDetails extends React.Component {
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmitReview}
               />
+
               <ReviewsList reviews={book.reviews} />
             </article>
           ) : null}

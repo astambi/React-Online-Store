@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import AppRouter from "./AppRouter";
 import Header from "./components/navigation/Header";
 import Footer from "./components/navigation/Footer";
+import NotificationsContainer from "./components/notifications/NotificationsContainer";
 import { UserProvider, defaultUser } from "./components/contexts/user-context"; // UserContext
 import { auth } from "./constants/constants";
 
@@ -37,6 +38,8 @@ class App extends Component {
 
     return (
       <div className="App">
+        <NotificationsContainer />
+
         <UserProvider
           // UserContext
           value={{

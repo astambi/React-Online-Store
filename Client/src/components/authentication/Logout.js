@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { UserConsumer, defaultUser } from "../contexts/user-context";
-import { paths, auth } from "../../constants/constants";
+import notificationService from "../../services/notification-service";
+import { paths, auth, notificationMessages } from "../../constants/constants";
 
 class Logout extends Component {
   componentWillUnmount() {
@@ -12,6 +13,9 @@ class Logout extends Component {
     // Reset UserContext
     const { updateUser } = this.props;
     updateUser(defaultUser);
+
+    // Success Notification
+    notificationService.successMsg(notificationMessages.logoutSuccessMsg);
   }
 
   render() {

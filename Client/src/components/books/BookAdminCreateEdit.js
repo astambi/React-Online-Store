@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import BookForm from "./BookForm";
 import bookService from "../../services/book-service";
+import notificationService from "../../services/notification-service";
 import { handleInputChange } from "../../services/helpers";
 import { notifications, paths } from "../../constants/constants";
 
@@ -76,6 +77,9 @@ class BookAdminCreateEdit extends Component {
     } catch (error) {
       console.log(error);
       this.setState({ error });
+
+      // Error Notification
+      notificationService.errorMsg(error);
     }
   };
 
@@ -133,12 +137,18 @@ class BookAdminCreateEdit extends Component {
       this.setState({
         error: { message, errors }
       });
+
+      // Error Notification
+      notificationService.errorMsg(message);
     } else {
       this.setState({
         isUpdated: true,
         book: data,
         error: {}
       });
+
+      // Success Notification
+      notificationService.successMsg(message);
     }
   }
 
