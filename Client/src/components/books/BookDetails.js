@@ -9,7 +9,7 @@ import { UserConsumer } from "../contexts/user-context";
 import bookService from "../../services/book-service";
 import notificationService from "../../services/notification-service";
 import { handleInputChange } from "../../services/helpers";
-import { paths, roles, notificationMessages } from "../../constants/constants";
+import { paths, notificationMessages } from "../../constants/constants";
 
 class BookDetails extends React.Component {
   constructor(props) {
@@ -29,6 +29,7 @@ class BookDetails extends React.Component {
 
   componentDidMount() {
     const { state } = this.props.location; // from Link
+
     if (state === undefined || !state || !state.book) {
       return;
     }
@@ -36,11 +37,6 @@ class BookDetails extends React.Component {
     const { book } = this.props.location.state;
     this.setState({ book });
   }
-
-  addBookToCart = (book, cart) => {
-    const { _id, title, image, genres, price } = book;
-    cart.push({ _id, title, image, genres, price, quantity: 1 });
-  };
 
   getReviewsCount = () => {
     const { book } = this.state;
@@ -50,7 +46,8 @@ class BookDetails extends React.Component {
   handleChange = event => handleInputChange.bind(this)(event, "review");
 
   handleLike = async () => {
-    if (!this.isAuthenticated()) {
+    if (this.props.isLoginRequired()) {
+      this.setState({ isLoginRequired: true });
       return;
     }
 
@@ -62,7 +59,8 @@ class BookDetails extends React.Component {
   };
 
   handleUnlike = async () => {
-    if (!this.isAuthenticated()) {
+    if (this.props.isLoginRequired()) {
+      this.setState({ isLoginRequired: true });
       return;
     }
 
@@ -74,31 +72,16 @@ class BookDetails extends React.Component {
   };
 
   handleOrderBook = () => {
-    if (!this.isAuthenticated()) {
+    if (this.props.isLoginRequired()) {
+      this.setState({ isLoginRequired: true });
       return;
     }
 
-    const { user, updateUser } = this.props;
+    const { orderBook } = this.props;
     const { book } = this.state;
-    let cart = user.cart.slice();
 
-    // Add book to cart
-    const bookInCart = cart.find(b => b._id === book._id);
-    if (bookInCart === null || bookInCart === undefined) {
-      this.addBookToCart(book, cart);
-    } else {
-      this.updateBookQuantity(bookInCart);
-    }
-
-    // Update user cart
-    const userToUpdate = { ...user, cart };
-    updateUser(userToUpdate);
-
-    // Update state
+    orderBook(book);
     this.setState({ isOrdered: true });
-
-    // Success Notification
-    notificationService.successMsg(notificationMessages.bookAddedToCartMsg);
   };
 
   handleReviewsVisibility = () =>
@@ -107,7 +90,8 @@ class BookDetails extends React.Component {
   handleSubmitReview = async event => {
     event.preventDefault();
 
-    if (!this.isAuthenticated()) {
+    if (this.props.isLoginRequired()) {
+      this.setState({ isLoginRequired: true });
       return;
     }
 
@@ -123,30 +107,6 @@ class BookDetails extends React.Component {
       review: review.content.trim()
     });
     this.updateBook(result);
-  };
-
-  isAdmin = () => {
-    const { user } = this.props;
-
-    return (
-      user.roles &&
-      user.roles.length > 0 &&
-      user.roles.includes(roles.adminRole)
-    );
-  };
-
-  isAuthenticated = () => {
-    const { user } = this.props;
-    const isUserAuthenticated = user.isLoggedIn;
-
-    if (!isUserAuthenticated) {
-      this.setState({ isLoginRequired: true });
-
-      // Info Notification
-      notificationService.infoMsg(notificationMessages.loginRequiredMsg);
-    }
-
-    return isUserAuthenticated;
   };
 
   isValidInput = review => {
@@ -183,16 +143,18 @@ class BookDetails extends React.Component {
     }
   };
 
-  updateBookQuantity = bookInCart => (bookInCart.quantity += 1);
-
   render() {
-    const { isLoginRequired } = this.state;
+    const {
+      isLoginRequired,
+      isOrdered,
+      showReviews,
+      book,
+      ...otherProps
+    } = this.state;
 
     if (isLoginRequired) {
       return <Redirect to={paths.loginPath} />;
     }
-
-    const { isOrdered, book, showReviews, ...otherProps } = this.state;
 
     if (isOrdered) {
       return <Redirect to={paths.cartPath} />;
@@ -206,7 +168,7 @@ class BookDetails extends React.Component {
       );
     }
 
-    const isAdmin = this.isAdmin();
+    const { isAdmin } = this.props;
     const reviewsCount = this.getReviewsCount();
 
     return (
@@ -247,8 +209,13 @@ class BookDetails extends React.Component {
 
 const BookDetailsWithContext = props => (
   <UserConsumer>
-    {({ user, updateUser }) => (
-      <BookDetails {...props} user={user} updateUser={updateUser} />
+    {({ isAdmin, isLoginRequired, orderBook }) => (
+      <BookDetails
+        {...props}
+        isAdmin={isAdmin}
+        isLoginRequired={isLoginRequired}
+        orderBook={orderBook}
+      />
     )}
   </UserConsumer>
 );

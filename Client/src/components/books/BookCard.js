@@ -2,65 +2,27 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import BookCardView from "./BookCardView";
 import { UserConsumer } from "../contexts/user-context";
-import notificationService from "../../services/notification-service";
-import { paths, notificationMessages } from "../../constants/constants";
+import { paths } from "../../constants/constants";
 
 class BookCard extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isOrdered: false,
-      isLoginRequired: false
+      isLoginRequired: false,
+      isOrdered: false
     };
   }
 
-  addBookToCart(book, cart) {
-    const { _id, title, image, genres, price } = book;
-    cart.push({ _id, title, image, genres, price, quantity: 1 });
-  }
-
-  isAuthenticated = () => {
-    const { user } = this.props;
-    const isUserAuthenticated = user.isLoggedIn;
-
-    if (!isUserAuthenticated) {
-      this.setState({ isLoginRequired: true });
-
-      // Info Notification
-      notificationService.infoMsg(notificationMessages.loginRequiredMsg);
-    }
-
-    return isUserAuthenticated;
-  };
-
-  updateBookQuantity = bookToOrder => (bookToOrder.quantity += 1);
-
   handleOrderBook = () => {
-    // Check Authentication
-    if (!this.isAuthenticated()) {
-      return;
-    }
+    const { book, isLoginRequired, orderBook } = this.props;
 
-    const { user, updateUser, book } = this.props;
-
-    // Add book to cart
-    let cart = user.cart.slice();
-    let bookToOrder = cart.find(b => b._id === book._id);
-    if (bookToOrder === null || bookToOrder === undefined) {
-      this.addBookToCart(book, cart);
+    if (isLoginRequired()) {
+      this.setState({ isLoginRequired: true });
     } else {
-      this.updateBookQuantity(bookToOrder);
+      orderBook(book);
+      this.setState({ isOrdered: true });
     }
-
-    // Update user cart
-    const userToUpdate = { ...user, cart };
-    updateUser(userToUpdate);
-
-    this.setState({ isOrdered: true });
-
-    // Success Notification
-    notificationService.successMsg(notificationMessages.bookAddedToCartMsg);
   };
 
   render() {
@@ -75,13 +37,16 @@ class BookCard extends Component {
     }
 
     const { book } = this.props;
-    const { _id } = book;
+
+    if (!book) {
+      return null;
+    }
 
     return (
       <BookCardView book={book}>
         <Link
           to={{
-            pathname: `${paths.bookDetailsPath}/${_id}`,
+            pathname: `${paths.bookDetailsPath}/${book._id}`,
             state: { book }
           }}
           type="button"
@@ -103,8 +68,12 @@ class BookCard extends Component {
 
 const BookCardWithContext = props => (
   <UserConsumer>
-    {({ user, updateUser }) => (
-      <BookCard {...props} user={user} updateUser={updateUser} />
+    {({ isLoginRequired, orderBook }) => (
+      <BookCard
+        {...props}
+        isLoginRequired={isLoginRequired}
+        orderBook={orderBook}
+      />
     )}
   </UserConsumer>
 );

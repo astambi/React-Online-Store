@@ -9,6 +9,9 @@ const defaultUser = {
 
 const { Consumer: UserConsumer, Provider: UserProvider } = createContext({
   defaultUser,
+  isAdmin: () => {},
+  isLoginRequired: () => {},
+  orderBook: () => {},
   updateUser: () => {}
 });
 
