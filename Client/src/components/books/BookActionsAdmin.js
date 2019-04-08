@@ -12,19 +12,13 @@ const BookActionsAdmin = props => {
   return (
     <Fragment>
       <Link
-        to={{
-          pathname: `${paths.bookEditPath}/${book._id}`,
-          state: { book }
-        }}
+        to={`${paths.bookEditPath}/${book._id}`}
         className="btn btn-lg btn-outline-warning"
       >
         {paths.bookEditName}
       </Link>
       <Link
-        to={{
-          pathname: `${paths.bookDeletePath}/${book._id}`,
-          state: { book }
-        }}
+        to={`${paths.bookDeletePath}/${book._id}`}
         className="btn btn-lg btn-outline-danger"
       >
         {paths.bookDeleteName}

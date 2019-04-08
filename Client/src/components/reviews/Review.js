@@ -1,7 +1,7 @@
 import React from "react";
 
 const Review = props => {
-  const { review, index } = props;
+  const { review, index, children } = props;
 
   if (!review) {
     return null;
@@ -12,9 +12,10 @@ const Review = props => {
   return (
     <article className="review">
       <div className="text-info">
-        #{index} by <span className="text-capitalize">{createdBy}:</span>
+        {children} #{index}
+        <span className="text-capitalize"> by {createdBy}:</span>
       </div>
-      {content}
+      <p>{content}</p>
     </article>
   );
 };

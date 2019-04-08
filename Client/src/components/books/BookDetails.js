@@ -18,6 +18,7 @@ class BookDetails extends React.Component {
     this.state = {
       isLoginRequired: false,
       isOrdered: false,
+      notFound: false,
       showReviews: false,
       book: null,
       review: {
@@ -27,16 +28,33 @@ class BookDetails extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const { state } = this.props.location; // from Link
+  componentDidMount = async () => {
+    const { id } = this.props.match.params;
 
-    if (state === undefined || !state || !state.book) {
+    if (!id) {
       return;
     }
 
-    const { book } = this.props.location.state;
+    if (!(await bookService.existsBookById(id))) {
+      notificationService.errorMsg(notificationMessages.bookNotFoundMsg);
+      this.setState({ notFound: true });
+      return;
+    }
+
+    const book = await bookService.getBookById(id);
     this.setState({ book });
-  }
+  };
+
+  bookExists = async () => {
+    const { book } = this.state;
+
+    if (!book) {
+      return false;
+    }
+
+    const exists = await bookService.existsBookById(book._id);
+    return exists;
+  };
 
   getReviewsCount = () => {
     const { book } = this.state;
@@ -46,8 +64,7 @@ class BookDetails extends React.Component {
   handleChange = event => handleInputChange.bind(this)(event, "review");
 
   handleLike = async () => {
-    if (this.props.isLoginRequired()) {
-      this.setState({ isLoginRequired: true });
+    if (!(await this.isAuthWithNotification())) {
       return;
     }
 
@@ -59,8 +76,7 @@ class BookDetails extends React.Component {
   };
 
   handleUnlike = async () => {
-    if (this.props.isLoginRequired()) {
-      this.setState({ isLoginRequired: true });
+    if (!(await this.isAuthWithNotification())) {
       return;
     }
 
@@ -71,9 +87,8 @@ class BookDetails extends React.Component {
     this.updateBook(result);
   };
 
-  handleOrderBook = () => {
-    if (this.props.isLoginRequired()) {
-      this.setState({ isLoginRequired: true });
+  handleOrderBook = async () => {
+    if (!(await this.isAuthWithNotification())) {
       return;
     }
 
@@ -87,26 +102,52 @@ class BookDetails extends React.Component {
   handleReviewsVisibility = () =>
     this.setState(prevState => ({ showReviews: !prevState.showReviews }));
 
+  handleReviewDelete = async reviewIndex => {
+    if (!(await this.isAuthWithNotification())) {
+      return;
+    }
+
+    const { book } = this.state;
+
+    let reviewsToUpdate = book.reviews.slice();
+    reviewsToUpdate.splice(reviewIndex, 1);
+    const bookToUpdate = {
+      ...book,
+      reviews: reviewsToUpdate
+    };
+
+    const result = await bookService.editBookById(book._id, bookToUpdate);
+    this.updateBook(result);
+  };
+
   handleSubmitReview = async event => {
     event.preventDefault();
 
-    if (this.props.isLoginRequired()) {
-      this.setState({ isLoginRequired: true });
+    if (!(await this.isAuthWithNotification())) {
       return;
     }
 
     const { book, review } = this.state;
 
-    // Input Validation
-    if (!this.isValidInput(review)) {
-      notificationService.warningMsg(notificationMessages.invalidInput);
-      return;
-    }
-
     const result = await bookService.reviewBookById(book._id, {
       review: review.content.trim()
     });
     this.updateBook(result);
+  };
+
+  isAuthWithNotification = async () => {
+    if (this.props.isLoginRequired()) {
+      this.setState({ isLoginRequired: true });
+      return false;
+    }
+
+    if (!(await this.bookExists())) {
+      notificationService.errorMsg(notificationMessages.bookNotFoundMsg);
+      this.setState({ notFound: true });
+      return false;
+    }
+
+    return true;
   };
 
   isValidInput = review => {
@@ -145,12 +186,17 @@ class BookDetails extends React.Component {
 
   render() {
     const {
+      notFound,
       isLoginRequired,
       isOrdered,
       showReviews,
       book,
       ...otherProps
     } = this.state;
+
+    if (notFound) {
+      return <Redirect to={paths.storePath} />;
+    }
 
     if (isLoginRequired) {
       return <Redirect to={paths.loginPath} />;
@@ -161,11 +207,7 @@ class BookDetails extends React.Component {
     }
 
     if (!book) {
-      return (
-        <div className="container">
-          <h1>Book does not exist</h1>
-        </div>
-      );
+      return null;
     }
 
     const { isAdmin } = this.props;
@@ -192,11 +234,15 @@ class BookDetails extends React.Component {
                 handleSubmit={this.handleSubmitReview}
               />
 
-              <ReviewsList reviews={book.reviews} />
+              <ReviewsList
+                reviews={book.reviews}
+                handleReviewDelete={this.handleReviewDelete}
+                isAdmin={isAdmin()}
+              />
             </article>
           ) : null}
 
-          {isAdmin ? (
+          {isAdmin() ? (
             <article className="d-flex justify-content-around col-lg-9 p-2">
               <BookActionsAdmin book={book} />
             </article>

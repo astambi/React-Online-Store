@@ -58,6 +58,7 @@ class App extends Component {
 
     // Add book to cart
     const { user } = this.state;
+
     let cart = user.cart.slice();
     let bookToOrder = cart.find(b => b._id === book._id);
     if (bookToOrder === null || bookToOrder === undefined) {

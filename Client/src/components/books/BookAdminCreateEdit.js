@@ -4,7 +4,11 @@ import BookForm from "./BookForm";
 import bookService from "../../services/book-service";
 import notificationService from "../../services/notification-service";
 import { handleInputChange } from "../../services/helpers";
-import { notifications, paths } from "../../constants/constants";
+import {
+  notifications,
+  paths,
+  notificationMessages
+} from "../../constants/constants";
 
 class BookAdminCreateEdit extends Component {
   constructor(props) {
@@ -31,17 +35,29 @@ class BookAdminCreateEdit extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { path } = this.props;
 
-    // On Edit load book from Link
     if (path.includes(paths.bookCreatePath)) {
       this.setState({
         action: "create",
         btnColor: "success"
       });
-    } else if (path.includes(paths.bookEditPath)) {
-      const { book } = this.props.location.state;
+      return;
+    }
+
+    if (path.includes(paths.bookEditPath)) {
+      // On Edit load book
+      const { id } = this.props.computedMatch.params; // NB
+
+      // Not Found
+      if (!(await bookService.existsBookById(id))) {
+        notificationService.errorMsg(notificationMessages.bookNotFoundMsg);
+        this.setState({ book: null });
+        return;
+      }
+
+      const book = await bookService.getBookById(id);
 
       this.setState({
         book,
@@ -153,20 +169,16 @@ class BookAdminCreateEdit extends Component {
   }
 
   render() {
-    console.log(this.state);
+    const { book } = this.state;
+
+    if (!book) {
+      return <Redirect to={paths.storePath} />;
+    }
+
     const { isUpdated, ...otherProps } = this.state;
 
     if (isUpdated) {
-      const { book } = this.state;
-
-      return (
-        <Redirect
-          to={{
-            pathname: `${paths.bookDetailsPath}/${book._id}`,
-            state: { book }
-          }}
-        />
-      );
+      return <Redirect to={`${paths.bookDetailsPath}/${book._id}`} />;
     }
 
     return (

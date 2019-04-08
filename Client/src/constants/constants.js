@@ -63,7 +63,7 @@ const notificationMessages = {
   bookRemovedFromCartMsg: "Book removed from cart",
   bookInfoUpdatedMsg: "Book info & price updated",
   bookQuantityUpdatedMsg: "Book quantity updated",
-  bookNotFoundMsg: "Book does not exist",
+  bookNotFoundMsg: "Book not found",
   // Cart
   cartEmpty: "Cart is empty",
   // Orders
@@ -73,6 +73,7 @@ const notificationMessages = {
   reviewCreatedMsg: "Review added",
   // Invalid
   invalidInput: "Invalid input",
+  notFound: "Not found",
   errorMsg: "Something went wrong. Please try again"
 };
 

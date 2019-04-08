@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import BookCardView from "./BookCardView";
 import { UserConsumer } from "../contexts/user-context";
-import { paths } from "../../constants/constants";
+import bookService from "../../services/book-service";
+import notificationService from "../../services/notification-service";
+import { paths, notificationMessages } from "../../constants/constants";
 
 class BookCard extends Component {
   constructor(props) {
@@ -14,15 +16,21 @@ class BookCard extends Component {
     };
   }
 
-  handleOrderBook = () => {
+  handleOrderBook = async () => {
     const { book, isLoginRequired, orderBook } = this.props;
 
     if (isLoginRequired()) {
       this.setState({ isLoginRequired: true });
-    } else {
-      orderBook(book);
-      this.setState({ isOrdered: true });
+      return;
     }
+
+    if (!book || !(await bookService.existsBookById(book._id))) {
+      notificationService.errorMsg(notificationMessages.bookNotFoundMsg);
+      return;
+    }
+
+    orderBook(book);
+    this.setState({ isOrdered: true });
   };
 
   render() {
@@ -45,10 +53,7 @@ class BookCard extends Component {
     return (
       <BookCardView book={book}>
         <Link
-          to={{
-            pathname: `${paths.bookDetailsPath}/${book._id}`,
-            state: { book }
-          }}
+          to={`${paths.bookDetailsPath}/${book._id}`}
           type="button"
           className="btn btn-primary btn-sm"
         >
