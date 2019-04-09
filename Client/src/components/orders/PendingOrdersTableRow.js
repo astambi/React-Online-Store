@@ -8,9 +8,9 @@ import {
 import { paths } from "../../constants/constants";
 
 class PendingOrdersTableRow extends Component {
-  handleApproveOrder = () => {
-    const { order, approveOrder } = this.props;
-    approveOrder(order._id);
+  handleApprove = () => {
+    const { order, handleApproveOrder } = this.props;
+    handleApproveOrder(order._id);
   };
 
   render() {
@@ -33,10 +33,7 @@ class PendingOrdersTableRow extends Component {
         </td>
         <td>
           <Link
-            to={{
-              pathname: `${paths.orderDetailsPath}/${_id}`,
-              state: { order }
-            }}
+            to={`${paths.ordersPendingDetailsPath}/${_id}`}
             className="btn btn-outline-warning btn-sm"
           >
             {paths.orderDetailsName}
@@ -45,7 +42,7 @@ class PendingOrdersTableRow extends Component {
         <td>
           <button
             className="btn btn-outline-success btn-sm"
-            onClick={this.handleApproveOrder}
+            onClick={this.handleApprove}
           >
             Approve
           </button>

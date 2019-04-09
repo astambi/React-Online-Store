@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Order from "./Order";
+import OrderRow from "./OrderRow";
 import orderService from "../../services/order-service";
 
 class OrdersList extends Component {
@@ -30,7 +30,7 @@ class OrdersList extends Component {
     }
 
     return orders.map((order, index) => (
-      <Order key={order._id} order={order} index={index + 1} />
+      <OrderRow key={order._id} order={order} index={index + 1} />
     ));
   }
 }

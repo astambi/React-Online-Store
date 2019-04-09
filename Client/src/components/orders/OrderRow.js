@@ -8,15 +8,11 @@ import {
 } from "../../services/helpers";
 import { paths } from "../../constants/constants";
 
-const Order = props => {
+const OrderRow = props => {
   const { order, index } = props;
 
   if (!order) {
-    return (
-      <tr>
-        <td colSpan={5}>Order does not exist</td>
-      </tr>
-    );
+    return null;
   }
 
   const { _id, date, status, products } = order;
@@ -35,10 +31,7 @@ const Order = props => {
       </td>
       <td>
         <Link
-          to={{
-            pathname: `${paths.orderDetailsPath}/${_id}`,
-            state: { order }
-          }}
+          to={`${paths.orderDetailsPath}/${_id}`}
           className="btn btn-outline-warning btn-sm"
         >
           {paths.orderDetailsName}
@@ -48,4 +41,4 @@ const Order = props => {
   );
 };
 
-export default Order;
+export default OrderRow;

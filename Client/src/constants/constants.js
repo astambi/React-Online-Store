@@ -65,15 +65,17 @@ const notificationMessages = {
   bookQuantityUpdatedMsg: "Book quantity updated",
   bookNotFoundMsg: "Book not found",
   // Cart
-  cartEmpty: "Cart is empty",
+  cartEmptyMsg: "Cart is empty",
+  cartUpdatedMsg: "Cart updated",
   // Orders
   orderCreateMsg: "Order created",
   orderApprovedMsg: "Order approved",
+  orderNotFoundMsg: "Order not found",
   // Reviews
   reviewCreatedMsg: "Review added",
   // Invalid
   invalidInput: "Invalid input",
-  notFound: "Not found",
+  notFoundMsg: "Not found",
   errorMsg: "Something went wrong. Please try again"
 };
 
@@ -111,6 +113,7 @@ const paths = {
   bookDeletePath: "/admin/delete",
   bookDeleteName: "Delete book",
   ordersPendingPath: "/admin/orders/pending",
+  ordersPendingDetailsPath: "/admin/orders/pending/details",
   ordersPendingName: "Pending orders",
   // user
   profilePath: "/profile",

@@ -100,7 +100,9 @@ class App extends Component {
           }}
         >
           <Header />
-          <AppRouter />
+          <main>
+            <AppRouter />
+          </main>
           <Footer />
         </UserProvider>
       </div>

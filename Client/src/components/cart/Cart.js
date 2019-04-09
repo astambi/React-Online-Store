@@ -5,6 +5,7 @@ import CartTableBody from "./CartTableBody";
 import CartTableFooter from "./CartTableFooter";
 import ProductsTable from "../products/ProductsTable";
 import ProductsTableHeader from "../products/ProductsTableHeader";
+import bookService from "../../services/book-service";
 import orderService from "../../services/order-service";
 import notificationService from "../../services/notification-service";
 import { calculateOrderTotal } from "../../services/helpers";
@@ -16,6 +17,7 @@ class Cart extends Component {
 
     this.state = {
       isOrderCreated: false,
+      orderId: null,
       error: {
         message: "",
         errors: []
@@ -23,13 +25,34 @@ class Cart extends Component {
     };
   }
 
-  checkout = async () => {
+  changeQuantity = async (book, change) => {
+    const { user } = this.props;
+
+    // Update book quantity
+    const updatedBook = { ...book };
+    if (change > 0) {
+      updatedBook.quantity++;
+    } else if (change < 0) {
+      updatedBook.quantity--;
+    } else {
+      updatedBook.quantity = 0;
+    }
+
+    // Find book in cart
+    const bookFromCart = user.cart.find(b => b._id === book._id);
+    const bookIndexInCart = user.cart.indexOf(bookFromCart);
+
+    // Update storage & state
+    this.updateBook(updatedBook, bookIndexInCart);
+  };
+
+  handleCheckout = async () => {
     const { books } = this.props;
 
     // No books in cart
     if (!books || books.length === 0) {
-      // Warning Notification
-      notificationService.warningMsg(notificationMessages.cartEmpty);
+      // Notification
+      notificationService.infoMsg(notificationMessages.cartEmptyMsg);
       return;
     }
 
@@ -37,7 +60,7 @@ class Cart extends Component {
       const result = await orderService.createOrder(books);
       console.log(result);
 
-      const { success, message, errors } = result;
+      const { success, message, data, errors } = result;
 
       if (!success) {
         this.setState({
@@ -49,7 +72,11 @@ class Cart extends Component {
         const userToUpdate = { ...user, cart: [] }; // clear shopping cart
         updateUser(userToUpdate);
 
-        this.setState({ isOrderCreated: true, error: {} });
+        this.setState({
+          isOrderCreated: true,
+          orderId: data._id,
+          error: {}
+        });
 
         // Success Notification
         notificationService.successMsg(message);
@@ -63,11 +90,107 @@ class Cart extends Component {
     }
   };
 
+  handleDecreaseQuantity = book => {
+    this.changeQuantity(book, -1);
+
+    // Success Notification
+    notificationService.successMsg(notificationMessages.bookQuantityUpdatedMsg);
+  };
+
+  handleIncreaseQuantity = book => {
+    this.changeQuantity(book, 1);
+
+    // Success Notification
+    notificationService.successMsg(notificationMessages.bookQuantityUpdatedMsg);
+  };
+
+  handleRemoveBookFromCart = book => {
+    this.changeQuantity(book, 0);
+
+    // Success Notification
+    notificationService.successMsg(notificationMessages.bookRemovedFromCartMsg);
+  };
+
+  handleUpdateBookDetails = async (book, withNotifications = true) => {
+    const { user } = this.props;
+
+    // Find book in db
+    const bookFromDb = await bookService.getBookById(book._id);
+
+    // Book not found in DB
+    if (bookFromDb === undefined) {
+      this.handleRemoveBookFromCart(book);
+
+      if (withNotifications) {
+        notificationService.successMsg(notificationMessages.bookNotFoundMsg);
+      }
+
+      return null;
+    }
+
+    const { image, genres, title, price } = bookFromDb;
+
+    // Find book in cart
+    const bookFromCart = user.cart.find(b => b._id === book._id);
+    const bookIndexInCart = user.cart.indexOf(bookFromCart);
+
+    // Update book details other than quantity
+    const updatedBook = {
+      ...bookFromCart, // id
+      image,
+      genres,
+      title,
+      price,
+      quantity: bookFromCart.quantity
+    };
+
+    // Update storage & state
+    this.updateBook(updatedBook, bookIndexInCart);
+
+    // Success Notification
+    if (withNotifications) {
+      notificationService.successMsg(notificationMessages.bookInfoUpdatedMsg);
+    }
+
+    return updatedBook;
+  };
+
+  handleUpdateCart = async () => {
+    const { books } = this.props;
+
+    // Cart empty notification
+    if (!books || books.length === 0) {
+      notificationService.infoMsg(notificationMessages.cartEmptyMsg);
+      return;
+    }
+
+    for (const book of books) {
+      await this.handleUpdateBookDetails(book, false);
+    }
+
+    // Info Notification
+    notificationService.successMsg(notificationMessages.cartUpdatedMsg);
+  };
+
+  updateBook = (book, bookIndexInCart) => {
+    const { user, updateUser } = this.props;
+
+    // Update book in cart
+    user.cart[bookIndexInCart] = book;
+
+    // Remove 0 quantity books from cart
+    const cart = user.cart.filter(cartItem => cartItem.quantity > 0);
+
+    // Update user cart
+    const userToUpdate = { ...user, cart };
+    updateUser(userToUpdate);
+  };
+
   render() {
-    const { isOrderCreated } = this.state;
+    const { isOrderCreated, orderId } = this.state;
 
     if (isOrderCreated) {
-      return <Redirect to={paths.ordersPath} />;
+      return <Redirect to={`${paths.orderDetailsPath}/${orderId}`} />;
     }
 
     const { books } = this.props;
@@ -79,9 +202,20 @@ class Cart extends Component {
           <th style={{ width: 10 + "px" }}>Actions</th>
         </ProductsTableHeader>
 
-        <CartTableBody books={books} />
+        <CartTableBody
+          books={books}
+          // handleClick props
+          handleDecreaseQuantity={this.handleDecreaseQuantity}
+          handleIncreaseQuantity={this.handleIncreaseQuantity}
+          handleRemoveBookFromCart={this.handleRemoveBookFromCart}
+          handleUpdateBookDetails={this.handleUpdateBookDetails}
+        />
 
-        <CartTableFooter orderTotal={orderTotal} checkout={this.checkout} />
+        <CartTableFooter
+          orderTotal={orderTotal}
+          handleCheckout={this.handleCheckout}
+          handleUpdateCart={this.handleUpdateCart}
+        />
       </ProductsTable>
     );
   }

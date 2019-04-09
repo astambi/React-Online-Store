@@ -17,10 +17,12 @@ class PendingOrders extends Component {
 
   componentDidMount = async () => {
     const orders = await orderService.getPendingOrders();
+    console.log(orders);
+
     this.setState({ orders });
   };
 
-  approveOrder = async id => {
+  handleApproveOrder = async id => {
     if (!id) {
       this.setState({ error: "Invalid Order Id" });
       return;
@@ -66,7 +68,7 @@ class PendingOrders extends Component {
                 key={order._id}
                 order={order}
                 index={index + 1}
-                approveOrder={this.approveOrder}
+                handleApproveOrder={this.handleApproveOrder}
               />
             ))
           )}

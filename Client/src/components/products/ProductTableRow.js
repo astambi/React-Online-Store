@@ -19,12 +19,16 @@ const ProductTableRow = props => {
           </div>
           <div className="col-sm-8">
             <h4 className="nomargin">{title}</h4>
-            <p>{genres}</p>
+            <p className="text-truncate">{genres}</p>
           </div>
         </div>
       </td>
-      <td data-th="Price">{toCurrency(price)}</td>
-      <td data-th="Quantity">x {quantity}</td>
+      <td data-th="Price" className="text-center">
+        {toCurrency(price)}
+      </td>
+      <td data-th="Quantity" className="text-center">
+        x {quantity}
+      </td>
       <td data-th="Subtotal" className="text-center">
         {toCurrency(price * quantity)}
       </td>
