@@ -1,21 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import {
   calculateOrderTotal,
   getProductsTitles,
   toCurrency,
   toShortDate
 } from "../../services/helpers";
-import { paths } from "../../constants/constants";
 
 const OrderRow = props => {
-  const { order, index } = props;
+  const {
+    order,
+    index,
+    detailsLink: OrderDetailsLink, // myOrder, pendingOrder
+    approveLink: OrderApproveBtn, // optional, admin only
+    handleApprove // optional, admin only
+  } = props;
 
   if (!order) {
     return null;
   }
 
-  const { _id, date, status, products } = order;
+  const { date, status, products } = order;
   const orderTotal = calculateOrderTotal(products);
   const productTitles = getProductsTitles(products);
 
@@ -29,14 +33,16 @@ const OrderRow = props => {
       <td>
         <span className="label label-info">{status}</span>
       </td>
-      <td>
-        <Link
-          to={`${paths.orderDetailsPath}/${_id}`}
-          className="btn btn-outline-warning btn-sm"
-        >
-          {paths.orderDetailsName}
-        </Link>
-      </td>
+
+      {/* Order Details Link */}
+      <td>{OrderDetailsLink ? <OrderDetailsLink order={order} /> : null}</td>
+
+      {/* Admin Approve Order */}
+      {OrderApproveBtn ? (
+        <td>
+          {<OrderApproveBtn order={order} handleApprove={handleApprove} />}
+        </td>
+      ) : null}
     </tr>
   );
 };

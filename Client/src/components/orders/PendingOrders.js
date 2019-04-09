@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import PendingOrdersTable from "./PendingOrdersTable";
-import PendingOrdersTableHeader from "./PendingOrdersTableHeader";
-import PendingOrdersTableRow from "./PendingOrdersTableRow";
+import OrdersTable from "./OrdersTable";
+import OrdersTableHeader from "./OrdersTableHeader";
+import OrdersTableList from "./OrdersTableList";
+import PendingOrderApproveBtn from "./PendingOrderApproveBtn";
+import PendingOrderViewLink from "./PendingOrderViewLink";
 import orderService from "../../services/order-service";
 import notificationService from "../../services/notification-service";
 
@@ -54,26 +56,20 @@ class PendingOrders extends Component {
     const { orders } = this.state;
 
     return (
-      <PendingOrdersTable>
-        <PendingOrdersTableHeader />
+      <OrdersTable title="Pending orders">
+        <OrdersTableHeader>
+          <th>Action</th>
+        </OrdersTableHeader>
 
         <tbody>
-          {orders.length === 0 ? (
-            <tr>
-              <td colSpan={6}>No pending orders</td>
-            </tr>
-          ) : (
-            orders.map((order, index) => (
-              <PendingOrdersTableRow
-                key={order._id}
-                order={order}
-                index={index + 1}
-                handleApproveOrder={this.handleApproveOrder}
-              />
-            ))
-          )}
+          <OrdersTableList
+            orders={orders}
+            detailsLink={PendingOrderViewLink}
+            approveLink={PendingOrderApproveBtn}
+            handleApprove={this.handleApproveOrder}
+          />
         </tbody>
-      </PendingOrdersTable>
+      </OrdersTable>
     );
   }
 }
