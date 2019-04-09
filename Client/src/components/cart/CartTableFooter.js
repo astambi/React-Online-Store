@@ -1,11 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleLeft,
-  faAngleRight,
-  faSync
-} from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import ButtonUpdate from "../common/buttons/ButtonUpdate";
 import { paths } from "../../constants/constants";
 import { toCurrency } from "../../services/helpers";
 
@@ -26,9 +23,7 @@ const CartTableFooter = props => {
         </td>
 
         <td className="text-center">
-          <button className="btn btn-info" onClick={handleUpdateCart}>
-            <FontAwesomeIcon icon={faSync} />
-          </button>
+          <ButtonUpdate outline={false} handleAction={handleUpdateCart} />
         </td>
 
         <td colSpan="1">

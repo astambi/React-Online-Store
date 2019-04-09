@@ -10,7 +10,7 @@ const OrderRow = props => {
   const {
     order,
     index,
-    detailsLink: LinkToOrderDetails, // myOrder, adminOrder
+    detailsLink: OrderDetailsLink, // myOrder, adminOrder
     actionBtn: ActionBtn, // optional, admin only
     handleAction // optional, admin only
   } = props;
@@ -35,9 +35,7 @@ const OrderRow = props => {
       </td>
 
       {/* Order Details Link */}
-      <td>
-        {LinkToOrderDetails ? <LinkToOrderDetails order={order} /> : null}
-      </td>
+      <td>{OrderDetailsLink ? <OrderDetailsLink entity={order} /> : null}</td>
 
       {/* Admin Actions: approve, deliver */}
       {ActionBtn && handleAction ? (

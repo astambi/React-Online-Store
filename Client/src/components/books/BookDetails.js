@@ -1,8 +1,12 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import AdminBookActions from "./admin/AdminBookActions";
-import BookActionsUser from "./BookActionsUser";
 import BookDetailsView from "./BookDetailsView";
+import BookLinkDelete from "./buttons/BookLinkDelete";
+import BookLinkEdit from "./buttons/BookLinkEdit";
+import ButtonOrder from "../common/buttons/ButtonOrder";
+import ButtonLike from "../common/buttons/ButtonLike";
+import ButtonReviews from "../common/buttons/ButtonReviews";
+import ButtonUnlike from "../common/buttons/ButtonUnlike";
 import ReviewCreateForm from "../reviews/ReviewCreateForm";
 import ReviewsList from "../reviews/ReviewsList";
 import { UserConsumer } from "../contexts/user-context";
@@ -216,13 +220,13 @@ class BookDetails extends React.Component {
     return (
       <div className="container">
         <BookDetailsView book={book}>
-          <BookActionsUser
-            reviewsCount={reviewsCount}
-            handleLike={this.handleLike}
-            handleUnlike={this.handleUnlike}
-            handleOrderBook={this.handleOrderBook}
-            handleReviewsVisibility={this.handleReviewsVisibility}
+          <ButtonLike handleAction={this.handleLike} />
+          <ButtonUnlike handleAction={this.handleUnlike} />
+          <ButtonReviews
+            handleAction={this.handleReviewsVisibility}
+            name={`Reviews (${reviewsCount})`}
           />
+          <ButtonOrder handleAction={this.handleOrderBook} />
         </BookDetailsView>
 
         <section className="row justify-content-end">
@@ -244,7 +248,8 @@ class BookDetails extends React.Component {
 
           {isAdmin() ? (
             <article className="d-flex justify-content-around col-lg-9 p-2">
-              <AdminBookActions book={book} />
+              <BookLinkEdit entity={book} size="lg" />
+              <BookLinkDelete entity={book} size="lg" />
             </article>
           ) : null}
         </section>

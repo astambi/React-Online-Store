@@ -2,14 +2,13 @@ import React from "react";
 import CustomLink from "../../common/buttons/CustomLink";
 import { paths } from "../../../constants/constants";
 
-const MyOrderDetailsLink = props => (
+const BookLinkEdit = props => (
   <CustomLink
-    name="View"
-    path={paths.orderDetailsPath}
+    name={paths.bookEditName}
+    path={paths.bookEditPath}
     color="warning"
-    size="sm"
-    {...props} // entity=order, size
+    {...props} // entity=book, size
   />
 );
 
-export default MyOrderDetailsLink;
+export default BookLinkEdit;

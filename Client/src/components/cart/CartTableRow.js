@@ -1,11 +1,8 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMinus,
-  faPlus,
-  faSyncAlt,
-  faTrash
-} from "@fortawesome/free-solid-svg-icons";
+import ButtonDecrease from "../common/buttons/ButtonDecrease";
+import ButtonIncrease from "../common/buttons/ButtonIncrease";
+import ButtonRemove from "../common/buttons/ButtonRemove";
+import ButtonUpdate from "../common/buttons/ButtonUpdate";
 import ProductTableRow from "../products/ProductTableRow";
 
 const CartTableRow = props => {
@@ -23,33 +20,22 @@ const CartTableRow = props => {
 
   return (
     <ProductTableRow product={book}>
-      <button
-        className="btn btn-sm btn-outline-warning"
-        onClick={() => handleDecreaseQuantity(book)}
-      >
-        <FontAwesomeIcon icon={faMinus} />
-      </button>
-
-      <button
-        className="btn btn-sm btn-outline-success"
-        onClick={() => handleIncreaseQuantity(book)}
-      >
-        <FontAwesomeIcon icon={faPlus} />
-      </button>
-
-      <button
-        className="btn btn-sm btn-outline-info"
-        onClick={() => handleUpdateBookDetails(book)}
-      >
-        <FontAwesomeIcon icon={faSyncAlt} />
-      </button>
-
-      <button
-        className="btn btn-sm btn-outline-danger"
-        onClick={() => handleRemoveBookFromCart(book)}
-      >
-        <FontAwesomeIcon icon={faTrash} />
-      </button>
+      <ButtonDecrease
+        size="sm"
+        handleAction={() => handleDecreaseQuantity(book)}
+      />
+      <ButtonIncrease
+        size="sm"
+        handleAction={() => handleIncreaseQuantity(book)}
+      />
+      <ButtonUpdate
+        size="sm"
+        handleAction={() => handleUpdateBookDetails(book)}
+      />
+      <ButtonRemove
+        size="sm"
+        handleAction={() => handleRemoveBookFromCart(book)}
+      />
     </ProductTableRow>
   );
 };

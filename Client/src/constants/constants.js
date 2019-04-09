@@ -111,7 +111,7 @@ const paths = {
   orderDetailsName: "View",
   // admin
   bookCreatePath: "/admin/create",
-  bookCreateName: "Create book",
+  bookCreateName: "Create",
   bookEditPath: "/admin/edit",
   bookEditName: "Edit book",
   bookDeletePath: "/admin/delete",

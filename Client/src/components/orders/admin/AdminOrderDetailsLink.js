@@ -1,18 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import CustomLink from "../../common/buttons/CustomLink";
 import { paths } from "../../../constants/constants";
 
-const AdminOrderDetailsLink = props => {
-  const { order } = props;
-
-  return !order ? null : (
-    <Link
-      to={`${paths.orderDetailsAdminPath}/${order._id}`}
-      className="btn btn-outline-warning btn-sm"
-    >
-      {paths.orderDetailsName}
-    </Link>
-  );
-};
+const AdminOrderDetailsLink = props => (
+  <CustomLink
+    name="View"
+    path={paths.orderDetailsAdminPath}
+    color="warning"
+    size="sm"
+    {...props} // entity=order, size
+  />
+);
 
 export default AdminOrderDetailsLink;

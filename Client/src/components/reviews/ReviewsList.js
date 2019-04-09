@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import ButtonRemove from "../common/buttons/ButtonRemove";
 import Review from "./Review";
 
 const BookReviewsView = props => {
@@ -11,12 +12,7 @@ const BookReviewsView = props => {
           <Review key={index} review={review} index={index + 1}>
             {/* Admin delete review */}
             {isAdmin ? (
-              <button
-                onClick={() => handleReviewDelete(index)}
-                className="btn btn-outline-danger btn-lg"
-              >
-                Delete review
-              </button>
+              <ButtonRemove onClick={() => handleReviewDelete(index)} />
             ) : null}
           </Review>
         ))
