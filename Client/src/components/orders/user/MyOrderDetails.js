@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import OrderDetails from "./OrderDetails";
-import orderService from "../../services/order-service";
-import { paths } from "../../constants/constants";
+import OrderDetails from "../OrderDetails";
+import orderService from "../../../services/order-service";
+import { paths } from "../../../constants/constants";
 
-class PendingOrderDetails extends Component {
+class MyOrderDetails extends Component {
   constructor(props) {
     super(props);
 
@@ -16,7 +16,7 @@ class PendingOrderDetails extends Component {
 
   componentDidMount = async () => {
     const { id } = this.props.computedMatch.params; // NB
-    const order = await orderService.getOrderById(id);
+    const order = await orderService.getUserOrderById(id);
 
     if (order === undefined) {
       this.setState({ isLoaded: true, notFound: true });
@@ -32,12 +32,8 @@ class PendingOrderDetails extends Component {
       return null;
     }
 
-    return (
-      <OrderDetails {...otherProps} redirectPath={paths.ordersPendingPath}>
-        {/* <button className="btn btn-lg btn-outline-success">Approve</button> */}
-      </OrderDetails>
-    );
+    return <OrderDetails {...otherProps} redirectPath={paths.ordersPath} />;
   }
 }
 
-export default PendingOrderDetails;
+export default MyOrderDetails;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import BookActionsAdmin from "./BookActionsAdmin";
+import AdminBookActions from "./admin/AdminBookActions";
 import BookActionsUser from "./BookActionsUser";
 import BookDetailsView from "./BookDetailsView";
 import ReviewCreateForm from "../reviews/ReviewCreateForm";
@@ -244,7 +244,7 @@ class BookDetails extends React.Component {
 
           {isAdmin() ? (
             <article className="d-flex justify-content-around col-lg-9 p-2">
-              <BookActionsAdmin book={book} />
+              <AdminBookActions book={book} />
             </article>
           ) : null}
         </section>

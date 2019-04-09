@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import BookForm from "./BookForm";
-import bookService from "../../services/book-service";
-import notificationService from "../../services/notification-service";
-import { paths, notificationMessages } from "../../constants/constants";
+import BookForm from "../BookForm";
+import bookService from "../../../services/book-service";
+import notificationService from "../../../services/notification-service";
+import { paths, notificationMessages } from "../../../constants/constants";
 
-class BookDelete extends Component {
+class AdminBookDelete extends Component {
   constructor(props) {
     super(props);
 
@@ -81,4 +81,4 @@ class BookDelete extends Component {
   }
 }
 
-export default BookDelete;
+export default AdminBookDelete;

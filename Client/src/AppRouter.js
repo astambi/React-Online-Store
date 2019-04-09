@@ -4,18 +4,18 @@ import { Route, Switch } from "react-router-dom";
 import AdminRoute from "./components/routes/AdminRoute";
 import LoggedInRoute from "./components/routes/LoggedInRoute";
 // Components
-import AdminOrderDetails from "./components/orders/AdminOrderDetails";
-import AdminOrdersApproved from "./components/orders/AdminOrdersApproved";
-import AdminOrdersPending from "./components/orders/AdminOrdersPending";
-import BookAdminCreateEdit from "./components/books/BookAdminCreateEdit";
-import BookAdminDelete from "./components/books/BookAdminDelete";
+import AdminBookCreateEdit from "./components/books/admin/AdminBookCreateEdit";
+import AdminBookDelete from "./components/books/admin/AdminBookDelete";
+import AdminOrderDetails from "./components/orders/admin/AdminOrderDetails";
+import AdminOrdersApproved from "./components/orders/admin/AdminOrdersApproved";
+import AdminOrdersPending from "./components/orders/admin/AdminOrdersPending";
 import BookDetails from "./components/books/BookDetails";
 import Cart from "./components/cart/Cart";
 import Home from "./components/home/Home";
 import Login from "./components/authentication/Login";
 import Logout from "./components/authentication/Logout";
-import MyOrderDetails from "./components/orders/MyOrderDetails";
-import MyOrders from "./components/orders/MyOrders";
+import MyOrderDetails from "./components/orders/user/MyOrderDetails";
+import MyOrders from "./components/orders/user/MyOrders";
 import NotFound from "./components/common/NotFound";
 import Register from "./components/authentication/Register";
 import Store from "./components/store/Store";
@@ -33,14 +33,14 @@ const AppRouter = () => (
     <Route path={`${paths.bookDetailsPath}/:id`} component={BookDetails} />
 
     {/* Admin */}
-    <AdminRoute path={paths.bookCreatePath} component={BookAdminCreateEdit} />
+    <AdminRoute path={paths.bookCreatePath} component={AdminBookCreateEdit} />
     <AdminRoute
       path={`${paths.bookEditPath}/:id`}
-      component={BookAdminCreateEdit}
+      component={AdminBookCreateEdit}
     />
     <AdminRoute
       path={`${paths.bookDeletePath}/:id`}
-      component={BookAdminDelete}
+      component={AdminBookDelete}
     />
     <AdminRoute path={paths.ordersPendingPath} component={AdminOrdersPending} />
     <AdminRoute

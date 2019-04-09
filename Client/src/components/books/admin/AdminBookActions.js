@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { paths } from "../../constants/constants";
+import { paths } from "../../../constants/constants";
 
-const BookActionsAdmin = props => {
+const AdminBookActions = props => {
   const { book } = props;
 
   if (!book) {
@@ -27,4 +27,4 @@ const BookActionsAdmin = props => {
   );
 };
 
-export default BookActionsAdmin;
+export default AdminBookActions;

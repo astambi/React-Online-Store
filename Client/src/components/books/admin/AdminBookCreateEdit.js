@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import BookForm from "./BookForm";
-import bookService from "../../services/book-service";
-import notificationService from "../../services/notification-service";
-import { handleInputChange } from "../../services/helpers";
+import BookForm from "../BookForm";
+import bookService from "../../../services/book-service";
+import notificationService from "../../../services/notification-service";
+import { handleInputChange } from "../../../services/helpers";
 import {
   notifications,
   paths,
   notificationMessages
-} from "../../constants/constants";
+} from "../../../constants/constants";
 
-class BookAdminCreateEdit extends Component {
+class AdminBookCreateEdit extends Component {
   constructor(props) {
     super(props);
 
@@ -191,4 +191,4 @@ class BookAdminCreateEdit extends Component {
   }
 }
 
-export default BookAdminCreateEdit;
+export default AdminBookCreateEdit;

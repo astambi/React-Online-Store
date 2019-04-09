@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { paths } from "../../constants/constants";
+import { paths } from "../../../constants/constants";
 
-const AdminOrderDetailsLink = props => {
+const MyOrderDetailsLink = props => {
   const { order } = props;
 
   return !order ? null : (
     <Link
-      to={`${paths.orderDetailsAdminPath}/${order._id}`}
+      to={`${paths.orderDetailsPath}/${order._id}`}
       className="btn btn-outline-warning btn-sm"
     >
       {paths.orderDetailsName}
@@ -15,4 +15,4 @@ const AdminOrderDetailsLink = props => {
   );
 };
 
-export default AdminOrderDetailsLink;
+export default MyOrderDetailsLink;

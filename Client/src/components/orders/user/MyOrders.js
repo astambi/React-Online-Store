@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import MyOrderDetailsLink from "./MyOrderDetailsLink";
-import OrdersTable from "./OrdersTable";
-import OrdersTableHeader from "./OrdersTableHeader";
-import OrdersTableList from "./OrdersTableList";
-import orderService from "../../services/order-service";
+import OrdersTable from "../OrdersTable";
+import OrdersTableHeader from "../OrdersTableHeader";
+import OrdersTableList from "../OrdersTableList";
+import orderService from "../../../services/order-service";
 
 class MyOrders extends Component {
   constructor(props) {

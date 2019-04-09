@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import AdminOrderDeliverBtn from "./AdminOrderDeliverBtn";
 import AdminOrdersTable from "./AdminOrdersTable";
-import orderService from "../../services/order-service";
-import notificationService from "../../services/notification-service";
+import orderService from "../../../services/order-service";
+import notificationService from "../../../services/notification-service";
 
 class AdminOrdersApproved extends Component {
   constructor(props) {
