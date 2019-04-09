@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-import OrdersTable from "./OrdersTable";
-import OrdersTableHeader from "./OrdersTableHeader";
-import OrdersTableList from "./OrdersTableList";
-import PendingOrderApproveBtn from "./PendingOrderApproveBtn";
-import PendingOrderViewLink from "./PendingOrderViewLink";
+import AdminOrderApproveBtn from "./AdminOrderApproveBtn";
+import AdminOrdersTable from "./AdminOrdersTable";
 import orderService from "../../services/order-service";
 import notificationService from "../../services/notification-service";
 
-class PendingOrders extends Component {
+class AdminOrdersPending extends Component {
   constructor(props) {
     super(props);
 
@@ -56,22 +53,14 @@ class PendingOrders extends Component {
     const { orders } = this.state;
 
     return (
-      <OrdersTable title="Pending orders">
-        <OrdersTableHeader>
-          <th>Action</th>
-        </OrdersTableHeader>
-
-        <tbody>
-          <OrdersTableList
-            orders={orders}
-            detailsLink={PendingOrderViewLink}
-            approveLink={PendingOrderApproveBtn}
-            handleApprove={this.handleApproveOrder}
-          />
-        </tbody>
-      </OrdersTable>
+      <AdminOrdersTable
+        title="Pending orders"
+        orders={orders}
+        actionBtn={AdminOrderApproveBtn}
+        handleAction={this.handleApproveOrder}
+      />
     );
   }
 }
 
-export default PendingOrders;
+export default AdminOrdersPending;

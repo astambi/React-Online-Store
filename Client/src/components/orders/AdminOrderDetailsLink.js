@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { paths } from "../../constants/constants";
 
-const PendingOrderViewLink = props => {
+const AdminOrderDetailsLink = props => {
   const { order } = props;
 
   return !order ? null : (
     <Link
-      to={`${paths.ordersPendingDetailsPath}/${order._id}`}
+      to={`${paths.orderDetailsAdminPath}/${order._id}`}
       className="btn btn-outline-warning btn-sm"
     >
       {paths.orderDetailsName}
@@ -15,4 +15,4 @@ const PendingOrderViewLink = props => {
   );
 };
 
-export default PendingOrderViewLink;
+export default AdminOrderDetailsLink;

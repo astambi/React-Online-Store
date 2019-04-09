@@ -4,6 +4,9 @@ import { Route, Switch } from "react-router-dom";
 import AdminRoute from "./components/routes/AdminRoute";
 import LoggedInRoute from "./components/routes/LoggedInRoute";
 // Components
+import AdminOrderDetails from "./components/orders/AdminOrderDetails";
+import AdminOrdersApproved from "./components/orders/AdminOrdersApproved";
+import AdminOrdersPending from "./components/orders/AdminOrdersPending";
 import BookAdminCreateEdit from "./components/books/BookAdminCreateEdit";
 import BookAdminDelete from "./components/books/BookAdminDelete";
 import BookDetails from "./components/books/BookDetails";
@@ -11,11 +14,9 @@ import Cart from "./components/cart/Cart";
 import Home from "./components/home/Home";
 import Login from "./components/authentication/Login";
 import Logout from "./components/authentication/Logout";
-import MyOrders from "./components/orders/MyOrders";
 import MyOrderDetails from "./components/orders/MyOrderDetails";
+import MyOrders from "./components/orders/MyOrders";
 import NotFound from "./components/common/NotFound";
-import PendingOrders from "./components/orders/PendingOrders";
-import PendingOrderDetails from "./components/orders/PendingOrderDetails";
 import Register from "./components/authentication/Register";
 import Store from "./components/store/Store";
 import { paths } from "./constants/constants";
@@ -41,14 +42,15 @@ const AppRouter = () => (
       path={`${paths.bookDeletePath}/:id`}
       component={BookAdminDelete}
     />
+    <AdminRoute path={paths.ordersPendingPath} component={AdminOrdersPending} />
     <AdminRoute
-      path={paths.ordersPendingPath}
-      exact
-      component={PendingOrders}
+      path={paths.ordersApprovedPath}
+      component={AdminOrdersApproved}
     />
+
     <AdminRoute
-      path={`${paths.ordersPendingDetailsPath}/:id`}
-      component={PendingOrderDetails}
+      path={`${paths.orderDetailsAdminPath}/:id`}
+      component={AdminOrderDetails}
     />
 
     {/* LoggedIn */}

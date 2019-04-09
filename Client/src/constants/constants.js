@@ -23,9 +23,13 @@ const dbConstants = {
   bookEditByIdUrl: `${bookUrl}/edit/`,
   // orders
   orderCreateUrl: `${ordersUrl}/submit`,
+  orderApproveByIdUrl: `${ordersUrl}/approve/`,
+  orderDeliverByIdUrl: `${ordersUrl}/deliver/`,
   ordersByUserUrl: `${ordersUrl}/user`,
-  ordersPendingUrl: `${ordersUrl}/pending`,
-  ordersApproveByIdUrl: `${ordersUrl}/approve/`
+  ordersAllUrl: `${ordersUrl}/all`,
+  ordersApprovedUrl: `${ordersUrl}/approved`,
+  ordersDeliveredUrl: `${ordersUrl}/delivered`,
+  ordersPendingUrl: `${ordersUrl}/pending`
 };
 
 // Input notifications
@@ -107,14 +111,19 @@ const paths = {
   orderDetailsName: "View",
   // admin
   bookCreatePath: "/admin/create",
-  bookCreateName: "Create new book",
+  bookCreateName: "Create book",
   bookEditPath: "/admin/edit",
   bookEditName: "Edit book",
   bookDeletePath: "/admin/delete",
   bookDeleteName: "Delete book",
+  ordersAllPath: "/admin/orders/all",
+  ordersApprovedPath: "/admin/orders/approved",
+  ordersApprovedName: "Approved",
+  ordersDeliveredPath: "/admin/orders/delivered",
+  ordersDeliveredName: "Delivered",
   ordersPendingPath: "/admin/orders/pending",
-  ordersPendingDetailsPath: "/admin/orders/pending/details",
-  ordersPendingName: "Pending orders",
+  ordersPendingName: "Pending",
+  orderDetailsAdminPath: "/admin/orders/details",
   // user
   profilePath: "/profile",
   profileName: "Profile"

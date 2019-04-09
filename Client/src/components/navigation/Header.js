@@ -28,6 +28,14 @@ class Header extends Component {
                   to={paths.ordersPendingPath}
                   name={paths.ordersPendingName}
                 />
+                <HeaderLink
+                  to={paths.ordersApprovedPath}
+                  name={paths.ordersApprovedName}
+                />
+                <HeaderLink
+                  to={paths.ordersDeliveredPath}
+                  name={paths.ordersDeliveredName}
+                />
                 <HeaderLink to={paths.logoutPath} name={paths.logoutName} />
               </Fragment>
             ) : (

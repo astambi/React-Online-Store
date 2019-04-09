@@ -14,7 +14,7 @@ const OrdersTableList = props => {
         key={order._id}
         order={order}
         index={index + 1}
-        {...otherProps} // detailsLink, approveLink, handleApprove
+        {...otherProps} // detailsLink, actionBtn, handleAction
       />
     ))
   );

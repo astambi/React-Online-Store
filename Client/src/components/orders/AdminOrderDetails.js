@@ -16,7 +16,7 @@ class PendingOrderDetails extends Component {
 
   componentDidMount = async () => {
     const { id } = this.props.computedMatch.params; // NB
-    const order = await orderService.getPendingOrderById(id);
+    const order = await orderService.getOrderById(id);
 
     if (order === undefined) {
       this.setState({ isLoaded: true, notFound: true });
