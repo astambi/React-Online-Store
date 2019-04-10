@@ -1,5 +1,6 @@
 import React from "react";
 import Error from "../common/Error";
+import Input from "../common/Input";
 
 const LoginForm = props => {
   const { handleChange, handleSubmit, user, error } = props;
@@ -13,35 +14,27 @@ const LoginForm = props => {
       <form onSubmit={handleSubmit}>
         {message ? <Error notification={message} /> : null}
 
-        <div className="form-group">
-          <label htmlFor="email">E-mail</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Enter e-mail"
-            value={email}
-            onChange={handleChange}
-          />
-          {errors && errors.email ? (
-            <Error notification={errors.email} />
-          ) : null}
-        </div>
+        <Input
+          type="email"
+          name="email"
+          id="email"
+          label="E-mail"
+          placeholder="Enter e-mail"
+          value={email}
+          onChange={handleChange}
+          errors={errors}
+        />
 
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Enter password"
-            value={password}
-            onChange={handleChange}
-          />
-          {errors && errors.password ? (
-            <Error notification={errors.password} />
-          ) : null}
-        </div>
+        <Input
+          type="password"
+          name="password"
+          id="password"
+          label="Password"
+          placeholder="Enter password"
+          value={password}
+          onChange={handleChange}
+          errors={errors}
+        />
 
         <input type="submit" value="Login" />
       </form>

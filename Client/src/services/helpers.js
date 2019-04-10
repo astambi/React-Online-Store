@@ -1,15 +1,12 @@
 // Do not turn into arrow function to keep original this.state
-function handleInputChange(event, stateObj) {
+function handleInputChange(event, propertyName) {
   const { name, value } = event.target;
 
-  const state = this.state[stateObj];
-  state[name] = value;
+  const propertyValue = this.state[propertyName];
+  propertyValue[name] = value;
 
-  this.setState({
-    [stateObj]: state
-  });
-
-  console.log(state);
+  this.setState({ [propertyName]: propertyValue });
+  console.log(propertyValue);
 }
 
 const calculateOrderTotal = books => {

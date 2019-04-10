@@ -1,8 +1,8 @@
 import React from "react";
 import Error from "../common/Error";
+import Input from "../common/Input";
 
 const RegisterForm = props => {
-  console.log(props);
   const { handleChange, handleSubmit, user, error } = props;
   const { email, username, password, confirmPassword } = user;
   const { message, errors } = error;
@@ -14,65 +14,47 @@ const RegisterForm = props => {
       <form onSubmit={handleSubmit}>
         {message ? <Error notification={message} /> : null}
 
-        <div className="form-group">
-          <label htmlFor="email">E-mail</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Enter e-mail"
-            value={email}
-            onChange={handleChange}
-          />
-          {errors && errors.email ? (
-            <Error notification={errors.email} />
-          ) : null}
-        </div>
+        <Input
+          type="email"
+          name="email"
+          id="email"
+          label="E-mail"
+          placeholder="Enter e-mail"
+          value={email}
+          onChange={handleChange}
+          errors={errors}
+        />
 
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            placeholder="Enter username"
-            value={username}
-            onChange={handleChange}
-          />
-          {errors && errors.username ? (
-            <Error notification={errors.username} />
-          ) : null}
-        </div>
+        <Input
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Enter username"
+          value={username}
+          onChange={handleChange}
+          errors={errors}
+        />
 
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Enter password"
-            value={password}
-            onChange={handleChange}
-          />
-          {errors && errors.password ? (
-            <Error notification={errors.password} />
-          ) : null}
-        </div>
+        <Input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Enter password"
+          value={password}
+          onChange={handleChange}
+          errors={errors}
+        />
 
-        <div className="form-group">
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            placeholder="Enter your password again"
-            value={confirmPassword}
-            onChange={handleChange}
-          />
-          {errors && errors.confirmPassword ? (
-            <Error notification={errors.confirmPassword} />
-          ) : null}
-        </div>
+        <Input
+          type="password"
+          name="confirmPassword"
+          id="confirmPassword"
+          label="Confirm password"
+          placeholder="Enter your password again"
+          value={confirmPassword}
+          onChange={handleChange}
+          errors={errors}
+        />
 
         <input type="submit" value="Register" />
       </form>
