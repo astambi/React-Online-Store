@@ -11,8 +11,9 @@ const BookReviewsView = props => {
         reviews.map((review, index) => (
           <Review key={index} review={review} index={index + 1}>
             {/* Admin delete review */}
+
             {isAdmin ? (
-              <ButtonRemove onClick={() => handleReviewDelete(index)} />
+              <ButtonRemove handleAction={() => handleReviewDelete(index)} />
             ) : null}
           </Review>
         ))

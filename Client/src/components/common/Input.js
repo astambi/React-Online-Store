@@ -19,7 +19,7 @@ const Input = props => {
     errors
   } = props;
 
-  const notValid = errors && errors[id]; // to accept input errors
+  const notValid = errors && errors[name];
 
   // const validationStyle =
   // notValid
@@ -48,7 +48,7 @@ const Input = props => {
         onChange={onChange}
       />
 
-      {notValid ? <Error notification={errors[id]} /> : null}
+      {notValid ? <Error notification={errors[name]} /> : null}
     </div>
   );
 };

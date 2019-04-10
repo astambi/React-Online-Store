@@ -119,7 +119,7 @@ class Cart extends Component {
 
     // Book not found in DB
     if (bookFromDb === undefined) {
-      this.handleRemoveBookFromCart(book);
+      this.changeQuantity(book, 0); // without notification
 
       if (withNotifications) {
         notificationService.successMsg(notificationMessages.bookNotFoundMsg);

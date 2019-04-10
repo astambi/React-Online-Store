@@ -17,7 +17,7 @@ function validateBookCreateForm(payload) {
     payload.title.length < 3
   ) {
     isFormValid = false;
-    errors.name = "Book name must be at least 3 symbols.";
+    errors.title = "Book name must be at least 3 symbols.";
   }
 
   if (

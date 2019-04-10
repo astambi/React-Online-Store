@@ -107,7 +107,7 @@ class AdminBookCreateEdit extends Component {
 
     if (!book.title) {
       isValid = false;
-      errors.name = notifications.bookTitleRequired;
+      errors.title = notifications.bookTitleRequired;
     }
 
     if (!book.genres) {

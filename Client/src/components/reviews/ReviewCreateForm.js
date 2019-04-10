@@ -1,24 +1,30 @@
 import React from "react";
+import InputTextarea from "../common/InputTextarea";
 
 const ReviewCreateForm = props => {
-  const { handleChange, handleSubmit, review } = props;
+  const { handleChange, handleSubmit, review, error } = props;
   const { content } = review;
 
   return (
-    <form className="review-form" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="review">Leave a review</label>
-        <textarea
-          className="form-control"
+    <article className="review">
+      <form className="review-form" onSubmit={handleSubmit}>
+        <InputTextarea
           rows="2"
           id="review"
           name="content"
           value={content}
+          label="Leave a review"
           onChange={handleChange}
+          error={error}
         />
-        <input type="submit" className="btn btn-info" value="Submit review" />
-      </div>
-    </form>
+
+        <input
+          type="submit"
+          className="btn btn-info btn-block"
+          value="Submit review"
+        />
+      </form>
+    </article>
   );
 };
 

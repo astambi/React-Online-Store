@@ -17,7 +17,7 @@ const BookForm = props => {
         <Input
           type="text"
           name="title"
-          id="name" // to display error msg
+          id="title"
           placeholder="Enter book title"
           value={title}
           onChange={handleChange}
@@ -54,6 +54,7 @@ const BookForm = props => {
           onChange={handleChange}
           errors={errors}
         />
+        <img src={image} alt={title} />
 
         <Input
           type="text"
@@ -70,8 +71,8 @@ const BookForm = props => {
           name="price"
           id="price"
           placeholder="Enter book price"
-          // min="0.00" //
-          step="1" //
+          min="0.00"
+          step="1"
           value={price}
           onChange={handleChange}
           errors={errors}
