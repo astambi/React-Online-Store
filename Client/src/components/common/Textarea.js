@@ -1,13 +1,14 @@
 import React from "react";
 import Error from "./Error";
 
-const InputTextarea = props => {
+const Textarea = props => {
   const {
     id,
     name,
     value,
     label,
     placeholder,
+    rows = 2,
     required,
     disabled,
     readOnly,
@@ -20,7 +21,7 @@ const InputTextarea = props => {
       <label htmlFor={id}>{label}</label>
 
       <textarea
-        rows="2"
+        rows={rows}
         id={id}
         name={name}
         value={value}
@@ -37,4 +38,4 @@ const InputTextarea = props => {
   );
 };
 
-export default InputTextarea;
+export default Textarea;

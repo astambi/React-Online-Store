@@ -1,11 +1,9 @@
 import React from "react";
 
 const Footer = () => (
-  // <div>
-  <footer id="footer" className="page-footer mt-4">
+  <footer id="footer" className="page-footer bg-primary text-light">
     &copy; Book Library 2019
   </footer>
-  // </div>
 );
 
 export default Footer;

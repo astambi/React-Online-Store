@@ -1,5 +1,9 @@
-import React, { Component, Fragment } from "react";
-import HeaderLink from "./HeaderLink";
+import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
+import HeaderAdmin from "./HeaderAdmin";
+import HeaderAll from "./HeaderAll";
+import HeaderAnonymous from "./HeaderAnonymous";
+import HeaderAuth from "./HeaderAuth";
 import { UserConsumer } from "../contexts/user-context";
 import { paths, roles } from "../../constants/constants";
 
@@ -10,50 +14,40 @@ class Header extends Component {
 
     return (
       <header>
-        <nav className="navbar-menu">
-          {/* All Users */}
-          <HeaderLink to={paths.indexPath} name={paths.indexName} />
-          <HeaderLink to={paths.homePath} name={paths.homeName} />
-          <HeaderLink to={paths.storePath} name={paths.storeName} />
+        <nav className="navbar navbar-expand-lg navbar-dark bg-primary justtify-content-between">
+          <NavLink
+            to={paths.indexPath}
+            className="navbar-brand text-capitalize"
+          >
+            {paths.indexName}
+          </NavLink>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarColor01"
+            aria-controls="navbarColor01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon" />
+          </button>
 
-          {isLoggedIn ? (
-            isAdmin ? (
-              // Admin
-              <Fragment>
-                <HeaderLink
-                  to={paths.bookCreatePath}
-                  name={paths.bookCreateName}
-                />
-                <HeaderLink
-                  to={paths.ordersPendingPath}
-                  name={paths.ordersPendingName}
-                />
-                <HeaderLink
-                  to={paths.ordersApprovedPath}
-                  name={paths.ordersApprovedName}
-                />
-                <HeaderLink
-                  to={paths.ordersDeliveredPath}
-                  name={paths.ordersDeliveredName}
-                />
-                <HeaderLink to={paths.logoutPath} name={paths.logoutName} />
-              </Fragment>
-            ) : (
-              // Authenticated
-              <Fragment>
-                <HeaderLink to={paths.ordersPath} name={paths.ordersName} />
-                <HeaderLink to={paths.cartPath} name={paths.cartName} />
-                <HeaderLink to={paths.profilePath} name={profileName} />
-                <HeaderLink to={paths.logoutPath} name={paths.logoutName} />
-              </Fragment>
-            )
-          ) : (
-            // Anonymous
-            <Fragment>
-              <HeaderLink to={paths.loginPath} name={paths.loginName} />
-              <HeaderLink to={paths.registerPath} name={paths.registerName} />
-            </Fragment>
-          )}
+          <div className="collapse navbar-collapse row ml-3" id="navbarColor01">
+            <ul className="navbar-nav col justify-content-around">
+              <HeaderAll />
+
+              {isLoggedIn ? (
+                isAdmin ? (
+                  <HeaderAdmin />
+                ) : (
+                  <HeaderAuth profileName={profileName} />
+                )
+              ) : (
+                <HeaderAnonymous />
+              )}
+            </ul>
+          </div>
         </nav>
       </header>
     );

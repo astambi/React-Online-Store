@@ -19,13 +19,6 @@ const Input = props => {
     errors
   } = props;
 
-  const notValid = errors && errors[name];
-
-  // const validationStyle =
-  // notValid
-  //   ? "border border-danger"
-  //   : "border border-success";
-
   return (
     <div className="form-group">
       <label htmlFor={id} className="text-capitalize">
@@ -44,11 +37,11 @@ const Input = props => {
         minLength={minLength}
         step={step}
         placeholder={placeholder}
-        // className={`form-control ${validationStyle}`}
+        className="form-control"
         onChange={onChange}
       />
 
-      {notValid ? <Error notification={errors[name]} /> : null}
+      {errors && errors[name] ? <Error notification={errors[name]} /> : null}
     </div>
   );
 };

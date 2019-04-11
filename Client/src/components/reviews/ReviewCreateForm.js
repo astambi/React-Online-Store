@@ -1,5 +1,5 @@
 import React from "react";
-import InputTextarea from "../common/InputTextarea";
+import Textarea from "../common/Textarea";
 
 const ReviewCreateForm = props => {
   const { handleChange, handleSubmit, review, error } = props;
@@ -8,8 +8,8 @@ const ReviewCreateForm = props => {
   return (
     <article className="review">
       <form className="review-form" onSubmit={handleSubmit}>
-        <InputTextarea
-          rows="2"
+        <Textarea
+          // rows="2"
           id="review"
           name="content"
           value={content}
