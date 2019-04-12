@@ -1,9 +1,9 @@
 import React from "react";
-import Button from "./Button";
+import CustomButton from "./CustomButton";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const ButtonRemove = props => (
-  <Button
+  <CustomButton
     color="danger"
     icon={faTrash}
     {...props} // handleAction, size

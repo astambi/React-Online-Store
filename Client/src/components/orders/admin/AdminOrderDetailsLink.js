@@ -1,5 +1,5 @@
 import React from "react";
-import CustomLink from "../../common/buttons/CustomLink";
+import CustomLink from "../../common/CustomLink";
 import { paths } from "../../../constants/constants";
 
 const AdminOrderDetailsLink = props => (

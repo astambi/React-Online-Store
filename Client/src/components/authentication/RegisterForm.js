@@ -1,6 +1,7 @@
 import React from "react";
 import Error from "../common/Error";
 import Input from "../common/Input";
+import InputSubmit from "../common/InputSubmit";
 
 const RegisterForm = props => {
   const { handleChange, handleSubmit, user, error } = props;
@@ -8,7 +9,7 @@ const RegisterForm = props => {
   const { message, errors } = error;
 
   return (
-    <div className="form-wrapper">
+    <div className="form-container container col-lg-8 col-xl-6">
       <h1>Register</h1>
 
       <form onSubmit={handleSubmit}>
@@ -56,7 +57,7 @@ const RegisterForm = props => {
           errors={errors}
         />
 
-        <input type="submit" value="Register" />
+        <InputSubmit value="Register" />
       </form>
     </div>
   );

@@ -4,11 +4,9 @@ const ProductsTable = props => {
   const { children } = props;
 
   return (
-    <div className="container">
-      <table className="table table-hover table-condensed">
-        {children || null}
-      </table>
-    </div>
+    <section className="table-container container">
+      <table className="table">{children || null}</table>
+    </section>
   );
 };
 

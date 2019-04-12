@@ -4,14 +4,14 @@ const LandingMessage = props => {
   const { message, username, children } = props;
 
   return (
-    <div className="welcome text-capitalize">
+    <section className="landing-msg">
       <h1>
         {message}
-        {username ? `, ${username}` : null}!
+        {username ? `, ${username}!` : null}
       </h1>
 
       {children ? <p>{children}</p> : null}
-    </div>
+    </section>
   );
 };
 

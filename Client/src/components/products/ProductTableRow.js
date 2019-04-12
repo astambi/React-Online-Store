@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { toCurrency } from "../../services/helpers";
+import { paths } from "../../constants/constants";
 
 const ProductTableRow = props => {
   const { product, children } = props;
@@ -12,12 +14,14 @@ const ProductTableRow = props => {
 
   return (
     <tr>
-      <td data-th="Product">
+      <td data-th="Product" className="product">
         <div className="row">
-          <div className="col-sm-4 hidden-xs">
-            <img src={image} alt={title} className="cart-image" />
+          <div className="image">
+            <Link to={paths.bookDetailsPath + "/" + product._id}>
+              <img src={image} alt={title} className="cart-image" />
+            </Link>
           </div>
-          <div className="col-sm-8">
+          <div className="pl-2">
             <h4 className="nomargin">{title}</h4>
             <p className="text-truncate">{genres}</p>
           </div>
@@ -33,11 +37,12 @@ const ProductTableRow = props => {
         {toCurrency(price * quantity)}
       </td>
 
-      {children ? (
+      {/* Actions */}
+      {!children ? null : (
         <td data-th="Actions" className="actions d-flex justify-content-around">
           {children}
         </td>
-      ) : null}
+      )}
     </tr>
   );
 };

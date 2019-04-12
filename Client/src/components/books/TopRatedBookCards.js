@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import BookList from "./BookList";
 import Loading from "../common/Loading";
 import bookService from "../../services/book-service";
@@ -47,10 +47,10 @@ class TopRatedBookCards extends Component {
     }
 
     return (
-      <Fragment>
-        <h2>Top Rated</h2>
+      <section className="top-rated-books mt-3">
+        <h2 className="text-center">Top Rated Books</h2>
         <BookList books={books} />
-      </Fragment>
+      </section>
     );
   }
 }

@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import ButtonRemove from "../common/buttons/ButtonRemove";
+import ButtonRemove from "../common/ButtonRemove";
 import Review from "./Review";
 
 const BookReviewsView = props => {
@@ -11,10 +11,9 @@ const BookReviewsView = props => {
         reviews.map((review, index) => (
           <Review key={index} review={review} index={index + 1}>
             {/* Admin delete review */}
-
-            {isAdmin ? (
+            {!isAdmin ? null : (
               <ButtonRemove handleAction={() => handleReviewDelete(index)} />
-            ) : null}
+            )}
           </Review>
         ))
       ) : (

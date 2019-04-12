@@ -9,7 +9,7 @@ const HeaderLink = props => {
     <li className="nav-item">
       <NavLink
         to={to}
-        className="nav-link text-capitalize p-3"
+        className="nav-link"
         activeClassName="active"
         aria-current="page"
       >

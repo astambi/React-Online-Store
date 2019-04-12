@@ -1,8 +1,8 @@
 import React from "react";
-import ButtonDecrease from "../common/buttons/ButtonDecrease";
-import ButtonIncrease from "../common/buttons/ButtonIncrease";
-import ButtonRemove from "../common/buttons/ButtonRemove";
-import ButtonUpdate from "../common/buttons/ButtonUpdate";
+import ButtonDecrease from "../common/ButtonDecrease";
+import ButtonIncrease from "../common/ButtonIncrease";
+import ButtonRemove from "../common/ButtonRemove";
+import ButtonUpdate from "../common/ButtonUpdate";
 import ProductTableRow from "../products/ProductTableRow";
 
 const CartTableRow = props => {
@@ -20,21 +20,22 @@ const CartTableRow = props => {
 
   return (
     <ProductTableRow product={book}>
+      {/* Actions */}
       <ButtonDecrease
-        size="sm"
         handleAction={() => handleDecreaseQuantity(book)}
+        size="sm"
       />
       <ButtonIncrease
-        size="sm"
         handleAction={() => handleIncreaseQuantity(book)}
+        size="sm"
       />
       <ButtonUpdate
-        size="sm"
         handleAction={() => handleUpdateBookDetails(book)}
+        size="sm"
       />
       <ButtonRemove
-        size="sm"
         handleAction={() => handleRemoveBookFromCart(book)}
+        size="sm"
       />
     </ProductTableRow>
   );

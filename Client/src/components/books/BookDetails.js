@@ -1,15 +1,14 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Redirect } from "react-router-dom";
+import { UserConsumer } from "../contexts/user-context";
+import BookAdmin from "./BookAdmin";
 import BookDetailsView from "./BookDetailsView";
-import BookLinkDelete from "./buttons/BookLinkDelete";
-import BookLinkEdit from "./buttons/BookLinkEdit";
-import ButtonOrder from "../common/buttons/ButtonOrder";
-import ButtonLike from "../common/buttons/ButtonLike";
-import ButtonReviews from "../common/buttons/ButtonReviews";
-import ButtonUnlike from "../common/buttons/ButtonUnlike";
+import ButtonLike from "../common/ButtonLike";
+import ButtonOrder from "../common/ButtonOrder";
+import ButtonReviews from "../common/ButtonReviews";
+import ButtonUnlike from "../common/ButtonUnlike";
 import ReviewCreateForm from "../reviews/ReviewCreateForm";
 import ReviewsList from "../reviews/ReviewsList";
-import { UserConsumer } from "../contexts/user-context";
 import bookService from "../../services/book-service";
 import notificationService from "../../services/notification-service";
 import { handleInputChange } from "../../services/helpers";
@@ -218,42 +217,50 @@ class BookDetails extends React.Component {
     const reviewsCount = this.getReviewsCount();
 
     return (
-      <div className="container">
-        <BookDetailsView book={book}>
-          <ButtonLike handleAction={this.handleLike} />
-          <ButtonUnlike handleAction={this.handleUnlike} />
-          <ButtonReviews
-            handleAction={this.handleReviewsVisibility}
-            name={`Reviews (${reviewsCount})`}
-          />
-          <ButtonOrder handleAction={this.handleOrderBook} />
-        </BookDetailsView>
+      <Fragment>
+        <BookDetailsView
+          book={book}
+          actions={
+            <Fragment>
+              <ButtonLike handleAction={this.handleLike} />
+              <ButtonUnlike handleAction={this.handleUnlike} />
+              <ButtonReviews
+                handleAction={this.handleReviewsVisibility}
+                name={`Reviews (${reviewsCount})`}
+              />
+              <ButtonOrder handleAction={this.handleOrderBook} />
+            </Fragment>
+          }
+        />
 
-        <section className="row justify-content-end">
-          {showReviews ? (
-            <article className="col-lg-9">
+        {!showReviews ? null : (
+          <section className="book-reviews-container row justify-content-end">
+            <section className="book-review-create-form col-lg-9 mb-3">
               <ReviewCreateForm
                 {...otherProps} // review, error
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmitReview}
               />
+            </section>
 
+            <section className="book-reviews-list col-lg-9 mb-3">
               <ReviewsList
                 reviews={book.reviews}
                 handleReviewDelete={this.handleReviewDelete}
                 isAdmin={isAdmin()}
               />
-            </article>
-          ) : null}
+            </section>
+          </section>
+        )}
 
-          {isAdmin() ? (
-            <article className="d-flex justify-content-around col-lg-9 p-2">
-              <BookLinkEdit entity={book} size="lg" />
-              <BookLinkDelete entity={book} size="lg" />
+        {!isAdmin() ? null : (
+          <section className="book-admin row justify-content-end">
+            <article className="col-lg-9 row justify-content-around">
+              <BookAdmin book={book} />
             </article>
-          ) : null}
-        </section>
-      </div>
+          </section>
+        )}
+      </Fragment>
     );
   }
 }

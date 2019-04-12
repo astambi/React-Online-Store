@@ -1,14 +1,23 @@
 import React from "react";
 import Error from "../common/Error";
 import Input from "../common/Input";
+import InputSubmit from "../common/InputSubmit";
 
 const BookForm = props => {
-  const { handleChange, handleSubmit, book, error, action, btnColor } = props;
+  const {
+    handleChange,
+    handleSubmit,
+    book,
+    error,
+    action,
+    color,
+    disabled
+  } = props;
   const { title, genres, description, image, author, price } = book;
   const { message, errors } = error;
 
   return (
-    <div className="form-wrapper">
+    <section className="form-container container col-lg-8 col-xl-6">
       <h1 className="text-capitalize">{action} book</h1>
 
       <form onSubmit={handleSubmit}>
@@ -20,6 +29,7 @@ const BookForm = props => {
           id="title"
           placeholder="Enter book title"
           value={title}
+          disabled={disabled}
           onChange={handleChange}
           errors={errors}
         />
@@ -30,6 +40,7 @@ const BookForm = props => {
           id="genres"
           placeholder="Enter genres for the book. Put a comma between them"
           value={genres}
+          disabled={disabled}
           onChange={handleChange}
           errors={errors}
         />
@@ -40,6 +51,7 @@ const BookForm = props => {
           id="description"
           placeholder="Enter book description"
           value={description}
+          disabled={disabled}
           onChange={handleChange}
           errors={errors}
         />
@@ -51,10 +63,14 @@ const BookForm = props => {
           label="Image URL"
           placeholder="Enter book image URL"
           value={image}
+          disabled={disabled}
           onChange={handleChange}
           errors={errors}
         />
-        <img src={image} alt={title} />
+
+        <div className="image-container text-center">
+          <img src={image} alt={title} />
+        </div>
 
         <Input
           type="text"
@@ -62,6 +78,7 @@ const BookForm = props => {
           id="author"
           placeholder="Enter book author"
           value={author}
+          disabled={disabled}
           onChange={handleChange}
           errors={errors}
         />
@@ -71,20 +88,17 @@ const BookForm = props => {
           name="price"
           id="price"
           placeholder="Enter book price"
-          min="0.00"
+          min="0"
           step="1"
           value={price}
+          disabled={disabled}
           onChange={handleChange}
           errors={errors}
         />
 
-        <input
-          type="submit"
-          value={action}
-          className={`btn btn-outline-${btnColor} border-${btnColor} text-capitalize`}
-        />
+        <InputSubmit value={action} color={color} />
       </form>
-    </div>
+    </section>
   );
 };
 

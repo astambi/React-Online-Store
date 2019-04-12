@@ -17,7 +17,7 @@ class AdminBookCreateEdit extends Component {
     this.state = {
       isUpdated: false,
       action: "", // create / edit
-      btnColor: "",
+      color: "", // success, danger, warning
       book: {
         title: "",
         genres: "",
@@ -39,31 +39,9 @@ class AdminBookCreateEdit extends Component {
     const { path } = this.props;
 
     if (path.includes(paths.bookCreatePath)) {
-      this.setState({
-        action: "create",
-        btnColor: "success"
-      });
-      return;
-    }
-
-    if (path.includes(paths.bookEditPath)) {
-      // On Edit load book
-      const { id } = this.props.computedMatch.params; // NB
-
-      // Not Found
-      if (!(await bookService.existsBookById(id))) {
-        notificationService.errorMsg(notificationMessages.bookNotFoundMsg);
-        this.setState({ book: null });
-        return;
-      }
-
-      const book = await bookService.getBookById(id);
-
-      this.setState({
-        book,
-        action: "edit",
-        btnColor: "warning"
-      });
+      this.loadCreateForm();
+    } else if (path.includes(paths.bookEditPath)) {
+      await this.loadEditForm();
     }
   };
 
@@ -145,6 +123,43 @@ class AdminBookCreateEdit extends Component {
     return isValid;
   }
 
+  loadCreateForm = () => {
+    this.setState({
+      action: "create",
+      color: "success",
+      book: {
+        title: "",
+        genres: "",
+        author: "",
+        description: "",
+        image: "",
+        price: 0,
+        likes: [],
+        reviews: []
+      }
+    });
+  };
+
+  loadEditForm = async () => {
+    // On Edit load book
+    const { id } = this.props.computedMatch.params; // NB
+
+    // Not Found
+    if (!(await bookService.existsBookById(id))) {
+      notificationService.errorMsg(notificationMessages.bookNotFoundMsg);
+      this.setState({ book: null });
+      return;
+    }
+
+    const book = await bookService.getBookById(id);
+
+    this.setState({
+      book,
+      action: "edit",
+      color: "warning"
+    });
+  };
+
   updateState(result) {
     console.log(result);
     const { success, message, errors, data } = result;
@@ -169,7 +184,12 @@ class AdminBookCreateEdit extends Component {
   }
 
   render() {
-    const { book } = this.state;
+    const { path } = this.props;
+    const { book, action } = this.state;
+
+    if (path.includes(paths.bookCreatePath) && action !== "create") {
+      this.loadCreateForm();
+    }
 
     if (!book) {
       return <Redirect to={paths.storePath} />;

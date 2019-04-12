@@ -1,9 +1,9 @@
 import React from "react";
-import Button from "./Button";
+import CustomButton from "./CustomButton";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 
 const ButtonLike = props => (
-  <Button
+  <CustomButton
     name="Like"
     color="primary"
     icon={faThumbsUp}

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import BookCardView from "./BookCardView";
-import BookLinkDetails from "./buttons/BookLinkDetails";
-import ButtonOrder from "../common/buttons/ButtonOrder";
+import ButtonOrder from "../common/ButtonOrder";
+import LinkDetails from "../common/LinkDetails";
 import { UserConsumer } from "../contexts/user-context";
 import bookService from "../../services/book-service";
 import notificationService from "../../services/notification-service";
@@ -54,7 +54,11 @@ class BookCard extends Component {
 
     return (
       <BookCardView book={book}>
-        <BookLinkDetails entity={book} size="sm" />
+        <LinkDetails
+          name="details"
+          path={paths.bookDetailsPath + "/" + book._id}
+          size="sm"
+        />
         <ButtonOrder size="sm" handleAction={this.handleOrderBook} />
       </BookCardView>
     );

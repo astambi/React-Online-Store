@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import LandingMessage from "../common/LandingMessage";
+import LinkInfo from "../common/LinkInfo";
 import TopRatedBookCards from "../books/TopRatedBookCards";
 import { UserConsumer } from "../contexts/user-context";
 import { paths, notifications } from "../../constants/constants";
@@ -10,17 +10,25 @@ class Home extends Component {
     const { isLoggedIn, username } = this.props;
 
     return (
-      <div className="welcome-wrapper">
+      <section>
         <LandingMessage message={notifications.welcomeMsg} username={username}>
-          <Link to={paths.storePath}>{notifications.goToStore}</Link>
+          <LinkInfo
+            name={paths.storeGoToName}
+            path={paths.storePath}
+            size="lg"
+          />
 
           {isLoggedIn ? (
-            <Link to={paths.ordersPath}>{notifications.viewOrders}</Link>
+            <LinkInfo
+              name={notifications.viewOrders}
+              path={paths.ordersPath}
+              size="lg"
+            />
           ) : null}
         </LandingMessage>
 
         <TopRatedBookCards />
-      </div>
+      </section>
     );
   }
 }

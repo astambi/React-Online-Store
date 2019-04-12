@@ -14,11 +14,8 @@ class Header extends Component {
 
     return (
       <header>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-primary justtify-content-between">
-          <NavLink
-            to={paths.indexPath}
-            className="navbar-brand text-capitalize"
-          >
+        <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+          <NavLink to={paths.indexPath} className="navbar-brand">
             {paths.indexName}
           </NavLink>
           <button
@@ -33,8 +30,8 @@ class Header extends Component {
             <span className="navbar-toggler-icon" />
           </button>
 
-          <div className="collapse navbar-collapse row ml-3" id="navbarColor01">
-            <ul className="navbar-nav col justify-content-around">
+          <div className="collapse navbar-collapse" id="navbarColor01">
+            <ul className="navbar-nav">
               <HeaderAll />
 
               {isLoggedIn ? (

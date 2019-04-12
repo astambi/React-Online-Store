@@ -101,6 +101,7 @@ const paths = {
   bookDetailsName: "Details",
   storePath: "/store",
   storeName: "Store",
+  storeGoToName: "Go to store",
   // cart
   cartPath: "/cart",
   cartName: "Cart",

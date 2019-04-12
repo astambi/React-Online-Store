@@ -1,9 +1,9 @@
 import React from "react";
-import Button from "./Button";
+import CustomButton from "./CustomButton";
 import { faSync } from "@fortawesome/free-solid-svg-icons";
 
 const ButtonUpdate = props => (
-  <Button
+  <CustomButton
     color="info"
     icon={faSync}
     {...props} // handleAction, size

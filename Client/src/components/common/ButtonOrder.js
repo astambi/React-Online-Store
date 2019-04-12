@@ -1,11 +1,11 @@
 import React from "react";
-import Button from "./Button";
+import CustomButton from "./CustomButton";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const ButtonOrder = props => (
-  <Button
+  <CustomButton
     name="Order"
-    color="warning"
+    color="success"
     icon={faShoppingCart}
     {...props} // handleAction, size
   />

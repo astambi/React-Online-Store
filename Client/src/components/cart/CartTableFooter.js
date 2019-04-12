@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import ButtonUpdate from "../common/buttons/ButtonUpdate";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import ButtonCheckout from "../common/ButtonCheckout";
+import ButtonUpdate from "../common/ButtonUpdate";
+import LinkInfo from "../common/LinkInfo";
 import { paths } from "../../constants/constants";
 import { toCurrency } from "../../services/helpers";
 
@@ -13,9 +13,12 @@ const CartTableFooter = props => {
     <tfoot>
       <tr>
         <td>
-          <Link to={paths.storePath} className="btn btn-warning">
-            <FontAwesomeIcon icon={faAngleLeft} /> Continue shopping
-          </Link>
+          <LinkInfo
+            name="Continue shopping"
+            path={paths.storePath}
+            icon={faAngleLeft}
+            outline={false}
+          />
         </td>
 
         <td colSpan="2" className="hidden-xs text-center">
@@ -23,16 +26,11 @@ const CartTableFooter = props => {
         </td>
 
         <td className="text-center">
-          <ButtonUpdate outline={false} handleAction={handleUpdateCart} />
+          <ButtonUpdate handleAction={handleUpdateCart} />
         </td>
 
-        <td colSpan="1">
-          <button
-            className="btn btn-success btn-block"
-            onClick={handleCheckout}
-          >
-            Checkout <FontAwesomeIcon icon={faAngleRight} />
-          </button>
+        <td colSpan="1" className="text-center">
+          <ButtonCheckout handleAction={handleCheckout} />
         </td>
       </tr>
     </tfoot>

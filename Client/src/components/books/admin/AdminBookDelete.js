@@ -75,7 +75,8 @@ class AdminBookDelete extends Component {
         handleChange={() => {}}
         handleSubmit={this.handleSubmitDelete}
         action="delete"
-        btnColor="danger"
+        color="danger"
+        disabled={true}
       />
     );
   }

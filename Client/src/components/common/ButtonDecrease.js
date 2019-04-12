@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "./Button";
+import CustomButton from "./CustomButton";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const ButtonDecrease = props => (
-  <Button
-    color="warning"
+  <CustomButton
+    color="primary"
     icon={faMinus}
     {...props} // handleAction, size
   />

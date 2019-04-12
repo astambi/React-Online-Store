@@ -1,14 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import LandingMessage from "./LandingMessage";
+import LinkInfo from "./LinkInfo";
 import { notifications, paths } from "../../constants/constants";
 
 const NotFound = props => (
-  <div className="welcome-wrapper">
-    <LandingMessage message={props.message || notifications.notFound}>
-      <Link to={paths.homePath}>{notifications.goToHome}</Link>
-    </LandingMessage>
-  </div>
+  <LandingMessage message={props.message || notifications.notFound}>
+    <LinkInfo name={notifications.goToHome} path={paths.homePath} size="lg" />
+  </LandingMessage>
 );
 
 export default NotFound;

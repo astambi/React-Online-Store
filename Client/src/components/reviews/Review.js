@@ -11,10 +11,10 @@ const Review = props => {
 
   return (
     <article className="review">
-      <div className="text-info">
+      <p className="font-weight-bold">
         {children} #{index}
         <span className="text-capitalize"> by {createdBy}:</span>
-      </div>
+      </p>
       <p>{content}</p>
     </article>
   );

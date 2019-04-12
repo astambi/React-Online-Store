@@ -2,7 +2,7 @@ import React from "react";
 import { toCurrency } from "../../services/helpers";
 
 const BookDetailsView = props => {
-  const { book, children } = props;
+  const { book, actions } = props;
   const { image, title, description, genres, author, price, likes } = book;
 
   return (
@@ -35,7 +35,8 @@ const BookDetailsView = props => {
           {toCurrency(price)}
         </div>
 
-        <div className="book-details-button-group">{children}</div>
+        {/* Actions */}
+        <div className="book-details-button-group">{actions}</div>
       </article>
     </section>
   );

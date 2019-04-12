@@ -197,26 +197,30 @@ class Cart extends Component {
     const orderTotal = calculateOrderTotal(books);
 
     return (
-      <ProductsTable>
-        <ProductsTableHeader>
-          <th style={{ width: 10 + "px" }}>Actions</th>
-        </ProductsTableHeader>
+      <section className="cart">
+        <h1 className="text-center">Shopping cart</h1>
 
-        <CartTableBody
-          books={books}
-          // handleClick props
-          handleDecreaseQuantity={this.handleDecreaseQuantity}
-          handleIncreaseQuantity={this.handleIncreaseQuantity}
-          handleRemoveBookFromCart={this.handleRemoveBookFromCart}
-          handleUpdateBookDetails={this.handleUpdateBookDetails}
-        />
+        <ProductsTable>
+          <ProductsTableHeader>
+            <th>Actions</th>
+          </ProductsTableHeader>
 
-        <CartTableFooter
-          orderTotal={orderTotal}
-          handleCheckout={this.handleCheckout}
-          handleUpdateCart={this.handleUpdateCart}
-        />
-      </ProductsTable>
+          <CartTableBody
+            books={books}
+            // Actions handleClick props
+            handleDecreaseQuantity={this.handleDecreaseQuantity}
+            handleIncreaseQuantity={this.handleIncreaseQuantity}
+            handleRemoveBookFromCart={this.handleRemoveBookFromCart}
+            handleUpdateBookDetails={this.handleUpdateBookDetails}
+          />
+
+          <CartTableFooter
+            orderTotal={orderTotal}
+            handleCheckout={this.handleCheckout}
+            handleUpdateCart={this.handleUpdateCart}
+          />
+        </ProductsTable>
+      </section>
     );
   }
 }

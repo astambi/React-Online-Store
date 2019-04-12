@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "./Button";
+import CustomButton from "./CustomButton";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const ButtonIncrease = props => (
-  <Button
-    color="success"
+  <CustomButton
+    color="primary"
     icon={faPlus}
     {...props} // handleAction, size
   />

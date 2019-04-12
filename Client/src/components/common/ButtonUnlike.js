@@ -1,11 +1,11 @@
 import React from "react";
-import Button from "./Button";
+import CustomButton from "./CustomButton";
 import { faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 
 const ButtonUnlike = props => (
-  <Button
+  <CustomButton
     name="Unlike"
-    color="danger"
+    color="primary"
     icon={faThumbsDown}
     {...props} // handleAction, size
   />

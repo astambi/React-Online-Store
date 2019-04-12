@@ -1,10 +1,12 @@
 import React from "react";
+import LinkDetails from "../common/LinkDetails";
 import {
   calculateOrderTotal,
   getProductsTitles,
   toCurrency,
   toShortDate
 } from "../../services/helpers";
+import { paths } from "../../constants/constants";
 
 const OrderRow = props => {
   const {
@@ -35,7 +37,15 @@ const OrderRow = props => {
       </td>
 
       {/* Order Details Link */}
-      <td>{OrderDetailsLink ? <OrderDetailsLink entity={order} /> : null}</td>
+      <td>
+        {OrderDetailsLink ? (
+          <LinkDetails
+            name={paths.orderDetailsName}
+            path={paths.orderDetailsPath + "/" + order._id}
+            size="sm"
+          />
+        ) : null}
+      </td>
 
       {/* Admin Actions: approve, deliver */}
       {ActionBtn && handleAction ? (
