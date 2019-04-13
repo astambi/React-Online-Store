@@ -17,24 +17,20 @@ class TopRatedBookCards extends Component {
   componentDidMount = async () => {
     this.setState({ isLoading: true });
 
+    const topCount = 10;
+
     try {
       const allBooks = await bookService.getAllBooks();
       const topRatedBooks = allBooks
         .filter(b => b.likes.length > 0)
         .sort((a, b) => b.likes.length - a.likes.length) // desc
-        .slice(0, 3);
+        .slice(0, topCount);
       console.log(topRatedBooks);
 
-      this.setState({
-        isLoading: false,
-        books: topRatedBooks
-      });
+      this.setState({ isLoading: false, books: topRatedBooks });
     } catch (error) {
       console.log(error);
-      this.setState({
-        isLoading: false,
-        error
-      });
+      this.setState({ isLoading: false, error });
     }
   };
 

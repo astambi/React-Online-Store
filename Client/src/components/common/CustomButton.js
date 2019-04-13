@@ -3,13 +3,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CustomButton = props => {
   const {
+    type = "button",
     name,
-    color,
+    className,
+    color = "success",
+    outline = true,
     size,
     icon,
     iconRight,
-    handleAction,
-    outline = true
+    handleAction
   } = props;
 
   return (
@@ -17,8 +19,9 @@ const CustomButton = props => {
       className={`btn 
       btn-${outline ? "outline-" : ""}${color}
       ${size ? `btn-${size}` : ""} 
+      ${className}
       text-capitalize`}
-      type="button"
+      type={type}
       onClick={handleAction}
     >
       {!icon ? null : <FontAwesomeIcon icon={icon} />} {name}{" "}

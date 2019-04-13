@@ -3,7 +3,7 @@ import React from "react";
 const BookCardView = props => {
   const { book, children } = props;
 
-  console.log(book);
+  // console.log(book);
   if (!book) {
     return null;
   }
@@ -11,7 +11,7 @@ const BookCardView = props => {
   const { image, title, description } = book;
 
   return (
-    <div className="card col-4">
+    <div className="card book-card col-sm-6 col-md-6 col-lg-3">
       <img className="card-img-top card-image" src={image} alt={title} />
       <div className="card-body">
         <h5 className="card-title">{title}</h5>

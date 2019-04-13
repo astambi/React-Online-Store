@@ -1,4 +1,4 @@
-@import "~bootstrap/dist/css/bootstrap.css";
+/* @import "~bootstrap/dist/css/bootstrap.css"; */
 @import "./bootstrap.min\(spacelab\).css";
 
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
@@ -114,6 +114,32 @@ img {
   padding-top: 1rem;
 }
 
+/* Book cards per row = count */
+
+.books-list {
+  /* --margin: 1rem; */
+  /* --count: 4; */
+  /* margin: 0 2rem; */
+}
+
+.book-card {
+  /* margin: var(--margin); */
+  /* width: calc((100% - 2 * var(--count) * var(--margin)) / var(--count)); */
+}
+
+.card {
+  /* border: none; */
+  margin-top: 1rem;
+}
+
+.card-footer {
+  /* border: none; */
+}
+
+.pagination {
+  margin: 1rem auto;
+}
+
 /* Reviews */
 .review {
   padding-bottom: 1rem;
@@ -147,6 +173,7 @@ footer {
   position: fixed;
   bottom: 0;
   right: 0;
+  z-index: 999;
   text-align: center;
   padding: 0.7rem 0;
 }

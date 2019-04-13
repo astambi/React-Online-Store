@@ -1,25 +1,23 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import ButtonSearch from "../common/ButtonSearch";
 
 const SearchForm = props => {
   const { onChange, onSubmit, search } = props;
   const { query } = search;
 
   return (
-    <form className="form-inline md-form form-sm row mb-2">
+    <form className="books-search form-inline">
       <input
-        className="form-control form-control-sm col"
+        className="form-control col"
         type="text"
-        placeholder="Search for the book you are looking for..."
+        placeholder="Search for books by title, author, description or genres"
         aria-label="Search"
         name="query"
         value={query}
         onChange={onChange}
       />
-      <button type="submit" className="btn btn-info ml-1" onClick={onSubmit}>
-        <FontAwesomeIcon icon={faSearch} aria-hidden="true" />
-      </button>
+
+      <ButtonSearch handleAction={onSubmit} className="ml-2" />
     </form>
   );
 };

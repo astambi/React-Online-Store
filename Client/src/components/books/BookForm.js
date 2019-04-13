@@ -8,6 +8,7 @@ const BookForm = props => {
     handleChange,
     handleSubmit,
     book,
+    // fileInput,
     error,
     action,
     color,
@@ -95,6 +96,17 @@ const BookForm = props => {
           onChange={handleChange}
           errors={errors}
         />
+
+        {/* <div className="form-group">
+          <label htmlFor="file">File input</label>
+          <input
+            type="file"
+            className="form-control-file"
+            id="file"
+            name="file"
+            ref={fileInput}
+          />
+        </div> */}
 
         <InputSubmit value={action} color={color} />
       </form>

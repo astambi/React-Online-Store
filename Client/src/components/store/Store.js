@@ -2,16 +2,29 @@ import React, { Component } from "react";
 import BookList from "../books/BookList";
 import SearchForm from "./SearchForm";
 import bookService from "../../services/book-service";
-import { handleInputChange, stringContains } from "../../services/helpers";
+import {
+  filterCurrentPageItems,
+  handleInputChange,
+  handlePageDecrease,
+  handlePageIncrease,
+  stringContains,
+  updatePaginationState
+} from "../../services/helpers";
 
 class Store extends Component {
   constructor(props) {
     super(props);
 
+    this.pageLimit = 8;
+
     this.state = {
       isLoading: false,
       books: [],
       search: { query: "" },
+      pagination: {
+        currentPage: 1,
+        totalPages: 1
+      },
       error: ""
     };
   }
@@ -26,16 +39,11 @@ class Store extends Component {
       books = await bookService.getAllBooks();
       console.log(books);
 
-      this.setState({
-        isLoading: false,
-        books
-      });
+      this.setState({ isLoading: false, books });
+      updatePaginationState.bind(this)(books, this.pageLimit);
     } catch (error) {
       console.log(error);
-      this.setState({
-        isLoading: false,
-        error
-      });
+      this.setState({ isLoading: false, error });
     }
 
     return books;
@@ -49,63 +57,50 @@ class Store extends Component {
     const { search } = this.state;
     const { query } = search;
 
-    if (!query || query.trim() === "") {
-      return;
+    const allBooks = await this.getAllBooks();
+    let queryBooks = [...allBooks];
+
+    // Query
+    if (query && query.trim() !== "") {
+      queryBooks = allBooks.filter(
+        b =>
+          stringContains(b.title, query) ||
+          stringContains(b.author, query) ||
+          stringContains(b.description, query)
+      );
     }
 
-    const allBooks = await this.getAllBooks();
-    const queryBooks = allBooks.filter(
-      b =>
-        stringContains(b.title, query) ||
-        stringContains(b.author, query) ||
-        stringContains(b.description, query)
-    );
-    this.setState({ books: queryBooks, isLoading: false });
+    this.setState({ isLoading: false, books: queryBooks });
+    updatePaginationState.bind(this)(queryBooks, this.pageLimit);
   };
 
   render() {
-    const { books, search } = this.state;
-    console.log(books);
+    const { books, search, pagination } = this.state;
+
+    const booksToDisplay = filterCurrentPageItems(
+      books,
+      pagination.currentPage,
+      this.pageLimit
+    );
+    console.log(booksToDisplay);
 
     return (
-      <div className="container">
-        <div className="row space-top">
-          <div className="col-md-12">
-            <h1 className="jumbotron-heading text-center">Store</h1>
+      <section className="store">
+        <h1 className="jumbotron-heading text-center">Store</h1>
 
-            <SearchForm
-              search={search}
-              onChange={this.handleChangeQuery}
-              onSubmit={this.handleSubmitQuery}
-            />
-          </div>
-        </div>
+        <SearchForm
+          search={search}
+          onChange={this.handleChangeQuery}
+          onSubmit={this.handleSubmitQuery}
+        />
 
-        <BookList books={books} />
-
-        {/* Pagination TODO */}
-        <div className="row space-top">
-          <div className="col-md-12">
-            <ul className="pagination">
-              <li className="page-item disabled">
-                <a className="page-link" href="/store/0">
-                  «
-                </a>
-              </li>
-              <li className="page-item active">
-                <a className="page-link" href="/store/1">
-                  1
-                </a>
-              </li>
-              <li className="page-item disabled">
-                <a className="page-link" href="/store/2">
-                  »
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+        <BookList
+          books={booksToDisplay}
+          {...pagination} // currentPage, totalPages
+          handlePageDecrease={() => handlePageDecrease.bind(this)()}
+          handlePageIncrease={() => handlePageIncrease.bind(this)()}
+        />
+      </section>
     );
   }
 }

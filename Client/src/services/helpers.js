@@ -9,6 +9,55 @@ function handleInputChange(event, propertyName) {
   console.log(propertyValue);
 }
 
+// Do not turn into arrow function to keep original this.state
+function updatePaginationState(items, pageLimit) {
+  this.setState(prevState => {
+    let { pagination } = prevState;
+    pagination.currentPage = 1;
+    pagination.totalPages = Math.max(1, Math.ceil(items.length / pageLimit)); // min 1
+
+    return { pagination };
+  });
+
+  console.log(this.state.pagination);
+}
+
+function handlePageDecrease() {
+  const { pagination } = this.state;
+  if (pagination.currentPage === 1) {
+    return;
+  }
+
+  updateCurrentPage.bind(this)(-1);
+}
+
+function handlePageIncrease() {
+  const { pagination } = this.state;
+  if (pagination.currentPage === pagination.totalPages) {
+    return;
+  }
+
+  updateCurrentPage.bind(this)(1);
+}
+
+function updateCurrentPage(change) {
+  this.setState(prevState => {
+    const pagination = prevState.pagination;
+    pagination.currentPage = pagination.currentPage + change;
+    console.log(pagination);
+    return { pagination };
+  });
+}
+
+const filterCurrentPageItems = (items, currentPage, pageLimit) => {
+  const itemsToDisplay = items.slice(
+    pageLimit * (currentPage - 1),
+    pageLimit * currentPage
+  );
+
+  return itemsToDisplay;
+};
+
 const calculateOrderTotal = books => {
   let orderTotal = 0;
   books
@@ -36,10 +85,14 @@ const toCurrency = number => `$${(+number).toFixed(2)}`;
 const toShortDate = dateStr => new Date(dateStr).toLocaleString("en-GB");
 
 export {
+  filterCurrentPageItems,
   handleInputChange,
+  handlePageDecrease,
+  handlePageIncrease,
   calculateOrderTotal,
   getProductsTitles,
   stringContains,
+  toCurrency,
   toShortDate,
-  toCurrency
+  updatePaginationState
 };

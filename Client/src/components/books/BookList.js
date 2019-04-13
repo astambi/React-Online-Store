@@ -1,21 +1,24 @@
-import React from "react";
+import React, { Fragment } from "react";
 import BookCard from "./BookCard";
+import Pagination from "../common/Pagination";
 
 const BookList = props => {
-  const { books } = props;
-
-  if (!books || books.length === 0) {
-    return <h3>No books found</h3>;
-  }
+  const { books, ...paginationProps } = props;
 
   return (
-    <div className="row">
-      <div className="card-deck space-top">
-        {books.map(book => (
-          <BookCard key={book._id} book={book} />
-        ))}
-      </div>
-    </div>
+    <Fragment>
+      <section className="books-list d-flex flex-wrap justify-content-start mt-3">
+        {!books || books.length === 0 ? (
+          <h3>No books found</h3>
+        ) : (
+          books.map(book => <BookCard key={book._id} book={book} />)
+        )}
+      </section>
+
+      <Pagination
+        {...paginationProps} // currentPage, totalPages, handlePage-/+
+      />
+    </Fragment>
   );
 };
 

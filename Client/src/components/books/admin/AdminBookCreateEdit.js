@@ -14,6 +14,8 @@ class AdminBookCreateEdit extends Component {
   constructor(props) {
     super(props);
 
+    // this.fileInput = React.createRef();
+
     this.state = {
       isUpdated: false,
       action: "", // create / edit
@@ -60,6 +62,13 @@ class AdminBookCreateEdit extends Component {
 
     try {
       const { book } = this.state;
+      console.log(book);
+
+      // console.log(this.fileInput.current);
+      // const bookWithFile = {
+      //   ...book,
+      //   file: this.fileInput.current.files[0]
+      // };
 
       // Update book in Db
       const result =
@@ -204,6 +213,7 @@ class AdminBookCreateEdit extends Component {
     return (
       <BookForm
         {...otherProps} // book, error, action, btnColor
+        // fileInput={this.fileInput}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
       />

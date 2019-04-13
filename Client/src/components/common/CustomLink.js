@@ -7,9 +7,10 @@ const CustomLink = props => {
     entity,
     name,
     path,
+    className,
     color = "primary",
-    size = "",
     outline = true,
+    size = "",
     icon
   } = props;
 
@@ -22,6 +23,7 @@ const CustomLink = props => {
       className={`btn 
       btn-${outline ? "outline-" : ""}${color}
       ${size ? `btn-${size}` : ""} 
+      ${className}
       text-capitalize`}
       to={`${path}${entity ? `/${entity._id}` : ""}`}
     >
