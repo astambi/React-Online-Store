@@ -7,7 +7,7 @@ const BookList = props => {
 
   return (
     <Fragment>
-      <section className="books-list d-flex flex-wrap justify-content-start mt-3">
+      <section className="books-list d-flex flex-wrap justify-content-start mt-2">
         {!books || books.length === 0 ? (
           <h3>No books found</h3>
         ) : (

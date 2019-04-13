@@ -1,7 +1,7 @@
 import React from "react";
 import ButtonSearch from "../common/ButtonSearch";
 
-const SearchForm = props => {
+const BookSearchForm = props => {
   const { onChange, onSubmit, search } = props;
   const { query } = search;
 
@@ -10,7 +10,7 @@ const SearchForm = props => {
       <input
         className="form-control col"
         type="text"
-        placeholder="Search for books by title, author, description or genres"
+        placeholder="Search for books by title, author or description"
         aria-label="Search"
         name="query"
         value={query}
@@ -22,4 +22,4 @@ const SearchForm = props => {
   );
 };
 
-export default SearchForm;
+export default BookSearchForm;

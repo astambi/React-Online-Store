@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import LandingMessage from "../common/LandingMessage";
 import LinkInfo from "../common/LinkInfo";
-import TopRatedBookCards from "../books/TopRatedBookCards";
+import TopRatedBooks from "../books/TopRatedBooks";
 import { UserConsumer } from "../contexts/user-context";
 import { paths, notifications } from "../../constants/constants";
 
@@ -27,7 +27,7 @@ class Home extends Component {
           ) : null}
         </LandingMessage>
 
-        <TopRatedBookCards />
+        <TopRatedBooks />
       </section>
     );
   }
