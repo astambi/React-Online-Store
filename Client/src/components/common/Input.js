@@ -3,6 +3,7 @@ import Error from "./Error";
 
 const Input = props => {
   const {
+    // Input fields
     id,
     name,
     value,
@@ -11,21 +12,32 @@ const Input = props => {
     placeholder,
     min,
     minLength,
+    maxLength,
     step,
     required,
     disabled,
     readOnly,
-    onChange,
-    errors
+    // Errors
+    color,
+    message,
+    errors = {},
+    touched = {},
+    // Handlers
+    handleChange,
+    handleBlur
   } = props;
+
+  const hasServerErrorMsg = name && errors[name] && message !== "";
+  const hasInputChangeError = name && errors[name] && touched[name]; // only upon blur
 
   return (
     <div className="form-group">
-      <label htmlFor={id} className="text-capitalize">
+      <label htmlFor={id} className={`text-capitalize`}>
         {label || name}
       </label>
 
       <input
+        // Input fields
         type={type}
         id={id || name}
         name={name}
@@ -35,13 +47,21 @@ const Input = props => {
         disabled={disabled}
         min={min}
         minLength={minLength}
+        maxLength={maxLength}
         step={step}
         placeholder={placeholder}
-        className="form-control"
-        onChange={onChange}
+        // Errors in css
+        className={`form-control 
+        text-${hasInputChangeError || hasServerErrorMsg ? "danger" : color}`}
+        // Handlers
+        onChange={handleChange}
+        onBlur={() => (handleBlur ? handleBlur(name) : {})}
       />
 
-      {errors && errors[name] ? <Error notification={errors[name]} /> : null}
+      {/* Errors validation msgs */}
+      {hasInputChangeError || hasServerErrorMsg ? (
+        <Error notification={errors[name]} />
+      ) : null}
     </div>
   );
 };

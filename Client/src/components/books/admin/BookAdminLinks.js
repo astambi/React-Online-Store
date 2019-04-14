@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
-import LinkDelete from "../common/LinkDelete";
-import LinkEdit from "../common/LinkEdit";
-import { paths } from "../../constants/constants";
+import LinkDelete from "../../common/LinkDelete";
+import LinkEdit from "../../common/LinkEdit";
+import { paths } from "../../../constants/constants";
 
-const BookAdmin = props => {
+const BookAdminLinks = props => {
   const { book } = props;
   const size = "";
 
@@ -23,4 +23,4 @@ const BookAdmin = props => {
   );
 };
 
-export default BookAdmin;
+export default BookAdminLinks;

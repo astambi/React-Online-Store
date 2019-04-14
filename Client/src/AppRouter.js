@@ -4,11 +4,14 @@ import { Route, Switch } from "react-router-dom";
 import AdminRoute from "./components/routes/AdminRoute";
 import LoggedInRoute from "./components/routes/LoggedInRoute";
 // Components
-import AdminBookCreateEdit from "./components/books/admin/AdminBookCreateEdit";
-import AdminBookDelete from "./components/books/admin/AdminBookDelete";
+// import AdminBookCreateEdit from "./components/books/admin/AdminBookCreateEdit";
+// import AdminBookDelete from "./components/books/admin/AdminBookDelete";
 import AdminOrderDetails from "./components/orders/admin/AdminOrderDetails";
 import AdminOrdersApproved from "./components/orders/admin/AdminOrdersApproved";
 import AdminOrdersPending from "./components/orders/admin/AdminOrdersPending";
+import BookCreate from "./components/books/admin/BookCreate";
+import BookDelete from "./components/books/admin/BookDelete";
+import BookEdit from "./components/books/admin/BookEdit";
 import BookDetails from "./components/books/BookDetails";
 import Cart from "./components/cart/Cart";
 import Home from "./components/home/Home";
@@ -33,15 +36,9 @@ const AppRouter = () => (
     <Route path={`${paths.bookDetailsPath}/:id`} component={BookDetails} />
 
     {/* Admin */}
-    <AdminRoute path={paths.bookCreatePath} component={AdminBookCreateEdit} />
-    <AdminRoute
-      path={`${paths.bookEditPath}/:id`}
-      component={AdminBookCreateEdit}
-    />
-    <AdminRoute
-      path={`${paths.bookDeletePath}/:id`}
-      component={AdminBookDelete}
-    />
+    <AdminRoute path={paths.bookCreatePath} component={BookCreate} />
+    <AdminRoute path={`${paths.bookEditPath}/:id`} component={BookEdit} />
+    <AdminRoute path={`${paths.bookDeletePath}/:id`} component={BookDelete} />
     <AdminRoute path={paths.ordersPendingPath} component={AdminOrdersPending} />
     <AdminRoute
       path={paths.ordersApprovedPath}

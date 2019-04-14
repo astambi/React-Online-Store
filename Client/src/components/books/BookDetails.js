@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import { UserConsumer } from "../contexts/user-context";
-import BookAdmin from "./BookAdmin";
+import BookAdminLinks from "./admin/BookAdminLinks";
 import BookDetailsView from "./BookDetailsView";
 import ButtonLike from "../common/ButtonLike";
 import ButtonOrder from "../common/ButtonOrder";
@@ -256,7 +256,7 @@ class BookDetails extends React.Component {
         {!isAdmin() ? null : (
           <section className="book-admin row justify-content-end">
             <article className="col-lg-9 row justify-content-around">
-              <BookAdmin book={book} />
+              <BookAdminLinks book={book} />
             </article>
           </section>
         )}

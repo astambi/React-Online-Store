@@ -4,9 +4,17 @@ import Input from "../common/Input";
 import InputSubmit from "../common/InputSubmit";
 
 const RegisterForm = props => {
-  const { handleChange, handleSubmit, user, error } = props;
+  const {
+    user,
+    error,
+    handleSubmit,
+    ...otherProps // handleChange, handleBlur, touched, disabled, color
+  } = props;
+
   const { email, username, password, confirmPassword } = user;
   const { message, errors } = error;
+
+  const inputProps = { ...otherProps, errors, message };
 
   return (
     <div className="form-container container col-lg-8 col-xl-6">
@@ -16,45 +24,41 @@ const RegisterForm = props => {
         {message ? <Error notification={message} /> : null}
 
         <Input
+          {...inputProps}
           type="email"
           name="email"
           id="email"
           label="E-mail"
           placeholder="Enter e-mail"
           value={email}
-          onChange={handleChange}
-          errors={errors}
         />
 
         <Input
+          {...inputProps}
           type="text"
           name="username"
           id="username"
           placeholder="Enter username"
           value={username}
-          onChange={handleChange}
-          errors={errors}
         />
 
         <Input
+          {...inputProps}
           type="password"
           name="password"
           id="password"
           placeholder="Enter password"
           value={password}
-          onChange={handleChange}
-          errors={errors}
         />
 
         <Input
+          {...inputProps}
           type="password"
           name="confirmPassword"
           id="confirmPassword"
           label="Confirm password"
           placeholder="Enter your password again"
           value={confirmPassword}
-          onChange={handleChange}
-          errors={errors}
         />
 
         <InputSubmit value="Register" />

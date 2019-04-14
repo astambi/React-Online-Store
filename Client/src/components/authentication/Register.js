@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import RegisterForm from "./RegisterForm";
 import authenticationService from "../../services/authentication-service";
 import notificationService from "../../services/notification-service";
-import { handleInputChange } from "../../services/helpers";
+import { handleBlur, handleInputChange } from "../../services/helpers";
 import { notifications, paths } from "../../constants/constants";
 
 class Register extends Component {
@@ -21,67 +21,28 @@ class Register extends Component {
       error: {
         message: "",
         errors: {}
+      },
+      touched: {
+        email: false,
+        username: false,
+        password: false,
+        confirmPassword: false
       }
     };
   }
 
-  handleChange = event => handleInputChange.bind(this)(event, "user");
+  handleBlur = field => handleBlur.bind(this)(field, "touched");
+
+  handleChange = event => {
+    handleInputChange.bind(this)(event, "user");
+    this.validateInput();
+  };
 
   handleSubmit = async event => {
     event.preventDefault();
 
-    // Input Validation
-    if (!this.isValidInput()) {
-      return;
-    }
-
-    // Clear errors
-    this.setState({ error: {} });
-
-    // Register
     await this.tryRegisterUser();
   };
-
-  isValidInput() {
-    const { user } = this.state;
-
-    let isValid = true;
-    const errors = {};
-
-    if (!user.email) {
-      isValid = false;
-      errors.email = notifications.emailRequired;
-    }
-
-    if (!user.username) {
-      isValid = false;
-      errors.username = notifications.usernameRequired;
-    }
-
-    if (!user.password) {
-      isValid = false;
-      errors.password = notifications.passwordRequired;
-    }
-
-    if (!user.confirmPassword) {
-      isValid = false;
-      errors.confirmPassword = notifications.passwordRequired;
-    }
-
-    if (user.confirmPassword && user.password !== user.confirmPassword) {
-      isValid = false;
-      errors.confirmPassword = notifications.passwordsDoNotMatch;
-    }
-
-    if (!isValid) {
-      const message = notifications.credentialsRequired;
-      const validationError = { message, errors };
-
-      this.setState({ error: validationError });
-    }
-
-    return isValid;
-  }
 
   tryRegisterUser = async () => {
     try {
@@ -116,6 +77,41 @@ class Register extends Component {
     }
   };
 
+  validateInput() {
+    const { user } = this.state;
+
+    let isValid = true;
+    const errors = {};
+
+    if (!user.email || user.email.trim().length === 0) {
+      isValid = false;
+      errors.email = notifications.emailRequired;
+    }
+
+    if (!user.username || user.username.trim().length < 4) {
+      isValid = false;
+      errors.username = notifications.usernameRequired;
+    }
+
+    if (!user.password || user.password.trim().length < 8) {
+      isValid = false;
+      errors.password = notifications.passwordRequired;
+    }
+
+    if (!user.confirmPassword || user.confirmPassword.trim().length < 8) {
+      isValid = false;
+      errors.confirmPassword = notifications.passwordRequired;
+    }
+
+    if (user.confirmPassword && user.password !== user.confirmPassword) {
+      isValid = false;
+      errors.confirmPassword = notifications.passwordsDoNotMatch;
+    }
+
+    const validationError = { message: isValid ? null : "", errors };
+    this.setState({ error: validationError });
+  }
+
   render() {
     const { isRegistered, ...otherProps } = this.state;
 
@@ -126,6 +122,7 @@ class Register extends Component {
     return (
       <RegisterForm
         {...otherProps} // user, error
+        handleBlur={this.handleBlur}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
       />

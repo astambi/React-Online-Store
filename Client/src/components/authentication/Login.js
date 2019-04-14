@@ -4,7 +4,7 @@ import LoginForm from "./LoginForm";
 import { UserConsumer } from "../contexts/user-context";
 import authenticationService from "../../services/authentication-service";
 import notificationService from "../../services/notification-service";
-import { handleInputChange } from "../../services/helpers";
+import { handleBlur, handleInputChange } from "../../services/helpers";
 import { auth, notifications, paths } from "../../constants/constants";
 
 class Login extends Component {
@@ -19,52 +19,26 @@ class Login extends Component {
       error: {
         message: "",
         errors: {} // { email, password }
+      },
+      touched: {
+        email: false,
+        password: false
       }
     };
   }
 
-  handleChange = event => handleInputChange.bind(this)(event, "user");
+  handleBlur = field => handleBlur.bind(this)(field, "touched");
+
+  handleChange = event => {
+    handleInputChange.bind(this)(event, "user");
+    this.validateInput();
+  };
 
   handleSubmit = async event => {
     event.preventDefault();
 
-    // Input Validation
-    if (!this.isValidInput()) {
-      return;
-    }
-
-    // Clear errors
-    this.setState({ error: {} });
-
-    // Login user
     await this.tryLoginUser();
   };
-
-  isValidInput() {
-    const { user } = this.state;
-
-    let isValid = true;
-    const errors = {};
-
-    if (!user.email) {
-      isValid = false;
-      errors.email = notifications.emailRequired;
-    }
-
-    if (!user.password) {
-      isValid = false;
-      errors.password = notifications.passwordRequired;
-    }
-
-    if (!isValid) {
-      const message = notifications.credentialsRequired;
-      const validationError = { message, errors };
-
-      this.setState({ error: validationError });
-    }
-
-    return isValid;
-  }
 
   tryLoginUser = async () => {
     try {
@@ -105,6 +79,26 @@ class Login extends Component {
     }
   };
 
+  validateInput() {
+    const { user } = this.state;
+
+    let isValid = true;
+    const errors = {};
+
+    if (!user.email || user.email.trim().length === 0) {
+      isValid = false;
+      errors.email = notifications.emailRequired;
+    }
+
+    if (!user.password || user.password.trim().length === 0) {
+      isValid = false;
+      errors.password = notifications.passwordRequired;
+    }
+
+    const validationError = { message: isValid ? null : "", errors };
+    this.setState({ error: validationError });
+  }
+
   render() {
     const { isLoggedIn } = this.props; // UserContext
 
@@ -115,6 +109,7 @@ class Login extends Component {
     return (
       <LoginForm
         {...this.state} // user, error
+        handleBlur={this.handleBlur}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}
       />

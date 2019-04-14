@@ -5,7 +5,7 @@ import notificationService from "../../services/notification-service";
 import { paths, auth, notificationMessages } from "../../constants/constants";
 
 class Logout extends Component {
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     // Clear Storage
     window.localStorage.removeItem(auth.authToken);
     window.localStorage.removeItem(auth.authUser);
@@ -16,11 +16,9 @@ class Logout extends Component {
 
     // Success Notification
     notificationService.successMsg(notificationMessages.logoutSuccessMsg);
-  }
+  };
 
-  render() {
-    return <Redirect to={paths.indexPath} />;
-  }
+  render = () => <Redirect to={paths.indexPath} />;
 }
 
 const LogoutWithContext = props => (

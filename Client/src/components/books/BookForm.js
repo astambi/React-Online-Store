@@ -5,108 +5,89 @@ import InputSubmit from "../common/InputSubmit";
 
 const BookForm = props => {
   const {
-    handleChange,
-    handleSubmit,
-    book,
-    // fileInput,
-    error,
     action,
-    color,
-    disabled
+    book,
+    error,
+    handleSubmit,
+    ...otherProps // handleChange, handleBlur, touched, disabled, color
   } = props;
+  const { color } = props;
+
   const { title, genres, description, image, author, price } = book;
   const { message, errors } = error;
 
+  const inputProps = { ...otherProps, errors, message };
+
   return (
-    <section className="form-container container col-lg-8 col-xl-6">
-      <h1 className="text-capitalize">{action} book</h1>
+    <section className="form-container container col-md-8 col-lg-7 col-xl-6">
+      <h1 className={`text-capitalize text-${color}`}>{action} book</h1>
 
       <form onSubmit={handleSubmit}>
         {message ? <Error notification={message} /> : null}
 
         <Input
+          {...inputProps}
           type="text"
+          minLength="3"
           name="title"
           id="title"
           placeholder="Enter book title"
           value={title}
-          disabled={disabled}
-          onChange={handleChange}
-          errors={errors}
         />
 
         <Input
+          {...inputProps}
           type="text"
           name="genres"
           id="genres"
           placeholder="Enter genres for the book. Put a comma between them"
           value={genres}
-          disabled={disabled}
-          onChange={handleChange}
-          errors={errors}
         />
 
         <Input
+          {...inputProps}
           type="text"
           name="description"
           id="description"
           placeholder="Enter book description"
           value={description}
-          disabled={disabled}
-          onChange={handleChange}
-          errors={errors}
         />
 
         <Input
+          {...inputProps}
           type="text"
           name="image"
           id="image"
           label="Image URL"
           placeholder="Enter book image URL"
           value={image}
-          disabled={disabled}
-          onChange={handleChange}
-          errors={errors}
         />
 
-        <div className="image-container text-center">
-          <img src={image} alt={title} />
-        </div>
+        {!image ? null : (
+          <div className="image-container text-center">
+            <img src={image} alt={""} />
+          </div>
+        )}
 
         <Input
+          {...inputProps}
           type="text"
           name="author"
           id="author"
           placeholder="Enter book author"
           value={author}
-          disabled={disabled}
-          onChange={handleChange}
-          errors={errors}
         />
 
         <Input
+          {...inputProps}
           type="number"
+          min="0"
+          step="0.10"
           name="price"
           id="price"
           placeholder="Enter book price"
-          min="0"
-          step="1"
           value={price}
-          disabled={disabled}
-          onChange={handleChange}
-          errors={errors}
         />
-
-        {/* <div className="form-group">
-          <label htmlFor="file">File input</label>
-          <input
-            type="file"
-            className="form-control-file"
-            id="file"
-            name="file"
-            ref={fileInput}
-          />
-        </div> */}
 
         <InputSubmit value={action} color={color} />
       </form>

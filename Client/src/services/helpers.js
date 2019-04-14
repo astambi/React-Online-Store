@@ -10,6 +10,14 @@ function handleInputChange(event, propertyName) {
 }
 
 // Do not turn into arrow function to keep original this.state
+function handleBlur(field, propertyName) {
+  const propertyValue = this.state[propertyName];
+  propertyValue[field] = true;
+
+  this.setState({ [propertyName]: propertyValue });
+}
+
+// Do not turn into arrow function to keep original this.state
 function updatePaginationState(items, pageLimit) {
   this.setState(prevState => {
     let { pagination } = prevState;
@@ -86,6 +94,7 @@ const toShortDate = dateStr => new Date(dateStr).toLocaleString("en-GB");
 
 export {
   filterCurrentPageItems,
+  handleBlur,
   handleInputChange,
   handlePageDecrease,
   handlePageIncrease,
