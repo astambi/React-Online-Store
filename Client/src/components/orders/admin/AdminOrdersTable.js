@@ -8,7 +8,9 @@ const AdminOrdersTable = props => {
   const { title, ...otherProps } = props;
 
   return (
-    <OrdersTable title={title}>
+    <OrdersTable
+      title={title === "" ? "Please filter orders by status" : title}
+    >
       <OrdersTableHeader>
         <th>Action</th>
       </OrdersTableHeader>

@@ -1,6 +1,7 @@
 import React from "react";
 import CustomButton from "../common/CustomButton";
 import LinkDetails from "../common/LinkDetails";
+import { stringContains } from "../../services/helpers";
 import {
   calculateOrderTotal,
   getProductsTitles,
@@ -10,6 +11,30 @@ import {
 import { paths } from "../../constants/constants";
 
 const OrderRow = props => {
+  const createActionButtons = () => {
+    let buttons = [];
+
+    for (const index in handleAction) {
+      const btnName = actionBtnName[index];
+      const btnHandleAction = handleAction[index];
+      const isCancelBtn = stringContains(btnName, "cancel");
+
+      const button = (
+        <CustomButton
+          key={order._id + index}
+          name={btnName}
+          handleAction={() => btnHandleAction(order._id)}
+          size="sm"
+          color={isCancelBtn ? "danger" : "success"}
+        />
+      );
+
+      buttons.push(button);
+    }
+
+    return buttons;
+  };
+
   const {
     order,
     index,
@@ -18,8 +43,6 @@ const OrderRow = props => {
     handleAction // optional, admin only
   } = props;
 
-  console.log(props);
-
   if (!order) {
     return null;
   }
@@ -27,6 +50,7 @@ const OrderRow = props => {
   const { date, status, products } = order;
   const orderTotal = calculateOrderTotal(products);
   const productTitles = getProductsTitles(products);
+  const orderActionButtons = createActionButtons();
 
   return (
     <tr>
@@ -50,18 +74,10 @@ const OrderRow = props => {
         )}
       </td>
 
-      {/* Admin Actions: approve, deliver */}
-      {handleAction ? (
-        <td>
-          {
-            <CustomButton
-              name={actionBtnName}
-              handleAction={() => handleAction(order._id)}
-              size="sm"
-            />
-          }
-        </td>
-      ) : null}
+      {/* Admin Action Buttons: approve, deliver, cancel */}
+      {!handleAction ? null : (
+        <td className="row justify-content-around">{orderActionButtons}</td>
+      )}
     </tr>
   );
 };

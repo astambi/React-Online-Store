@@ -11,18 +11,12 @@ class AdminOrders extends Component {
 
     this.state = {
       action: "",
-      actionBtnName: "",
-      handleAction: null,
+      actionBtnName: [],
+      handleAction: [],
       orders: [],
       error: null
     };
   }
-
-  componentDidMount = async () => {
-    await this.loadPendingOrders();
-
-    console.log(this.state.orders);
-  };
 
   loadApprovedOrders = async () => {
     const orders = await orderService.getApprovedOrders();
@@ -30,8 +24,19 @@ class AdminOrders extends Component {
     this.setState({
       orders,
       action: paths.ordersApprovedName,
-      handleAction: this.handleDeliverOrder,
-      actionBtnName: "Deliver"
+      handleAction: [this.handleDeliverOrder, this.handleCancelOrder],
+      actionBtnName: ["Deliver", "Cancel"]
+    });
+  };
+
+  loadCancelledOrders = async () => {
+    const orders = await orderService.getCancelledOrders();
+
+    this.setState({
+      orders,
+      action: paths.ordersCancelledName,
+      handleAction: [this.handleApproveOrder],
+      actionBtnName: ["Approve"]
     });
   };
 
@@ -41,8 +46,8 @@ class AdminOrders extends Component {
     this.setState({
       orders,
       action: paths.ordersDeliveredName,
-      handleAction: null,
-      actionBtnName: "Archive"
+      handleAction: [],
+      actionBtnName: []
     });
   };
 
@@ -52,8 +57,8 @@ class AdminOrders extends Component {
     this.setState({
       orders,
       action: paths.ordersPendingName,
-      handleAction: this.handleApproveOrder,
-      actionBtnName: "Approve"
+      handleAction: [this.handleApproveOrder, this.handleCancelOrder],
+      actionBtnName: ["Approve", "Cancel"]
     });
   };
 
@@ -74,11 +79,31 @@ class AdminOrders extends Component {
       notificationService.errorMsg(message);
     } else {
       // Update pending orders
-      const orders = await orderService.getPendingOrders();
-      this.setState({
-        orders,
-        error: null
-      });
+      await this.loadApprovedOrders();
+
+      // Success Notification
+      notificationService.successMsg(message);
+    }
+  };
+
+  handleCancelOrder = async id => {
+    if (!id) {
+      this.setState({ error: "Invalid Order Id" });
+      return;
+    }
+
+    const result = await orderService.cancelOrderById(id);
+    const { message, success } = result;
+    console.log(result);
+
+    if (!success) {
+      this.setState({ error: message });
+
+      // Error Notification
+      notificationService.errorMsg(message);
+    } else {
+      // Update pending orders
+      await this.loadCancelledOrders();
 
       // Success Notification
       notificationService.successMsg(message);
@@ -102,11 +127,7 @@ class AdminOrders extends Component {
       notificationService.errorMsg(message);
     } else {
       // Update orders
-      const orders = await orderService.getApprovedOrders();
-      this.setState({
-        orders,
-        error: null
-      });
+      await this.loadDeliveredOrders();
 
       // Success Notification
       notificationService.successMsg(message);
@@ -120,20 +141,31 @@ class AdminOrders extends Component {
       <Fragment>
         <section className="admin-orders-links row justify-content-around mb-3">
           <CustomButton
+            className="mt-1 mb-1"
             name={paths.ordersPendingName}
             handleAction={() => this.loadPendingOrders()}
             outline={action !== paths.ordersPendingName}
-            color="primary"
+            color="warning"
           />
 
           <CustomButton
+            className="mt-1 mb-1"
+            name={paths.ordersCancelledName}
+            handleAction={() => this.loadCancelledOrders()}
+            outline={action !== paths.ordersCancelledName}
+            color="danger"
+          />
+
+          <CustomButton
+            className="mt-1 mb-1"
             name={paths.ordersApprovedName}
             handleAction={() => this.loadApprovedOrders()}
             outline={action !== paths.ordersApprovedName}
-            color="primary"
+            color="success"
           />
 
           <CustomButton
+            className="mt-1 mb-1"
             name={paths.ordersDeliveredName}
             handleAction={() => this.loadDeliveredOrders()}
             outline={action !== paths.ordersDeliveredName}

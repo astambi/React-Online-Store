@@ -67,6 +67,19 @@ router.get("/approved", authCheck, (req, res) => {
   }
 });
 
+router.get("/cancelled", authCheck, (req, res) => {
+  if (req.user.roles.indexOf("Admin") > -1) {
+    Order.find({ status: "Cancelled" }).then(orders => {
+      res.status(200).json(orders);
+    });
+  } else {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid credentials!"
+    });
+  }
+});
+
 router.get("/delivered", authCheck, (req, res) => {
   if (req.user.roles.indexOf("Admin") > -1) {
     Order.find({ status: "Delivered" }).then(orders => {
@@ -99,6 +112,46 @@ router.post("/approve/:id", authCheck, (req, res) => {
           res.status(200).json({
             success: true,
             message: "Order approved successfully."
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          const message = "Something went wrong :(";
+          return res.status(200).json({
+            success: false,
+            message: message
+          });
+        });
+    })
+    .catch(err => {
+      console.log(err);
+      const message = "Something went wrong :(";
+      return res.status(200).json({
+        success: false,
+        message: message
+      });
+    });
+});
+
+router.post("/cancel/:id", authCheck, (req, res) => {
+  const orderId = req.params.id;
+  Order.findById(orderId)
+    .then(order => {
+      if (!order) {
+        const message = "Order not found.";
+        return res.status(200).json({
+          success: false,
+          message: message
+        });
+      }
+
+      order.status = "Cancelled";
+      order
+        .save()
+        .then(() => {
+          res.status(200).json({
+            success: true,
+            message: "Order cancelled successfully."
           });
         })
         .catch(err => {

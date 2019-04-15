@@ -24,10 +24,12 @@ const dbConstants = {
   // orders
   orderCreateUrl: `${ordersUrl}/submit`,
   orderApproveByIdUrl: `${ordersUrl}/approve/`,
+  orderCancelByIdUrl: `${ordersUrl}/cancel/`,
   orderDeliverByIdUrl: `${ordersUrl}/deliver/`,
   ordersByUserUrl: `${ordersUrl}/user`,
   ordersAllUrl: `${ordersUrl}/all`,
   ordersApprovedUrl: `${ordersUrl}/approved`,
+  ordersCancelledUrl: `${ordersUrl}/cancelled`,
   ordersDeliveredUrl: `${ordersUrl}/delivered`,
   ordersPendingUrl: `${ordersUrl}/pending`
 };
@@ -121,6 +123,7 @@ const paths = {
   ordersAdminPath: "/admin/orders",
   ordersAdminName: "Admin orders",
   ordersApprovedName: "Approved orders",
+  ordersCancelledName: "Cancelled orders",
   ordersDeliveredName: "Delivered orders",
   ordersPendingName: "Pending orders",
   // user

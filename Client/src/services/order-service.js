@@ -15,9 +15,11 @@ const orderService = {
   // Admin
   createOrder: books => post(dbConstants.orderCreateUrl, books),
   approveOrderById: id => post(dbConstants.orderApproveByIdUrl + id),
+  cancelOrderById: id => post(dbConstants.orderCancelByIdUrl + id),
   deliverOrderById: id => post(dbConstants.orderDeliverByIdUrl + id),
   getAllOrders: () => get(dbConstants.ordersAllUrl),
   getApprovedOrders: () => get(dbConstants.ordersApprovedUrl),
+  getCancelledOrders: () => get(dbConstants.ordersCancelledUrl),
   getDeliveredOrders: () => get(dbConstants.ordersDeliveredUrl),
   getPendingOrders: () => get(dbConstants.ordersPendingUrl),
   getOrderById: id => getOrderById(id),
