@@ -8,10 +8,12 @@ import ProductTableRow from "../products/ProductTableRow";
 const CartTableRow = props => {
   const {
     book,
+    // handleAction
     handleDecreaseQuantity,
     handleIncreaseQuantity,
     handleRemoveBookFromCart,
-    handleUpdateBookDetails
+    handleUpdateBookDetails,
+    ...otherProps // isAvailable
   } = props;
 
   if (!book) {
@@ -19,7 +21,7 @@ const CartTableRow = props => {
   }
 
   return (
-    <ProductTableRow product={book}>
+    <ProductTableRow product={book} {...otherProps}>
       {/* Actions */}
       <ButtonDecrease
         handleAction={() => handleDecreaseQuantity(book)}

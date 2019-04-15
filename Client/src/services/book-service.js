@@ -1,6 +1,15 @@
 import { get, post, remove } from "../data/crud";
 import { dbConstants } from "../constants/constants";
 
+const filterAvailableBooks = async books => {
+  const booksFromDb = await bookService.getAllBooks();
+  const availableBooks = booksFromDb
+    .map(b => b._id)
+    .filter(id => books.some(b => b._id === id));
+
+  return availableBooks;
+};
+
 const getBookById = async id => {
   const books = await bookService.getAllBooks();
   return books.find(b => b._id === id);
@@ -15,6 +24,7 @@ const bookService = {
   deleteBookById: id => remove(dbConstants.bookDeleteByIdUrl + id),
   editBookById: (id, book) => post(dbConstants.bookEditByIdUrl + id, book),
   existsBookById: id => existsBookById(id),
+  filterAvailableBooks: books => filterAvailableBooks(books),
   likeBookById: id => post(dbConstants.bookLikeByIdUrl + id),
   unlikeBookById: id => post(dbConstants.bookUnlikeByIdUrl + id),
   reviewBookById: (id, review) =>

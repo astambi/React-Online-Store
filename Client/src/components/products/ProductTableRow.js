@@ -4,7 +4,7 @@ import { toCurrency } from "../../services/helpers";
 import { paths } from "../../constants/constants";
 
 const ProductTableRow = props => {
-  const { product, children } = props;
+  const { product, isAvailable, children } = props;
 
   if (!product) {
     return null;
@@ -24,6 +24,9 @@ const ProductTableRow = props => {
           <div className="pl-2">
             <h4 className="nomargin">{title}</h4>
             <p className="text-truncate">{genres}</p>
+            <p className={isAvailable ? "text-success" : "text-danger"}>
+              {isAvailable ? "Available" : "Not available"}
+            </p>
           </div>
         </div>
       </td>
