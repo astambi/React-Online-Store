@@ -8,7 +8,7 @@ const BookSearchForm = props => {
   return (
     <form className="books-search form-inline">
       <input
-        className="form-control col"
+        className="form-control col mr-auto"
         type="text"
         placeholder="Search for books by title, author or description"
         aria-label="Search"
@@ -17,7 +17,7 @@ const BookSearchForm = props => {
         onChange={onChange}
       />
 
-      <ButtonSearch handleAction={onSubmit} className="ml-2" />
+      <ButtonSearch handleAction={onSubmit} className="col-auto" />
     </form>
   );
 };

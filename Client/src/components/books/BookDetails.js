@@ -3,10 +3,7 @@ import { Redirect } from "react-router-dom";
 import { UserConsumer } from "../contexts/user-context";
 import BookAdminLinks from "./admin/BookAdminLinks";
 import BookDetailsView from "./BookDetailsView";
-import ButtonLike from "../common/ButtonLike";
-import ButtonOrder from "../common/ButtonOrder";
-import ButtonReviews from "../common/ButtonReviews";
-import ButtonUnlike from "../common/ButtonUnlike";
+import BookUserLinks from "./BookUserLinks";
 import ReviewCreateForm from "../reviews/ReviewCreateForm";
 import ReviewsList from "../reviews/ReviewsList";
 import bookService from "../../services/book-service";
@@ -153,6 +150,17 @@ class BookDetails extends React.Component {
     return true;
   };
 
+  isBookLiked = () => {
+    const { book } = this.state;
+    const { user } = this.props;
+
+    if (!book || !book.likes || !book.likes.length === 0 || !user) {
+      return false;
+    }
+
+    return book.likes.some(u => u === user.username);
+  };
+
   isValidInput = review => {
     if (!review) {
       return false;
@@ -216,50 +224,48 @@ class BookDetails extends React.Component {
     const { isAdmin } = this.props;
     const reviewsCount = this.getReviewsCount();
 
+    this.isBookLiked();
+
     return (
       <Fragment>
-        <BookDetailsView
-          book={book}
-          actions={
-            <Fragment>
-              <ButtonLike handleAction={this.handleLike} />
-              <ButtonUnlike handleAction={this.handleUnlike} />
-              <ButtonReviews
-                handleAction={this.handleReviewsVisibility}
-                name={`Reviews (${reviewsCount})`}
-              />
-              <ButtonOrder handleAction={this.handleOrderBook} />
-            </Fragment>
-          }
-        />
+        <BookDetailsView book={book} />
 
-        {!showReviews ? null : (
-          <section className="book-reviews-container row justify-content-end">
-            <section className="book-review-create-form col-lg-9 mb-3">
-              <ReviewCreateForm
-                {...otherProps} // review, error
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmitReview}
+        <section className="book-actions-container row justify-content-end mt-2">
+          <section className="book-actions-visible-container col-lg-9 pt-2 pb-2">
+            <section className="user-actions mt-3 mb-3 row row-wrap justify-content-around">
+              <BookUserLinks
+                isLiked={this.isBookLiked()} // display liked button css if book is liked
+                handleLike={this.handleLike}
+                handleUnlike={this.handleUnlike}
+                handleReviewsVisibility={this.handleReviewsVisibility}
+                handleOrderBook={this.handleOrderBook}
+                reviewsCount={reviewsCount}
               />
+
+              {isAdmin() ? <BookAdminLinks book={book} /> : null}
             </section>
 
-            <section className="book-reviews-list col-lg-9 mb-3">
-              <ReviewsList
-                reviews={book.reviews}
-                handleReviewDelete={this.handleReviewDelete}
-                isAdmin={isAdmin()}
-              />
-            </section>
-          </section>
-        )}
+            {!showReviews ? null : (
+              <Fragment>
+                <section className="book-review-create-form mt-3 mb-3">
+                  <ReviewCreateForm
+                    {...otherProps} // review, error
+                    handleChange={this.handleChange}
+                    handleSubmit={this.handleSubmitReview}
+                  />
+                </section>
 
-        {!isAdmin() ? null : (
-          <section className="book-admin row justify-content-end">
-            <article className="col-lg-9 row justify-content-around">
-              <BookAdminLinks book={book} />
-            </article>
+                <section className="book-reviews-list mt-3 mb-3">
+                  <ReviewsList
+                    reviews={book.reviews}
+                    handleReviewDelete={this.handleReviewDelete}
+                    isAdmin={isAdmin()}
+                  />
+                </section>
+              </Fragment>
+            )}
           </section>
-        )}
+        </section>
       </Fragment>
     );
   }
@@ -267,12 +273,13 @@ class BookDetails extends React.Component {
 
 const BookDetailsWithContext = props => (
   <UserConsumer>
-    {({ isAdmin, isLoginRequired, orderBook }) => (
+    {({ isAdmin, isLoginRequired, orderBook, user }) => (
       <BookDetails
         {...props}
         isAdmin={isAdmin}
         isLoginRequired={isLoginRequired}
         orderBook={orderBook}
+        user={user}
       />
     )}
   </UserConsumer>

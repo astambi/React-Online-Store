@@ -71,7 +71,7 @@ img {
 
 /* Landing Message */
 .landing-msg {
-  width: 60%;
+  /* width: 60%; */
   text-align: center;
   text-transform: capitalize;
   box-shadow: 0px 5px 10px 5px #cecece;

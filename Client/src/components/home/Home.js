@@ -10,12 +10,13 @@ class Home extends Component {
     const { isLoggedIn, username } = this.props;
 
     return (
-      <section>
+      <section className="home">
         <LandingMessage message={notifications.welcomeMsg} username={username}>
           <LinkInfo
             name={paths.storeGoToName}
             path={paths.storePath}
             size="lg"
+            className="mt-1"
           />
 
           {isLoggedIn ? (
@@ -23,6 +24,7 @@ class Home extends Component {
               name={notifications.viewOrders}
               path={paths.ordersPath}
               size="lg"
+              className="mt-1"
             />
           ) : null}
         </LandingMessage>

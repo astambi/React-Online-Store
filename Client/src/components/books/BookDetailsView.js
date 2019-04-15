@@ -12,6 +12,7 @@ const BookDetailsView = props => {
           <img src={image} alt={title} />
         </div>
       </article>
+
       <article className="book-details-article col-lg-9">
         <h1>{title}</h1>
         <div className="book-details-line">
@@ -36,7 +37,7 @@ const BookDetailsView = props => {
         </div>
 
         {/* Actions */}
-        <div className="book-details-button-group">{actions}</div>
+        {actions}
       </article>
     </section>
   );
