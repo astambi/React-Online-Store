@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import MyOrderDetailsLink from "./MyOrderDetailsLink";
 import OrdersTable from "../OrdersTable";
 import OrdersTableHeader from "../OrdersTableHeader";
 import OrdersTableList from "../OrdersTableList";
 import orderService from "../../../services/order-service";
+import { paths } from "../../../constants/constants";
 
 class MyOrders extends Component {
   constructor(props) {
@@ -34,7 +34,10 @@ class MyOrders extends Component {
         <OrdersTableHeader />
 
         <tbody>
-          <OrdersTableList orders={orders} detailsLink={MyOrderDetailsLink} />
+          <OrdersTableList
+            orders={orders}
+            detailsPath={paths.orderDetailsPath}
+          />
         </tbody>
       </OrdersTable>
     );

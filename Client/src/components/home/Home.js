@@ -22,7 +22,7 @@ class Home extends Component {
           {isLoggedIn ? (
             <LinkInfo
               name={notifications.viewOrders}
-              path={paths.ordersPath}
+              path={paths.myOrdersPath}
               size="lg"
               className="mt-1"
             />

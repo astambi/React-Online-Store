@@ -7,7 +7,7 @@ const HeaderAuth = props => {
 
   return (
     <Fragment>
-      <HeaderLink to={paths.ordersPath} name={paths.ordersName} />
+      <HeaderLink to={paths.myOrdersPath} name={paths.myOrdersName} />
       <HeaderLink to={paths.cartPath} name={paths.cartName} />
       <HeaderLink to={paths.profilePath} name={profileName} />
       <HeaderLink to={paths.logoutPath} name={paths.logoutName} />

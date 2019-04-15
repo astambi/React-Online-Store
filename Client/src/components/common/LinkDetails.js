@@ -1,7 +1,7 @@
 import React from "react";
 import CustomLink from "./CustomLink";
 
-const LinkDelete = props => (
+const LinkDetails = props => (
   <CustomLink
     name="Details"
     color="info"
@@ -9,4 +9,4 @@ const LinkDelete = props => (
   />
 );
 
-export default LinkDelete;
+export default LinkDetails;

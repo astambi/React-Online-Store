@@ -1,11 +1,11 @@
 import React from "react";
 import CustomLink from "./CustomLink";
 
-const LinkContinue = props => (
+const LinkInfo = props => (
   <CustomLink
     color="primary"
     {...props} // entity=book, size
   />
 );
 
-export default LinkContinue;
+export default LinkInfo;

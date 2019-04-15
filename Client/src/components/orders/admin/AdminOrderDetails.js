@@ -33,9 +33,7 @@ class AdminOrderDetails extends Component {
     }
 
     return (
-      <OrderDetails {...otherProps} redirectPath={paths.ordersPendingPath}>
-        {/* <button className="btn btn-lg btn-outline-success">Approve</button> */}
-      </OrderDetails>
+      <OrderDetails {...otherProps} redirectPath={paths.ordersPendingPath} />
     );
   }
 }

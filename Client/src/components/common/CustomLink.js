@@ -23,7 +23,7 @@ const CustomLink = props => {
       className={`btn 
       btn-${outline ? "outline-" : ""}${color}
       ${size ? `btn-${size}` : ""} 
-      ${className}
+      ${className || ""}
       text-capitalize`}
       to={`${path}${entity ? `/${entity._id}` : ""}`}
     >

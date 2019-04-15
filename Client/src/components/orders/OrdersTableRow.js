@@ -1,4 +1,5 @@
 import React from "react";
+import CustomButton from "../common/CustomButton";
 import LinkDetails from "../common/LinkDetails";
 import {
   calculateOrderTotal,
@@ -12,10 +13,12 @@ const OrderRow = props => {
   const {
     order,
     index,
-    detailsLink: OrderDetailsLink, // myOrder, adminOrder
-    actionBtn: ActionBtn, // optional, admin only
+    detailsPath, // myOrders, adminOrders
+    actionBtnName, // approve, deliver, archive
     handleAction // optional, admin only
   } = props;
+
+  console.log(props);
 
   if (!order) {
     return null;
@@ -36,20 +39,28 @@ const OrderRow = props => {
         <span className="label label-info">{status}</span>
       </td>
 
-      {/* Order Details Link */}
+      {/* Order Details Link: MyOrders, AdminOrders */}
       <td>
-        {OrderDetailsLink ? (
+        {!detailsPath ? null : (
           <LinkDetails
             name={paths.orderDetailsName}
-            path={paths.orderDetailsPath + "/" + order._id}
+            path={detailsPath + "/" + order._id}
             size="sm"
           />
-        ) : null}
+        )}
       </td>
 
       {/* Admin Actions: approve, deliver */}
-      {ActionBtn && handleAction ? (
-        <td>{<ActionBtn order={order} handleAction={handleAction} />}</td>
+      {handleAction ? (
+        <td>
+          {
+            <CustomButton
+              name={actionBtnName}
+              handleAction={() => handleAction(order._id)}
+              size="sm"
+            />
+          }
+        </td>
       ) : null}
     </tr>
   );

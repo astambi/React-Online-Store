@@ -18,6 +18,7 @@ const orderService = {
   deliverOrderById: id => post(dbConstants.orderDeliverByIdUrl + id),
   getAllOrders: () => get(dbConstants.ordersAllUrl),
   getApprovedOrders: () => get(dbConstants.ordersApprovedUrl),
+  getDeliveredOrders: () => get(dbConstants.ordersDeliveredUrl),
   getPendingOrders: () => get(dbConstants.ordersPendingUrl),
   getOrderById: id => getOrderById(id),
   // User

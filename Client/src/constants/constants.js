@@ -106,8 +106,8 @@ const paths = {
   cartPath: "/cart",
   cartName: "Cart",
   // orders
-  ordersPath: "/orders",
-  ordersName: "My orders",
+  myOrdersPath: "/orders",
+  myOrdersName: "My orders",
   orderDetailsPath: "/orders/details",
   orderDetailsName: "View",
   // admin
@@ -117,14 +117,12 @@ const paths = {
   bookEditName: "Edit book",
   bookDeletePath: "/admin/delete",
   bookDeleteName: "Delete book",
-  ordersAllPath: "/admin/orders/all",
-  ordersApprovedPath: "/admin/orders/approved",
-  ordersApprovedName: "Approved",
-  ordersDeliveredPath: "/admin/orders/delivered",
-  ordersDeliveredName: "Delivered",
-  ordersPendingPath: "/admin/orders/pending",
-  ordersPendingName: "Pending",
   orderDetailsAdminPath: "/admin/orders/details",
+  ordersAdminPath: "/admin/orders",
+  ordersAdminName: "Admin orders",
+  ordersApprovedName: "Approved orders",
+  ordersDeliveredName: "Delivered orders",
+  ordersPendingName: "Pending orders",
   // user
   profilePath: "/profile",
   profileName: "Profile"

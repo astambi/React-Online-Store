@@ -4,14 +4,11 @@ import { Route, Switch } from "react-router-dom";
 import AdminRoute from "./components/routes/AdminRoute";
 import LoggedInRoute from "./components/routes/LoggedInRoute";
 // Components
-// import AdminBookCreateEdit from "./components/books/admin/AdminBookCreateEdit";
-// import AdminBookDelete from "./components/books/admin/AdminBookDelete";
 import AdminOrderDetails from "./components/orders/admin/AdminOrderDetails";
-import AdminOrdersApproved from "./components/orders/admin/AdminOrdersApproved";
-import AdminOrdersPending from "./components/orders/admin/AdminOrdersPending";
+import AdminOrders from "./components/orders/admin/AdminOrders";
 import BookCreate from "./components/books/admin/BookCreate";
-import BookDelete from "./components/books/admin/BookDelete";
 import BookEdit from "./components/books/admin/BookEdit";
+import BookDelete from "./components/books/admin/BookDelete";
 import BookDetails from "./components/books/BookDetails";
 import Cart from "./components/cart/Cart";
 import Home from "./components/home/Home";
@@ -39,12 +36,7 @@ const AppRouter = () => (
     <AdminRoute path={paths.bookCreatePath} component={BookCreate} />
     <AdminRoute path={`${paths.bookEditPath}/:id`} component={BookEdit} />
     <AdminRoute path={`${paths.bookDeletePath}/:id`} component={BookDelete} />
-    <AdminRoute path={paths.ordersPendingPath} component={AdminOrdersPending} />
-    <AdminRoute
-      path={paths.ordersApprovedPath}
-      component={AdminOrdersApproved}
-    />
-
+    <AdminRoute path={paths.ordersAdminPath} exact component={AdminOrders} />
     <AdminRoute
       path={`${paths.orderDetailsAdminPath}/:id`}
       component={AdminOrderDetails}
@@ -53,7 +45,7 @@ const AppRouter = () => (
     {/* LoggedIn */}
     <LoggedInRoute path={paths.cartPath} component={Cart} />
     <LoggedInRoute path={paths.profilePath} component={NotFound} />
-    <LoggedInRoute path={paths.ordersPath} exact component={MyOrders} />
+    <LoggedInRoute path={paths.myOrdersPath} exact component={MyOrders} />
     <LoggedInRoute
       path={`${paths.orderDetailsPath}/:id`}
       component={MyOrderDetails}

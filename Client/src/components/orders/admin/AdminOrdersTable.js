@@ -1,11 +1,11 @@
 import React from "react";
-import AdminOrderDetailsLink from "./AdminOrderDetailsLink";
 import OrdersTable from "../OrdersTable";
 import OrdersTableHeader from "../OrdersTableHeader";
 import OrdersTableList from "../OrdersTableList";
+import { paths } from "../../../constants/constants";
 
 const AdminOrdersTable = props => {
-  const { title, ...actionProps } = props;
+  const { title, ...otherProps } = props;
 
   return (
     <OrdersTable title={title}>
@@ -15,8 +15,8 @@ const AdminOrdersTable = props => {
 
       <tbody>
         <OrdersTableList
-          {...actionProps} // actionBtn, handleAction
-          detailsLink={AdminOrderDetailsLink}
+          {...otherProps} // orders, actionBtn, handleAction
+          detailsPath={paths.orderDetailsAdminPath}
         />
       </tbody>
     </OrdersTable>

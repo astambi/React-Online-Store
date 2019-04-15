@@ -19,7 +19,7 @@ const CustomButton = props => {
       className={`btn 
       btn-${outline ? "outline-" : ""}${color}
       ${size ? `btn-${size}` : ""} 
-      ${className}
+      ${className || ""}
       text-capitalize`}
       type={type}
       onClick={handleAction}
