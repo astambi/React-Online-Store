@@ -1,6 +1,6 @@
 import React from "react";
-import Error from "../common/Error";
 import Input from "../common/Input";
+import InputError from "../common/InputError";
 import InputSubmit from "../common/InputSubmit";
 
 const BookForm = props => {
@@ -23,7 +23,7 @@ const BookForm = props => {
       <h1 className={`text-capitalize text-${color}`}>{action} book</h1>
 
       <form onSubmit={handleSubmit}>
-        {message ? <Error notification={message} /> : null}
+        {message ? <InputError notification={message} /> : null}
 
         <Input
           {...inputProps}

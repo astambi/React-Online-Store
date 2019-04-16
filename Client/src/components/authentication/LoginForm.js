@@ -1,6 +1,6 @@
 import React from "react";
-import Error from "../common/Error";
 import Input from "../common/Input";
+import InputError from "../common/InputError";
 import InputSubmit from "../common/InputSubmit";
 
 const LoginForm = props => {
@@ -21,7 +21,7 @@ const LoginForm = props => {
       <h1>Login</h1>
 
       <form onSubmit={handleSubmit}>
-        {message ? <Error notification={message} /> : null}
+        {message ? <InputError notification={message} /> : null}
 
         <Input
           {...inputProps}

@@ -1,5 +1,5 @@
 import React from "react";
-import Error from "./Error";
+import InputError from "./InputError";
 
 const Input = props => {
   const {
@@ -60,7 +60,7 @@ const Input = props => {
 
       {/* Errors validation msgs */}
       {hasInputChangeError || hasServerErrorMsg ? (
-        <Error notification={errors[name]} />
+        <InputError notification={errors[name]} />
       ) : null}
     </div>
   );

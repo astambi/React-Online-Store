@@ -1,5 +1,5 @@
 import React from "react";
-import Error from "./Error";
+import InputError from "./InputError";
 
 const Textarea = props => {
   const {
@@ -33,7 +33,7 @@ const Textarea = props => {
         onChange={onChange}
       />
 
-      {error ? <Error notification={error} /> : null}
+      {error ? <InputError notification={error} /> : null}
     </div>
   );
 };

@@ -1,9 +1,10 @@
 import React, { Fragment } from "react";
 import BookCard from "./BookCard";
 import Pagination from "../common/Pagination";
+import withLoading from "../hocs/withLoading";
 
 const BookList = props => {
-  const { books, ...paginationProps } = props;
+  const { isLoading, books, ...paginationProps } = props;
 
   return (
     <Fragment>
@@ -22,4 +23,5 @@ const BookList = props => {
   );
 };
 
-export default BookList;
+// export default BookList;
+export default withLoading(BookList);

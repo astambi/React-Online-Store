@@ -33,9 +33,8 @@ class Books extends Component {
   componentDidMount = async () => await this.getAllBooks();
 
   getAllBooks = async () => {
-    this.setState({ isLoading: true });
-
     try {
+      this.setState({ isLoading: true });
       const allBooks = await bookService.getAllBooks();
       console.log(allBooks);
 
@@ -88,7 +87,7 @@ class Books extends Component {
   };
 
   render() {
-    const { books, search, pagination } = this.state;
+    const { isLoading, books, search, pagination } = this.state;
     const { fromStore } = this.props;
 
     console.log(this.props);
@@ -115,6 +114,7 @@ class Books extends Component {
         )}
 
         <BookList
+          isLoading={isLoading}
           books={booksToDisplay}
           {...pagination} // currentPage, totalPages
           handlePageDecrease={() => handlePageDecrease.bind(this)()}

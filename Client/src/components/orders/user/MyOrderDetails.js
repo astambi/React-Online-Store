@@ -8,31 +8,29 @@ class MyOrderDetails extends Component {
     super(props);
 
     this.state = {
-      isLoaded: false,
-      order: null,
-      notFound: false
+      isLoading: false,
+      notFound: false,
+      order: null
     };
   }
 
   componentDidMount = async () => {
     const { id } = this.props.computedMatch.params; // NB
-    const order = await orderService.getUserOrderById(id);
 
-    if (order === undefined) {
-      this.setState({ isLoaded: true, notFound: true });
-    } else {
-      this.setState({ isLoaded: true, order });
-    }
+    this.setState({ isLoading: true });
+    const order = await orderService.getUserOrderById(id);
+    order === undefined
+      ? this.setState({ isLoading: false, notFound: true })
+      : this.setState({ isLoading: false, order });
   };
 
   render() {
-    const { isLoaded, ...otherProps } = this.state;
-
-    if (!isLoaded) {
-      return null;
-    }
-
-    return <OrderDetails {...otherProps} redirectPath={paths.ordersPath} />;
+    return (
+      <OrderDetails
+        {...this.state} // isLoading, notFound, order
+        redirectPath={paths.ordersPath}
+      />
+    );
   }
 }
 

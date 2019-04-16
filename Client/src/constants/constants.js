@@ -82,7 +82,9 @@ const notificationMessages = {
   // Invalid
   invalidInput: "Invalid input",
   notFoundMsg: "Not found",
-  errorMsg: "Something went wrong. Please try again"
+  errorMsg: "Something went wrong. Please try again",
+  // Loading
+  loadingMsg: "Loading..."
 };
 
 const paths = {

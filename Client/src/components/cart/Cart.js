@@ -6,8 +6,8 @@ import CartTableFooter from "./CartTableFooter";
 import ProductsTable from "../products/ProductsTable";
 import ProductsTableHeader from "../products/ProductsTableHeader";
 import bookService from "../../services/book-service";
-import orderService from "../../services/order-service";
 import notificationService from "../../services/notification-service";
+import orderService from "../../services/order-service";
 import { calculateOrderTotal } from "../../services/helpers";
 import { paths, notificationMessages } from "../../constants/constants";
 
@@ -16,7 +16,9 @@ class Cart extends Component {
     super(props);
 
     this.state = {
+      isLoading: false,
       isOrderCreated: false,
+      availableBooks: [],
       orderId: null,
       error: {
         message: "",
@@ -24,6 +26,14 @@ class Cart extends Component {
       }
     };
   }
+
+  componentDidMount = async () => {
+    const { books } = this.props;
+
+    this.setState({ isLoading: true });
+    const availableBooks = await bookService.filterAvailableBooks(books);
+    this.setState({ availableBooks, isLoading: false });
+  };
 
   changeQuantity = async (book, change) => {
     const { user } = this.props;
@@ -187,7 +197,7 @@ class Cart extends Component {
   };
 
   render() {
-    const { isOrderCreated, orderId } = this.state;
+    const { isLoading, isOrderCreated, orderId, availableBooks } = this.state;
 
     if (isOrderCreated) {
       return <Redirect to={`${paths.orderDetailsPath}/${orderId}`} />;
@@ -200,13 +210,14 @@ class Cart extends Component {
       <section className="cart">
         <h1 className="text-center">Shopping cart</h1>
 
-        <ProductsTable>
+        <ProductsTable isLoading={isLoading}>
           <ProductsTableHeader>
             <th>Actions</th>
           </ProductsTableHeader>
 
           <CartTableBody
             books={books}
+            availableBooks={availableBooks}
             // Actions handleClick props
             handleDecreaseQuantity={this.handleDecreaseQuantity}
             handleIncreaseQuantity={this.handleIncreaseQuantity}

@@ -10,35 +10,25 @@ class MyOrders extends Component {
     super(props);
 
     this.state = {
-      isLoaded: false,
+      isLoading: false,
       orders: []
     };
   }
 
   componentDidMount = async () => {
+    this.setState({ isLoading: true });
     const orders = await orderService.getUserOrders();
-    console.log(orders);
-
-    this.setState({ orders, isLoaded: true });
+    this.setState({ isLoading: false, orders });
   };
 
   render() {
-    const { isLoaded, orders } = this.state;
-
-    if (!isLoaded) {
-      return null;
-    }
-
     return (
       <OrdersTable title="My orders">
         <OrdersTableHeader />
-
-        <tbody>
-          <OrdersTableList
-            orders={orders}
-            detailsPath={paths.orderDetailsPath}
-          />
-        </tbody>
+        <OrdersTableList
+          {...this.state} // isLoading, orders
+          detailsPath={paths.orderDetailsPath}
+        />
       </OrdersTable>
     );
   }

@@ -1,4 +1,5 @@
 import React from "react";
+import withLoading from "../hocs/withLoading";
 
 const ProductsTable = props => {
   const { children } = props;
@@ -10,4 +11,5 @@ const ProductsTable = props => {
   );
 };
 
-export default ProductsTable;
+// export default ProductsTable;
+export default withLoading(ProductsTable);
