@@ -154,11 +154,22 @@ class BookDetails extends React.Component {
     const { book } = this.state;
     const { user } = this.props;
 
-    if (!book || !book.likes || !book.likes.length === 0 || !user) {
+    if (!book || !book.likes || book.likes.length === 0 || !user) {
       return false;
     }
 
     return book.likes.some(u => u === user.username);
+  };
+
+  isBookReviewed = () => {
+    const { book } = this.state;
+    const { user } = this.props;
+
+    if (!book || !book.reviews || book.reviews.length === 0 || !user) {
+      return false;
+    }
+
+    return book.reviews.some(r => r.createdBy === user.username);
   };
 
   isValidInput = review => {
@@ -235,6 +246,7 @@ class BookDetails extends React.Component {
             <section className="user-actions mt-3 mb-3 row row-wrap justify-content-around">
               <BookUserLinks
                 isLiked={this.isBookLiked()} // display liked button css if book is liked
+                isReviewed={this.isBookReviewed()} // display reviews button css if book is reviewed
                 handleLike={this.handleLike}
                 handleUnlike={this.handleUnlike}
                 handleReviewsVisibility={this.handleReviewsVisibility}

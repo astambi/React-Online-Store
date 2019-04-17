@@ -1,9 +1,12 @@
 import React from "react";
+import BookDetailsRow from "./BookDetailsRow";
 import { toCurrency } from "../../services/helpers";
 
 const BookDetailsView = props => {
   const { book, actions } = props;
   const { image, title, description, genres, author, price, likes } = book;
+
+  console.log(book);
 
   return (
     <section className="book-details-container row">
@@ -15,26 +18,11 @@ const BookDetailsView = props => {
 
       <article className="book-details-article col-lg-9">
         <h1>{title}</h1>
-        <div className="book-details-line">
-          <span className="book-details-title">Author: </span>
-          {author}
-        </div>
-        <div className="book-details-line">
-          <span className="book-details-title">Genres: </span>
-          {genres}
-        </div>
-        <div className="book-details-line">
-          <span className="book-details-title">Description: </span>
-          {description}
-        </div>
-        <div className="book-details-line">
-          <span className="book-details-title">Likes: </span>
-          {likes.length}
-        </div>
-        <div className="book-details-line">
-          <span className="book-details-title">Price: </span>
-          {toCurrency(price)}
-        </div>
+        <BookDetailsRow title="Author" value={author} />
+        <BookDetailsRow title="Genres" value={genres} />
+        <BookDetailsRow title="Description" value={description} />
+        <BookDetailsRow title="Likes" value={likes.length} />
+        <BookDetailsRow title="Price" value={toCurrency(price)} />
 
         {/* Actions */}
         {actions}

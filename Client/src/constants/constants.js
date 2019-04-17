@@ -7,6 +7,7 @@ const baseUrl = "http://localhost:5000";
 const authUrl = `${baseUrl}/auth`;
 const bookUrl = `${baseUrl}/book`;
 const ordersUrl = `${baseUrl}/orders`;
+const usersUrl = `${baseUrl}/users`;
 
 const dbConstants = {
   // auth
@@ -31,7 +32,9 @@ const dbConstants = {
   ordersApprovedUrl: `${ordersUrl}/approved`,
   ordersCancelledUrl: `${ordersUrl}/cancelled`,
   ordersDeliveredUrl: `${ordersUrl}/delivered`,
-  ordersPendingUrl: `${ordersUrl}/pending`
+  ordersPendingUrl: `${ordersUrl}/pending`,
+  // user
+  userProfileUrl: `${usersUrl}/profile`
 };
 
 // Input notifications

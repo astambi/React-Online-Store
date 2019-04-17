@@ -7,6 +7,7 @@ import ButtonUnlike from "../common/ButtonUnlike";
 const BookUserLinks = props => {
   const {
     isLiked,
+    isReviewed,
     handleLike,
     handleUnlike,
     handleOrderBook,
@@ -24,6 +25,7 @@ const BookUserLinks = props => {
       <ButtonUnlike className="mt-1 mb-1" handleAction={handleUnlike} />
       <ButtonReviews
         className="mt-1 mb-1"
+        outline={!isReviewed} // display reviews button css if book is reviewed
         handleAction={handleReviewsVisibility}
         name={`Reviews (${reviewsCount})`}
       />
