@@ -94,7 +94,57 @@ router.get("/delivered", authCheck, (req, res) => {
 });
 
 router.post("/approve/:id", authCheck, (req, res) => {
+  if (req.user.roles.indexOf("Admin") > -1) {
+    const orderId = req.params.id;
+
+    Order.findById(orderId)
+      .then(order => {
+        if (!order) {
+          const message = "Order not found.";
+          return res.status(200).json({
+            success: false,
+            message: message
+          });
+        }
+
+        order.status = "Approved";
+        order
+          .save()
+          .then(() => {
+            res.status(200).json({
+              success: true,
+              message: "Order approved successfully."
+            });
+          })
+          .catch(err => {
+            console.log(err);
+            const message = "Something went wrong :(";
+            return res.status(200).json({
+              success: false,
+              message: message
+            });
+          });
+      })
+      .catch(err => {
+        console.log(err);
+        const message = "Something went wrong :(";
+        return res.status(200).json({
+          success: false,
+          message: message
+        });
+      });
+  } else {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid credentials!"
+    });
+  }
+});
+
+router.post("/cancel/:id", authCheck, (req, res) => {
   const orderId = req.params.id;
+
+  // Creator only
   Order.findById(orderId)
     .then(order => {
       if (!order) {
@@ -105,40 +155,19 @@ router.post("/approve/:id", authCheck, (req, res) => {
         });
       }
 
-      order.status = "Approved";
-      order
-        .save()
-        .then(() => {
-          res.status(200).json({
-            success: true,
-            message: "Order approved successfully."
-          });
-        })
-        .catch(err => {
-          console.log(err);
-          const message = "Something went wrong :(";
-          return res.status(200).json({
-            success: false,
-            message: message
-          });
-        });
-    })
-    .catch(err => {
-      console.log(err);
-      const message = "Something went wrong :(";
-      return res.status(200).json({
-        success: false,
-        message: message
-      });
-    });
-});
+      const isAdmin = req.user.roles.indexOf("Admin") > -1;
+      const isOwner =
+        JSON.stringify(order.creator) === JSON.stringify(req.user._id); // NB obj ids
 
-router.post("/cancel/:id", authCheck, (req, res) => {
-  const orderId = req.params.id;
-  Order.findById(orderId)
-    .then(order => {
-      if (!order) {
-        const message = "Order not found.";
+      if (!isAdmin && !isOwner) {
+        return res.status(200).json({
+          success: false,
+          message: "Invalid credentials!"
+        });
+      }
+
+      if (!isAdmin && order.status !== "Pending") {
+        const message = "Order is already in transit.";
         return res.status(200).json({
           success: false,
           message: message
@@ -174,43 +203,51 @@ router.post("/cancel/:id", authCheck, (req, res) => {
 });
 
 router.post("/deliver/:id", authCheck, (req, res) => {
-  const orderId = req.params.id;
-  Order.findById(orderId)
-    .then(order => {
-      if (!order) {
-        const message = "Order not found.";
-        return res.status(200).json({
-          success: false,
-          message: message
-        });
-      }
+  if (req.user.roles.indexOf("Admin") > -1) {
+    const orderId = req.params.id;
 
-      order.status = "Delivered";
-      order
-        .save()
-        .then(() => {
-          res.status(200).json({
-            success: true,
-            message: "Order delivered successfully."
-          });
-        })
-        .catch(err => {
-          console.log(err);
-          const message = "Something went wrong :(";
+    Order.findById(orderId)
+      .then(order => {
+        if (!order) {
+          const message = "Order not found.";
           return res.status(200).json({
             success: false,
             message: message
           });
+        }
+
+        order.status = "Delivered";
+        order
+          .save()
+          .then(() => {
+            res.status(200).json({
+              success: true,
+              message: "Order delivered successfully."
+            });
+          })
+          .catch(err => {
+            console.log(err);
+            const message = "Something went wrong :(";
+            return res.status(200).json({
+              success: false,
+              message: message
+            });
+          });
+      })
+      .catch(err => {
+        console.log(err);
+        const message = "Something went wrong :(";
+        return res.status(200).json({
+          success: false,
+          message: message
         });
-    })
-    .catch(err => {
-      console.log(err);
-      const message = "Something went wrong :(";
-      return res.status(200).json({
-        success: false,
-        message: message
       });
+  } else {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid credentials!"
     });
+  }
 });
 
 module.exports = router;

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import AdminOrdersButtons from "./AdminOrdersButtons";
+import OrdersFilterButtons from "../OrdersFilterButtons";
 import OrdersTable from "../OrdersTable";
 import OrdersTableHeader from "../OrdersTableHeader";
 import OrdersTableList from "../OrdersTableList";
@@ -12,34 +12,30 @@ class AdminOrders extends Component {
 
     this.state = {
       isLoading: false,
-      action: "",
+      action: "", // filter by status
       actionBtnName: [],
       handleAction: [],
       orders: []
     };
   }
 
-  // Load Orders by Status
+  // Load Admin Orders by Status
   loadApprovedOrders = async () => {
     this.setState({ isLoading: true });
-    const orders = await orderService.getApprovedOrders();
-
     this.setState({
       isLoading: false,
-      orders,
+      orders: await orderService.getApprovedOrders(),
       action: paths.ordersApprovedName,
-      handleAction: [this.handleDeliverOrder, this.handleCancelOrder],
-      actionBtnName: ["Deliver", "Cancel"]
+      handleAction: [this.handleCancelOrder, this.handleDeliverOrder],
+      actionBtnName: ["Cancel", "Deliver"]
     });
   };
 
   loadCancelledOrders = async () => {
     this.setState({ isLoading: true });
-    const orders = await orderService.getCancelledOrders();
-
     this.setState({
       isLoading: false,
-      orders,
+      orders: await orderService.getCancelledOrders(),
       action: paths.ordersCancelledName,
       handleAction: [this.handleApproveOrder],
       actionBtnName: ["Approve"]
@@ -48,11 +44,9 @@ class AdminOrders extends Component {
 
   loadDeliveredOrders = async () => {
     this.setState({ isLoading: true });
-    const orders = await orderService.getDeliveredOrders();
-
     this.setState({
       isLoading: false,
-      orders,
+      orders: await orderService.getDeliveredOrders(),
       action: paths.ordersDeliveredName,
       handleAction: [this.handleCancelOrder],
       actionBtnName: ["Cancel"]
@@ -61,14 +55,12 @@ class AdminOrders extends Component {
 
   loadPendingOrders = async () => {
     this.setState({ isLoading: true });
-    const orders = await orderService.getPendingOrders();
-
     this.setState({
       isLoading: false,
-      orders,
+      orders: await orderService.getPendingOrders(),
       action: paths.ordersPendingName,
-      handleAction: [this.handleApproveOrder, this.handleCancelOrder],
-      actionBtnName: ["Approve", "Cancel"]
+      handleAction: [this.handleCancelOrder, this.handleApproveOrder],
+      actionBtnName: ["Cancel", "Approve"]
     });
   };
 
@@ -99,7 +91,7 @@ class AdminOrders extends Component {
 
     return (
       <Fragment>
-        <AdminOrdersButtons
+        <OrdersFilterButtons
           action={action}
           loadApprovedOrders={this.loadApprovedOrders}
           loadCancelledOrders={this.loadCancelledOrders}
@@ -107,11 +99,8 @@ class AdminOrders extends Component {
           loadPendingOrders={this.loadPendingOrders}
         />
 
-        <OrdersTable title={action === "" ? "Filter orders by status" : action}>
-          <OrdersTableHeader>
-            <th>Action</th>
-          </OrdersTableHeader>
-
+        <OrdersTable title={action}>
+          <OrdersTableHeader />
           <OrdersTableList
             {...otherProps} // isLoading, orders, actionBtn, handleAction
             detailsPath={paths.orderDetailsAdminPath}

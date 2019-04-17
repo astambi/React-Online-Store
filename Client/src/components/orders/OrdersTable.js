@@ -5,7 +5,9 @@ const OrdersTable = props => {
 
   return (
     <section className="orders">
-      <h1 className="text-center text-capitalize">{title || "Orders"}</h1>
+      <h1 className="text-center text-capitalize">
+        {title || "Filter orders by status"}
+      </h1>
 
       <section className="table-container container">
         <table className="table table-hover">

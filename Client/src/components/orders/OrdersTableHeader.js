@@ -11,6 +11,7 @@ const OrdersTableHeader = props => {
         <th>Total</th>
         <th>Status</th>
         <th>View</th>
+        <th>Actions</th>
 
         {/* extra headers */}
         {children}

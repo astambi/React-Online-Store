@@ -59,9 +59,9 @@ const OrderRow = props => {
       </th>
       <td>{toShortDate(date)}</td>
       <td className="text-right">{toCurrency(orderTotal)}</td>
-      <td>
+      <th>
         <span className="label label-info">{status}</span>
-      </td>
+      </th>
 
       {/* Order Details Link: MyOrders, AdminOrders */}
       <td>
@@ -75,9 +75,9 @@ const OrderRow = props => {
       </td>
 
       {/* Admin Action Buttons: approve, deliver, cancel */}
-      {!handleAction ? null : (
-        <td className="row justify-content-around">{orderActionButtons}</td>
-      )}
+      <td className="row justify-content-around">
+        {handleAction ? orderActionButtons : null}
+      </td>
     </tr>
   );
 };
