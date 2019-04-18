@@ -17,9 +17,11 @@ const ProductTableRow = props => {
       <td data-th="Product" className="product">
         <div className="row">
           <div className="image">
-            <Link to={paths.bookDetailsPath + "/" + product._id}>
-              <img src={image} alt={title} className="cart-image" />
-            </Link>
+            {!image ? null : (
+              <Link to={paths.bookDetailsPath + "/" + product._id}>
+                <img src={image} alt={title} className="cart-image" />
+              </Link>
+            )}
           </div>
           <div className="pl-2">
             <h4 className="nomargin">{title}</h4>

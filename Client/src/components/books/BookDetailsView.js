@@ -12,7 +12,7 @@ const BookDetailsView = props => {
     <section className="book-details-container row">
       <article className="book-details-article col-lg-3">
         <div className="text-center">
-          <img src={image} alt={title} />
+          {image ? <img src={image} alt={title} /> : null}
         </div>
       </article>
 

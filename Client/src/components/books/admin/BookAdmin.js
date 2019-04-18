@@ -218,7 +218,7 @@ class BookAdmin extends Component {
       <BookForm
         {...otherProps} // color, book, error, touched
         action={action} // create, edit, delete
-        disabled={action === "delete" ? true : false}
+        disabled={action === "delete"}
         handleBlur={this.handleBlur}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}

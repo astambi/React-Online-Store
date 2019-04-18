@@ -18,6 +18,8 @@ import MyOrderDetails from "./components/orders/user/MyOrderDetails";
 import MyOrders from "./components/orders/user/MyOrders";
 import NotFound from "./components/common/NotFound";
 import Profile from "./components/users/Profile";
+import ProfileDelete from "./components/users/ProfileDelete";
+import ProfileEdit from "./components/users/ProfileEdit";
 import Register from "./components/authentication/Register";
 import Store from "./components/store/Store";
 import { paths } from "./constants/constants";
@@ -45,7 +47,9 @@ const AppRouter = () => (
 
     {/* LoggedIn */}
     <LoggedInRoute path={paths.cartPath} component={Cart} />
-    <LoggedInRoute path={paths.profilePath} component={Profile} />
+    <LoggedInRoute path={paths.profilePath} exact component={Profile} />
+    <LoggedInRoute path={paths.profileEditPath} component={ProfileEdit} />
+    <LoggedInRoute path={paths.profileDeletePath} component={ProfileDelete} />
     <LoggedInRoute path={paths.myOrdersPath} exact component={MyOrders} />
     <LoggedInRoute
       path={`${paths.orderDetailsPath}/:id`}

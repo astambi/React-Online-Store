@@ -1,4 +1,4 @@
-import { get, post } from "../data/crud";
+import { get, post, remove } from "../data/crud";
 import bookService from "./book-service";
 import { dbConstants } from "../constants/constants";
 
@@ -46,7 +46,8 @@ const userService = {
   getCurrentUserUsername: () => getCurrentUserUsername(),
   getCurrentUserBookLikes: () => getCurrentUserBookLikes(),
   getCurrentUserReviewsOnBooks: () => getCurrentUserReviews(),
-  updateUser: userData => post(dbConstants.userProfileUrl, userData)
+  updateCurrentUser: userData => post(dbConstants.userProfileUrl, userData),
+  deleteCurrentUser: () => remove(dbConstants.userProfileUrl)
 };
 
 export default userService;

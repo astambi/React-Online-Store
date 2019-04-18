@@ -109,6 +109,7 @@ class Login extends Component {
     return (
       <LoginForm
         {...this.state} // user, error
+        color="primary"
         handleBlur={this.handleBlur}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}

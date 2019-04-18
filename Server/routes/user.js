@@ -49,6 +49,7 @@ function validateUserUpdateForm(payload) {
   };
 }
 
+// Current User Profile
 router.get("/profile", authCheck, (req, res) => {
   User.findById(req.user._id).then(user => {
     if (!user) {
@@ -63,6 +64,7 @@ router.get("/profile", authCheck, (req, res) => {
   });
 });
 
+// Current User Profile
 router.post("/profile", authCheck, (req, res) => {
   User.findById(req.user._id)
     .then(existingUser => {
@@ -134,7 +136,7 @@ router.post("/profile", authCheck, (req, res) => {
         .then(editedUser => {
           return res.status(200).json({
             success: true,
-            message: "User edited successfully.",
+            message: "User profile edited successfully.",
             data: editedUser
           });
         })
@@ -147,6 +149,46 @@ router.post("/profile", authCheck, (req, res) => {
           return res.status(200).json({
             success: false,
             message: message
+          });
+        });
+    })
+    .catch(err => {
+      console.log(err);
+      const message = "Something went wrong :( Check the form for errors.";
+      return res.status(200).json({
+        success: false,
+        message: message
+      });
+    });
+});
+
+// Current User Profile
+router.delete("/profile", authCheck, (req, res) => {
+  User.findById(req.user._id)
+    .then(existingUser => {
+      // User Not found
+      if (!existingUser) {
+        const message = "User not found.";
+        return res.status(200).json({
+          success: false,
+          message: message
+        });
+      }
+
+      // Remove User from db
+      existingUser
+        .remove()
+        .then(() => {
+          return res.status(200).json({
+            success: true,
+            message: "User profile deleted successfully."
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          return res.status(200).json({
+            success: false,
+            message: "Entry does not exist!"
           });
         });
     })

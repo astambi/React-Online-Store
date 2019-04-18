@@ -28,7 +28,8 @@ const bookService = {
   likeBookById: id => post(dbConstants.bookLikeByIdUrl + id),
   unlikeBookById: id => post(dbConstants.bookUnlikeByIdUrl + id),
   reviewBookById: (id, review) =>
-    post(dbConstants.bookReviewByIdUrl + id, review)
+    post(dbConstants.bookReviewByIdUrl + id, review),
+  getStats: () => get(dbConstants.statsUrl)
 };
 
 export default bookService;

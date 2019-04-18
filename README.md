@@ -43,13 +43,13 @@ Book Store contains a collection of books that can be ordered by users. Users ca
   For convenience user's own orders and all orders viewed by the Admin are listed by status: Pending (new orders placed by users), Cancelled orders (either by the user or by an Admin), Approved orders (orders ready for delivery), Delivered orders (orders delivered to the user).
 
 - Profile:
-  Users can view they own profile data (username, email, user roles if any) and update the data. The profile provides a collection of user's favourite books and written reviews.
+  Users can view they own profile data (username, email, user roles if any), update or delete their profile. The profile provides a collection of user's favourite books and written reviews.
 
 - Registration / Login:
   Users can register providing email, username and password. Upon registration users are redirected to Login.
 
 - Notifications:
-  [React Toastify](https://fkhadra.github.io/react-toastify/) is used for user notifications.
+  [React Toastify](https://github.com/fkhadra/react-toastify) is used for user notifications.
 
 ### Public Part (Any user: Authenticated or Anonymous)
 
@@ -72,6 +72,7 @@ The public part of the Book Store is visible by any user without authentication:
 - Collection of user's favourite books
 - Collection of user's written book reviews
 - Updating Profile data (username, email, password)
+- Deleting the current user Profile
 - Logout
 
 ### Administration Part (Logged in users in Admin role)

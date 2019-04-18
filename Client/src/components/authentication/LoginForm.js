@@ -10,6 +10,7 @@ const LoginForm = props => {
     handleSubmit,
     ...otherProps // handleChange, handleBlur, touched, disabled, color
   } = props;
+  const { color } = props;
 
   const { email, password } = user;
   const { message, errors } = error;
@@ -18,7 +19,7 @@ const LoginForm = props => {
 
   return (
     <div className="form-container container col-md-8 col-lg-7 col-xl-6">
-      <h1>Login</h1>
+      <h1 className={`text-capitalize text-${color}`}>Login</h1>
 
       <form onSubmit={handleSubmit}>
         {message ? <InputError notification={message} /> : null}
@@ -43,7 +44,7 @@ const LoginForm = props => {
           value={password}
         />
 
-        <InputSubmit value="Login" />
+        <InputSubmit value="Login" color={color} />
       </form>
     </div>
   );

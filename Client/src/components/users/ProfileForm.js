@@ -1,15 +1,17 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Input from "../common/Input";
 import InputError from "../common/InputError";
 import InputSubmit from "../common/InputSubmit";
 
-const RegisterForm = props => {
+const ProfileForm = props => {
   const {
+    action,
     user,
     error,
     handleSubmit,
     ...otherProps // handleChange, handleBlur, touched, disabled, color
   } = props;
+  const { color } = props;
 
   const { email, username, password, confirmPassword } = user;
   const { message, errors } = error;
@@ -18,7 +20,7 @@ const RegisterForm = props => {
 
   return (
     <div className="form-container container col-lg-8 col-xl-6">
-      <h1>Register</h1>
+      <h1 className={`text-capitalize text-${color}`}>{action}</h1>
 
       <form onSubmit={handleSubmit}>
         {message ? <InputError notification={message} /> : null}
@@ -42,29 +44,34 @@ const RegisterForm = props => {
           value={username}
         />
 
-        <Input
-          {...inputProps}
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Enter password"
-          value={password}
-        />
+        {/* Hide passwords for Delete*/}
+        {action === "delete" ? null : (
+          <Fragment>
+            <Input
+              {...inputProps}
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Enter password"
+              value={password}
+            />
 
-        <Input
-          {...inputProps}
-          type="password"
-          name="confirmPassword"
-          id="confirmPassword"
-          label="Confirm password"
-          placeholder="Enter your password again"
-          value={confirmPassword}
-        />
+            <Input
+              {...inputProps}
+              type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              label="Confirm password"
+              placeholder="Enter your password again"
+              value={confirmPassword}
+            />
+          </Fragment>
+        )}
 
-        <InputSubmit value="Register" />
+        <InputSubmit value={action} color={color} />
       </form>
     </div>
   );
 };
 
-export default RegisterForm;
+export default ProfileForm;

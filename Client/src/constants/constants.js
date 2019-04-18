@@ -8,6 +8,7 @@ const authUrl = `${baseUrl}/auth`;
 const bookUrl = `${baseUrl}/book`;
 const ordersUrl = `${baseUrl}/orders`;
 const usersUrl = `${baseUrl}/users`;
+const statsUrl = `${baseUrl}/stats`;
 
 const dbConstants = {
   // auth
@@ -34,7 +35,9 @@ const dbConstants = {
   ordersDeliveredUrl: `${ordersUrl}/delivered`,
   ordersPendingUrl: `${ordersUrl}/pending`,
   // user
-  userProfileUrl: `${usersUrl}/profile`
+  userProfileUrl: `${usersUrl}/profile`,
+  // stats
+  statsUrl: `${statsUrl}/`
 };
 
 // Input notifications
@@ -133,7 +136,9 @@ const paths = {
   ordersPendingName: "Pending orders",
   // user
   profilePath: "/profile",
-  profileName: "Profile"
+  profileName: "Profile",
+  profileEditPath: "/profile/edit",
+  profileDeletePath: "/profile/delete"
 };
 
 const roles = {
