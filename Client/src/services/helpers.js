@@ -36,7 +36,7 @@ function handlePageDecrease() {
     return;
   }
 
-  updateCurrentPage.bind(this)(-1);
+  incrementCurrentPage.bind(this)(-1);
 }
 
 function handlePageIncrease() {
@@ -45,13 +45,22 @@ function handlePageIncrease() {
     return;
   }
 
-  updateCurrentPage.bind(this)(1);
+  incrementCurrentPage.bind(this)(1);
 }
 
-function updateCurrentPage(change) {
+function incrementCurrentPage(change) {
   this.setState(prevState => {
     const pagination = prevState.pagination;
     pagination.currentPage = pagination.currentPage + change;
+    console.log(pagination);
+    return { pagination };
+  });
+}
+
+function changePageTo(newPage) {
+  this.setState(prevState => {
+    const pagination = prevState.pagination;
+    pagination.currentPage = newPage;
     console.log(pagination);
     return { pagination };
   });
@@ -93,15 +102,19 @@ const toCurrency = number => `$${(+number).toFixed(2)}`;
 const toShortDate = dateStr => new Date(dateStr).toLocaleString("en-GB");
 
 export {
-  filterCurrentPageItems,
-  handleBlur,
+  // Input
   handleInputChange,
+  handleBlur,
+  // Paginatiion
+  updatePaginationState,
+  changePageTo,
   handlePageDecrease,
   handlePageIncrease,
+  filterCurrentPageItems,
+  // Misc
   calculateOrderTotal,
   getProductsTitles,
   stringContains,
   toCurrency,
-  toShortDate,
-  updatePaginationState
+  toShortDate
 };

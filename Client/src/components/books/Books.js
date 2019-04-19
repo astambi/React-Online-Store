@@ -1,22 +1,28 @@
 import React, { Component } from "react";
 import BookList from "./BookList";
 import BookSearchForm from "./BookSearchForm";
+import Pagination from "../common/Pagination";
 import bookService from "../../services/book-service";
 import {
-  filterCurrentPageItems,
+  // Input
   handleInputChange,
+  // Pagination
+  filterCurrentPageItems,
+  changePageTo,
   handlePageDecrease,
   handlePageIncrease,
-  stringContains,
-  updatePaginationState
+  updatePaginationState,
+  // Misc
+  stringContains
 } from "../../services/helpers";
 
 class Books extends Component {
   constructor(props) {
     super(props);
 
-    this.pageLimit = 8;
-    this.topCount = 10;
+    this.pageLimit = 8; // pagination
+
+    this.topCount = 10; // top-rated items
 
     this.state = {
       isLoading: false,
@@ -52,7 +58,7 @@ class Books extends Component {
       const books = fromHome ? topRatedBooks : allBooks;
 
       this.setState({ isLoading: false, books });
-      updatePaginationState.bind(this)(books, this.pageLimit);
+      updatePaginationState.bind(this)(books, this.pageLimit); // pagination
 
       return books;
     } catch (error) {
@@ -83,15 +89,16 @@ class Books extends Component {
     }
 
     this.setState({ isLoading: false, books: queryBooks });
-    updatePaginationState.bind(this)(queryBooks, this.pageLimit);
+    updatePaginationState.bind(this)(queryBooks, this.pageLimit); // pagination
   };
 
   render() {
-    const { isLoading, books, search, pagination } = this.state;
+    console.log(this.props);
     const { fromStore } = this.props;
 
-    console.log(this.props);
+    const { isLoading, books, search, pagination } = this.state;
 
+    // Pagination Items
     const booksToDisplay = filterCurrentPageItems(
       books,
       pagination.currentPage,
@@ -113,10 +120,11 @@ class Books extends Component {
           />
         )}
 
-        <BookList
-          isLoading={isLoading}
-          books={booksToDisplay}
+        <BookList isLoading={isLoading} books={booksToDisplay} />
+
+        <Pagination
           {...pagination} // currentPage, totalPages
+          changePageTo={changePageTo.bind(this)}
           handlePageDecrease={() => handlePageDecrease.bind(this)()}
           handlePageIncrease={() => handlePageIncrease.bind(this)()}
         />

@@ -4,9 +4,16 @@ const Pagination = props => {
   const {
     currentPage = 1,
     totalPages = 1,
+    changePageTo,
     handlePageDecrease,
     handlePageIncrease
   } = props;
+
+  // Get pages []
+  let pages = [1];
+  for (let page = 2; page <= totalPages; page++) {
+    pages.push(page);
+  }
 
   return (
     <nav className="pagination">
@@ -17,9 +24,13 @@ const Pagination = props => {
           </button>
         </li>
 
-        <li className="page-item active">
-          <button className="page-link">{currentPage}</button>
-        </li>
+        {pages.map(page => (
+          <li className={`page-item ${page === currentPage ? "active" : ""}`}>
+            <button className="page-link" onClick={() => changePageTo(page)}>
+              {page}
+            </button>
+          </li>
+        ))}
 
         <li
           className={`page-item ${
