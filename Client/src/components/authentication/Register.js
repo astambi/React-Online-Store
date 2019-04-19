@@ -1,8 +1,7 @@
 import React from "react";
-import ProfileCreateUpdate from "../users/ProfileCreateUpdate";
+import ProfileCrud from "../users/ProfileCrud";
+import { actions } from "../../constants/constants";
 
-const Register = () => {
-  return <ProfileCreateUpdate action="register" />;
-};
+const Register = () => <ProfileCrud action={actions.register} />;
 
 export default Register;

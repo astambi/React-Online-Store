@@ -17,6 +17,10 @@ body {
   font: 16px/1.5 "Montserrat", sans-serif;
 }
 
+a {
+  outline: 0;
+}
+
 /* Header & Navbar */
 header {
   width: 100%;

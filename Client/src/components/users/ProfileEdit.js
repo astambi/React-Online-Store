@@ -1,8 +1,9 @@
 import React from "react";
-import ProfileCreateUpdate from "./ProfileCreateUpdate";
+import ProfileCrud from "./ProfileCrud";
+import { actions } from "../../constants/constants";
 
 const ProfileEdit = () => {
-  return <ProfileCreateUpdate action="edit" />;
+  return <ProfileCrud action={actions.edit} />;
 };
 
 export default ProfileEdit;

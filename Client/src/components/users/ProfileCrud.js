@@ -1,20 +1,22 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import { UserConsumer } from "../contexts/user-context";
 import ProfileForm from "./ProfileForm";
 import authenticationService from "../../services/authentication-service";
 import notificationService from "../../services/notification-service";
 import userService from "../../services/user-service";
 import { handleBlur, handleInputChange } from "../../services/helpers";
-import { notifications, paths } from "../../constants/constants";
+import { actions, auth, notifications, paths } from "../../constants/constants";
 
-class ProfileCreateUpdate extends Component {
+class ProfileCrud extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      isLoggedIn: false,
       isRegistered: false,
-      isUpdated: false,
       isDeleted: false,
+      isUpdated: false,
       color: "",
       user: {
         email: "",
@@ -39,13 +41,16 @@ class ProfileCreateUpdate extends Component {
     const { action } = this.props;
 
     switch (action) {
-      case "register":
+      case actions.register:
         this.loadRegisterForm();
         break;
-      case "edit":
+      case actions.login:
+        this.loadLoginForm();
+        break;
+      case actions.edit:
         await this.loadEditForm();
         break;
-      case "delete":
+      case actions.delete:
         await this.loadDeleteForm();
         break;
       default:
@@ -53,10 +58,11 @@ class ProfileCreateUpdate extends Component {
     }
   };
 
+  loadLoginForm = () => this.setState({ color: "primary" });
+
   loadRegisterForm = () => this.setState({ color: "success" });
 
   loadDeleteForm = async () => {
-    // TODO
     const profile = await userService.getCurrentUserProfile();
 
     const { email, username } = profile;
@@ -103,13 +109,16 @@ class ProfileCreateUpdate extends Component {
 
     const { action } = this.props;
     switch (action) {
-      case "register":
+      case actions.register:
         await this.tryRegisterUser();
         break;
-      case "edit":
+      case actions.login:
+        await this.tryLoginUser();
+        break;
+      case actions.edit:
         await this.tryEditUser();
         break;
-      case "delete":
+      case actions.delete:
         this.tryDeleteUser();
         break;
       default:
@@ -118,8 +127,8 @@ class ProfileCreateUpdate extends Component {
   };
 
   tryDeleteUser = async () => {
-    // TODO
     const result = await userService.deleteCurrentUser();
+
     console.log(result);
     const { success, message, errors } = result;
 
@@ -136,21 +145,71 @@ class ProfileCreateUpdate extends Component {
 
   tryEditUser = async () => {
     const { user } = this.state;
-    // const { email, username, password } = user;
-    // const userData = { email, username, password };
 
     const result = await userService.updateCurrentUser(user);
     console.log(result);
-    const { success, message, errors } = result;
+    const { success, message, errors, data } = result;
 
     if (!success) {
       notificationService.errorMsg(message);
-      this.setState({
-        error: { message, errors }
-      });
+      this.setState({ error: { message, errors } });
     } else {
+      // Update UserContext state
+      const { updateUser, user } = this.props; // from context
+      const { username, roles } = data; // from server
+
+      const userToUpdate = {
+        ...user, // { cart, isLoggedIn } from context
+        username, // from server
+        roles // from server
+      };
+      updateUser(userToUpdate);
+
       notificationService.successMsg(message);
       this.setState({ isUpdated: true, error: {} });
+    }
+  };
+
+  tryLoginUser = async () => {
+    try {
+      const { user } = this.state;
+      const response = await authenticationService.loginUser(user);
+      console.log(response);
+
+      const { success, message, errors, token, user: resUser } = response;
+
+      if (!success) {
+        this.setState({ error: { message, errors } });
+
+        // Error Notification
+        notificationService.errorMsg(message);
+      } else {
+        // Save token to storage
+        window.localStorage.setItem(auth.authToken, token);
+
+        // Update UserContext state
+        const { updateUser } = this.props;
+        console.log(resUser); // username, roles
+
+        const userToUpdate = {
+          ...resUser, // username, roles
+          isLoggedIn: true,
+          cart: []
+        };
+        updateUser(userToUpdate);
+
+        // Update Login state
+        this.setState({ isLoggedIn: true, error: {} });
+
+        // Success Notification
+        notificationService.successMsg(message);
+      }
+    } catch (error) {
+      console.log(error);
+      this.setState({ error });
+
+      // Error Notification
+      notificationService.errorMsg(error);
     }
   };
 
@@ -163,17 +222,12 @@ class ProfileCreateUpdate extends Component {
       const { success, message, errors } = response;
 
       if (!success) {
-        this.setState({
-          error: { message, errors }
-        });
+        this.setState({ error: { message, errors } });
 
         // Error Notification
         notificationService.errorMsg(message);
       } else {
-        this.setState({
-          isRegistered: true,
-          error: {}
-        });
+        this.setState({ isRegistered: true, error: {} });
 
         // Success Notification
         notificationService.successMsg(message);
@@ -224,7 +278,17 @@ class ProfileCreateUpdate extends Component {
 
   render() {
     const { action } = this.props;
-    const { isRegistered, isUpdated, isDeleted, ...otherProps } = this.state;
+    const {
+      isLoggedIn,
+      isRegistered,
+      isUpdated,
+      isDeleted,
+      ...otherProps
+    } = this.state;
+
+    if (isLoggedIn) {
+      return <Redirect to={paths.indexPath} />;
+    }
 
     if (isRegistered) {
       return <Redirect to={paths.loginPath} />;
@@ -243,7 +307,7 @@ class ProfileCreateUpdate extends Component {
       <ProfileForm
         {...otherProps} // user, error, color
         action={action}
-        disabled={action === "delete"}
+        disabled={action === actions.delete}
         handleBlur={this.handleBlur}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit} // custom
@@ -252,4 +316,14 @@ class ProfileCreateUpdate extends Component {
   }
 }
 
-export default ProfileCreateUpdate;
+// export default ProfileCrud;
+
+const ProfileCrudWithContext = props => (
+  <UserConsumer>
+    {({ user, updateUser }) => (
+      <ProfileCrud {...props} user={user} updateUser={updateUser} />
+    )}
+  </UserConsumer>
+);
+
+export default ProfileCrudWithContext;

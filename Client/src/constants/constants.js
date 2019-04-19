@@ -145,4 +145,20 @@ const roles = {
   adminRole: "Admin"
 };
 
-export { auth, dbConstants, notifications, notificationMessages, paths, roles };
+const actions = {
+  create: "create",
+  edit: "edit",
+  delete: "delete",
+  login: "login",
+  register: "register"
+};
+
+export {
+  actions,
+  auth,
+  dbConstants,
+  notifications,
+  notificationMessages,
+  paths,
+  roles
+};

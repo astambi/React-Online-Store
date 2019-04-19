@@ -79,7 +79,6 @@ router.post("/profile", authCheck, (req, res) => {
 
       // Update User Data
       const userObj = req.body;
-      console.log(userObj);
 
       // Username
       if (

@@ -7,7 +7,8 @@ import { handleBlur, handleInputChange } from "../../../services/helpers";
 import {
   notifications,
   notificationMessages,
-  paths
+  paths,
+  actions
 } from "../../../constants/constants";
 
 class BookAdmin extends Component {
@@ -46,13 +47,13 @@ class BookAdmin extends Component {
     const { action } = this.props;
 
     switch (action) {
-      case "create":
+      case actions.create:
         this.loadCreateForm();
         break;
-      case "delete":
+      case actions.delete:
         await this.loadDeleteForm();
         break;
-      case "edit":
+      case actions.edit:
         await this.loadEditForm();
         break;
       default:
@@ -92,13 +93,13 @@ class BookAdmin extends Component {
       // Update book in Db
       let result = null;
       switch (action) {
-        case "create":
+        case actions.create:
           result = await bookService.createBook(book);
           break;
-        case "delete":
+        case actions.delete:
           result = await bookService.deleteBookById(book._id);
           break;
-        case "edit":
+        case actions.edit:
           result = await bookService.editBookById(book._id, book);
           break;
         default:
@@ -218,7 +219,7 @@ class BookAdmin extends Component {
       <BookForm
         {...otherProps} // color, book, error, touched
         action={action} // create, edit, delete
-        disabled={action === "delete"}
+        disabled={action === actions.delete}
         handleBlur={this.handleBlur}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit}

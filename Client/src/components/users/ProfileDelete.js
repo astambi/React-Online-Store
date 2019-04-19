@@ -1,8 +1,9 @@
 import React from "react";
-import ProfileCreateUpdate from "./ProfileCreateUpdate";
+import ProfileCrud from "./ProfileCrud";
+import { actions } from "../../constants/constants";
 
 const ProfileDelete = () => {
-  return <ProfileCreateUpdate action="delete" />;
+  return <ProfileCrud action={actions.delete} />;
 };
 
 export default ProfileDelete;

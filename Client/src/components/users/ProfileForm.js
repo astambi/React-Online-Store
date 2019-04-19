@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import Input from "../common/Input";
 import InputError from "../common/InputError";
 import InputSubmit from "../common/InputSubmit";
+import { actions } from "../../constants/constants";
 
 const ProfileForm = props => {
   const {
@@ -35,17 +36,20 @@ const ProfileForm = props => {
           value={email}
         />
 
-        <Input
-          {...inputProps}
-          type="text"
-          name="username"
-          id="username"
-          placeholder="Enter username"
-          value={username}
-        />
+        {/* Hide Username in Login form */}
+        {action === actions.login ? null : (
+          <Input
+            {...inputProps}
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Enter username"
+            value={username}
+          />
+        )}
 
-        {/* Hide passwords for Delete*/}
-        {action === "delete" ? null : (
+        {/* Hide Password in Delete form */}
+        {action === actions.delete ? null : (
           <Fragment>
             <Input
               {...inputProps}
@@ -55,17 +59,20 @@ const ProfileForm = props => {
               placeholder="Enter password"
               value={password}
             />
-
-            <Input
-              {...inputProps}
-              type="password"
-              name="confirmPassword"
-              id="confirmPassword"
-              label="Confirm password"
-              placeholder="Enter your password again"
-              value={confirmPassword}
-            />
           </Fragment>
+        )}
+
+        {/* Hide Confirm Password in Delete & Login forms */}
+        {action === actions.delete || action === actions.login ? null : (
+          <Input
+            {...inputProps}
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            label="Confirm password"
+            placeholder="Enter your password again"
+            value={confirmPassword}
+          />
         )}
 
         <InputSubmit value={action} color={color} />
