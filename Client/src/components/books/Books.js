@@ -93,9 +93,7 @@ class Books extends Component {
   };
 
   render() {
-    console.log(this.props);
     const { fromStore } = this.props;
-
     const { isLoading, books, search, pagination } = this.state;
 
     // Pagination Items
