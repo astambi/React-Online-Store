@@ -3,13 +3,13 @@ import ButtonRemove from "../common/ButtonRemove";
 import Review from "./Review";
 
 const BookReviewsView = props => {
-  const { reviews, handleReviewDelete, isAdmin } = props;
+  const { reviews, handleReviewDelete, isAdmin, username } = props;
 
   return reviews && reviews.length > 0 ? (
     reviews.map((review, index) => (
       <Review key={index} review={review} index={index + 1}>
-        {/* Admin delete review */}
-        {!isAdmin ? null : (
+        {/* Admin or review Author Delete review */}
+        {!isAdmin && review.createdBy !== username ? null : (
           <ButtonRemove handleAction={() => handleReviewDelete(index)} />
         )}
       </Review>

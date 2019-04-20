@@ -17,12 +17,13 @@ const dbConstants = {
   registerUrl: `${authUrl}/signup`,
   // books
   bookCreateUrl: `${bookUrl}/create`,
-  booksAllUrl: `${bookUrl}/all`,
-  bookReviewByIdUrl: `${bookUrl}/review/`,
+  bookEditByIdUrl: `${bookUrl}/edit/`,
+  bookDeleteByIdUrl: `${bookUrl}/delete/`,
   bookLikeByIdUrl: `${bookUrl}/like/`,
   bookUnlikeByIdUrl: `${bookUrl}/unlike/`,
-  bookDeleteByIdUrl: `${bookUrl}/delete/`,
-  bookEditByIdUrl: `${bookUrl}/edit/`,
+  bookReviewByIdUrl: `${bookUrl}/review/`,
+  bookReviewDeleteByIdIndexUrl: `${bookUrl}/review/delete/`, // :bookId/:reviewIndex
+  booksAllUrl: `${bookUrl}/all`,
   // orders
   orderCreateUrl: `${ordersUrl}/submit`,
   orderApproveByIdUrl: `${ordersUrl}/approve/`,

@@ -224,6 +224,83 @@ router.post("/review/:id", authCheck, (req, res) => {
     });
 });
 
+router.post("/review/delete/:id/:reviewIndex", authCheck, (req, res) => {
+  console.log(req.params);
+
+  const id = req.params.id; // bookId
+  const reviewIndex = req.params.reviewIndex;
+  const user = req.user;
+  const username = user.username;
+
+  Book.findById(id)
+    .then(book => {
+      // Find book
+      if (!book) {
+        return res.status(200).json({
+          success: false,
+          message: "Book not found."
+        });
+      }
+
+      // Find review
+      let reviews = book.reviews.slice();
+      console.log(reviews);
+
+      if (reviewIndex < 0 || reviewIndex >= reviews.length) {
+        return res.status(200).json({
+          success: false,
+          message: "Review not found."
+        });
+      }
+
+      // Admin or Review Author
+      let reviewToDelete = reviews[reviewIndex];
+      console.log(reviewToDelete);
+
+      const isAdmin = user.roles.indexOf("Admin") > -1;
+      const isAuthor = reviewToDelete.createdBy === username;
+
+      if (!isAdmin && !isAuthor) {
+        return res.status(200).json({
+          success: false,
+          message: "Invalid credentials."
+        });
+      }
+
+      // Remove review
+      reviews.splice(reviewIndex, 1);
+      console.log(reviews);
+
+      // Save book with updated reviews
+      book.reviews = reviews;
+      book
+        .save()
+        .then(book => {
+          res.status(200).json({
+            success: true,
+            message: "Review deleted successfully.",
+            data: book
+          });
+        })
+        .catch(err => {
+          console.log(err);
+          const message = "Something went wrong :( Check the form for errors.";
+          return res.status(200).json({
+            success: false,
+            message: message
+          });
+        });
+    })
+    .catch(err => {
+      console.log(err);
+      const message = "Something went wrong :( Check the form for errors.";
+      return res.status(200).json({
+        success: false,
+        message: message
+      });
+    });
+});
+
 router.post("/like/:id", authCheck, (req, res) => {
   const id = req.params.id;
   const username = req.user.username;

@@ -29,6 +29,8 @@ const bookService = {
   unlikeBookById: id => post(dbConstants.bookUnlikeByIdUrl + id),
   reviewBookById: (id, review) =>
     post(dbConstants.bookReviewByIdUrl + id, review),
+  deleteBookReviewByIdIndex: (bookId, reviewIndex) =>
+    post(dbConstants.bookReviewDeleteByIdIndexUrl + bookId + "/" + reviewIndex),
   getStats: () => get(dbConstants.statsUrl)
 };
 

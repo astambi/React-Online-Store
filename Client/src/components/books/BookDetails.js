@@ -107,16 +107,12 @@ class BookDetails extends React.Component {
       return;
     }
 
+    // Admin or Author Delete review
     const { book } = this.state;
-
-    let reviewsToUpdate = book.reviews.slice();
-    reviewsToUpdate.splice(reviewIndex, 1);
-    const bookToUpdate = {
-      ...book,
-      reviews: reviewsToUpdate
-    };
-
-    const result = await bookService.editBookById(book._id, bookToUpdate);
+    const result = await bookService.deleteBookReviewByIdIndex(
+      book._id,
+      reviewIndex
+    );
     this.updateBook(result);
   };
 
@@ -232,10 +228,8 @@ class BookDetails extends React.Component {
       return null;
     }
 
-    const { isAdmin } = this.props;
+    const { isAdmin, user } = this.props;
     const reviewsCount = this.getReviewsCount();
-
-    this.isBookLiked();
 
     return (
       <Fragment>
@@ -271,6 +265,7 @@ class BookDetails extends React.Component {
                   <ReviewsList
                     reviews={book.reviews}
                     handleReviewDelete={this.handleReviewDelete}
+                    username={user.username} // review author
                     isAdmin={isAdmin()}
                   />
                 </section>
