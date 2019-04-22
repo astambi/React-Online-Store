@@ -18,6 +18,9 @@ Book Store contains a collection of books that can be ordered by users. Users ca
 - Creating / Editing / Deleting Books:
   Books in the store are created by Admins only. Admins can edit book details and delete a book from the Store. Each book has a title, an author, list of genres, a short description, a list of likes from users and a list of user reviews (with authors).
 
+- Uploading e-book files / Deleting uploaded book files:
+  File uploads are created by Admins only. Admins can replace or delete any uploaded book file.
+
 - Ordering / Liking / Unliking a Book, Reading / Writing Book Reviews:
   User authentication (login) is required to order a book (add it to the user's shopping cart), to write a book review and to like / unlike a book. Anonymous users are redirected to the Login page when they hit a functionality that requires user authentication.
 
@@ -41,6 +44,9 @@ Book Store contains a collection of books that can be ordered by users. Users ca
 
 - All Orders:
   For convenience user's own orders and all orders viewed by the Admin are listed by status: Pending (new orders placed by users), Cancelled orders (either by the user or by an Admin), Approved orders (orders ready for delivery), Delivered orders (orders delivered to the user).
+
+- Downloading a purchased book:
+  Authorized users can download an e-book they have purchased when the order is finalized (i.e. when the order status is Delivered).
 
 - Profile:
   Users can view they own profile data (username, email, user roles if any), update or delete their profile. The profile provides a collection of user's favourite books and written reviews.
@@ -68,10 +74,12 @@ The public part of the Book Store is visible by any user without authentication:
 - Ordering a book from Store / Top-rated selection / Book Details Page
 - Liking / Unliking a Book
 - Writing a Review
+- Downloading a book when the order is delivered
 - User's Profile with stats
+- Collection of user's e-books for download
 - Collection of user's favourite books
 - Collection of user's written book reviews
-- Updating Profile data (username, email, password)
+- Updating Profile data (email, password)
 - Deleting the current user Profile
 - Logout
 
@@ -81,6 +89,7 @@ The public part of the Book Store is visible by any user without authentication:
 - Deleting Book Reviews
 - Viewing all Orders
 - Modifing the status of any Order (approving, cancelling, delivering)
+- Uploading & deleting book files
 
 ## Front-end: React.js
 
