@@ -36,8 +36,8 @@ const ProfileForm = props => {
           value={email}
         />
 
-        {/* Hide Username in Login form */}
-        {action === actions.login ? null : (
+        {/* Hide Username in Login or Edit form */}
+        {action === actions.login || action === actions.edit ? null : (
           <Input
             {...inputProps}
             type="text"

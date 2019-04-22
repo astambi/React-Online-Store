@@ -4,10 +4,12 @@ import { UserConsumer } from "../contexts/user-context";
 import BookAdminLinks from "./admin/BookAdminLinks";
 import BookDetailsView from "./BookDetailsView";
 import BookUserLinks from "./BookUserLinks";
+import FileAdmin from "./admin/FileAdmin";
 import ReviewCreateForm from "../reviews/ReviewCreateForm";
 import ReviewsList from "../reviews/ReviewsList";
 import bookService from "../../services/book-service";
 import notificationService from "../../services/notification-service";
+import userService from "../../services/user-service";
 import { handleInputChange } from "../../services/helpers";
 import { paths, notificationMessages } from "../../constants/constants";
 
@@ -18,12 +20,14 @@ class BookDetails extends React.Component {
     this.state = {
       isLoginRequired: false,
       isOrdered: false,
+      isDelivered: false,
       notFound: false,
       showReviews: false,
       book: null,
       review: {
         content: ""
       },
+      fileToUpload: null,
       error: ""
     };
   }
@@ -43,6 +47,9 @@ class BookDetails extends React.Component {
 
     const book = await bookService.getBookById(id);
     this.setState({ book });
+
+    const isDelivered = await userService.isCurrentUserBookFile(id);
+    this.setState({ isDelivered });
   };
 
   bookExists = async () => {
@@ -62,6 +69,13 @@ class BookDetails extends React.Component {
   };
 
   handleChange = event => handleInputChange.bind(this)(event, "review");
+
+  handleChangeUpload = event => {
+    console.log(event.target.files[0]);
+    const fileInput = event.target.files[0];
+
+    this.setState({ fileToUpload: fileInput });
+  };
 
   handleLike = async () => {
     if (!(await this.isAuthWithNotification())) {
@@ -102,6 +116,17 @@ class BookDetails extends React.Component {
   handleReviewsVisibility = () =>
     this.setState(prevState => ({ showReviews: !prevState.showReviews }));
 
+  handleFileDelete = async () => {
+    if (!(await this.isAuthWithNotification())) {
+      return;
+    }
+
+    const { book } = this.state;
+
+    const result = await bookService.deleteFileByBookId(book._id);
+    this.updateBook(result);
+  };
+
   handleReviewDelete = async reviewIndex => {
     if (!(await this.isAuthWithNotification())) {
       return;
@@ -128,6 +153,23 @@ class BookDetails extends React.Component {
     const result = await bookService.reviewBookById(book._id, {
       review: review.content.trim()
     });
+    this.updateBook(result);
+  };
+
+  handleSubmitUpload = async event => {
+    event.preventDefault();
+
+    if (!(await this.isAuthWithNotification())) {
+      return;
+    }
+
+    const { book, fileToUpload } = this.state;
+    console.log(fileToUpload);
+
+    const data = new FormData();
+    data.append("file", fileToUpload, fileToUpload.name);
+
+    const result = await bookService.uploaFileByBookId(book._id, data);
     this.updateBook(result);
   };
 
@@ -207,6 +249,7 @@ class BookDetails extends React.Component {
       notFound,
       isLoginRequired,
       isOrdered,
+      isDelivered,
       showReviews,
       book,
       ...otherProps
@@ -233,10 +276,23 @@ class BookDetails extends React.Component {
 
     return (
       <Fragment>
-        <BookDetailsView book={book} />
+        <BookDetailsView
+          book={book}
+          isAdmin={isAdmin}
+          isDelivered={isDelivered} // book ordered by user & order status = Delivered
+        />
 
         <section className="book-actions-container row justify-content-end mt-2">
           <section className="book-actions-visible-container col-lg-9 pt-2 pb-2">
+            {!isAdmin() ? null : (
+              <FileAdmin
+                book={book}
+                handleChangeUpload={this.handleChangeUpload}
+                handleSubmitUpload={this.handleSubmitUpload}
+                handleFileDelete={this.handleFileDelete}
+              />
+            )}
+
             <section className="user-actions mt-3 mb-3 row row-wrap justify-content-around">
               <BookUserLinks
                 isLiked={this.isBookLiked()} // display liked button css if book is liked

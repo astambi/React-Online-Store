@@ -23,6 +23,9 @@ const dbConstants = {
   bookUnlikeByIdUrl: `${bookUrl}/unlike/`,
   bookReviewByIdUrl: `${bookUrl}/review/`,
   bookReviewDeleteByIdIndexUrl: `${bookUrl}/review/delete/`, // :bookId/:reviewIndex
+  bookFileUploadByIdUrl: `${bookUrl}/upload/`,
+  bookFileDeleteByIdUrl: `${bookUrl}/upload/delete/`,
+  bookFileDownloadByIdUrl: `${bookUrl}/download/`,
   booksAllUrl: `${bookUrl}/all`,
   // orders
   orderCreateUrl: `${ordersUrl}/submit`,

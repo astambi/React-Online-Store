@@ -4,6 +4,7 @@ import CustomButton from "../common/CustomButton";
 const ProfileFilterButtons = props => {
   const {
     action,
+    loadBookDownloads,
     loadBookLikes,
     loadBookReviews,
     loadEditProfile,
@@ -13,12 +14,17 @@ const ProfileFilterButtons = props => {
   return (
     <p className="profile-filters d-flex row row-wrap justify-content-around mt-3 mb-3">
       <CustomButton
-        name="My favourite books"
+        name="E-books"
+        outline={action !== "Downloads"}
+        handleAction={loadBookDownloads}
+      />
+      <CustomButton
+        name="Likes"
         outline={action !== "Likes"}
         handleAction={loadBookLikes}
       />
       <CustomButton
-        name="My reviews"
+        name="Reviews"
         outline={action !== "Reviews"}
         handleAction={loadBookReviews}
       />

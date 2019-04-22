@@ -1,6 +1,19 @@
 const express = require("express");
 const authCheck = require("../config/auth-check");
 const Book = require("../models/Book");
+const path = require("path");
+const multer = require("multer");
+
+// configuring Multer to use files directory for storing files
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "./files");
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+const upload = multer({ storage }).single("file");
 
 const router = new express.Router();
 
@@ -170,6 +183,7 @@ router.post("/review/:id", authCheck, (req, res) => {
   const id = req.params.id;
   const review = req.body.review;
   const username = req.user.username;
+  const userId = req.user.id;
 
   if (review.length < 4) {
     const message = "Review must be at least 4 characters long.";
@@ -184,13 +198,14 @@ router.post("/review/:id", authCheck, (req, res) => {
       if (!book) {
         return res.status(200).json({
           success: false,
-          message: "Product not found."
+          message: "Book not found."
         });
       }
 
       let reviewObj = {
         review,
-        createdBy: username
+        createdBy: username,
+        authorId: userId
       };
 
       let reviews = book.reviews;
@@ -419,6 +434,150 @@ router.delete("/delete/:id", authCheck, (req, res) => {
       message: "Invalid credentials!"
     });
   }
+});
+
+router.post("/upload/:id", authCheck, (req, res) => {
+  const id = req.params.id;
+
+  if (req.user.roles.indexOf("Admin") > -1) {
+    upload(req, res, function(err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(500).json(err);
+      } else if (err) {
+        return res.status(500).json(err);
+      }
+
+      const file = req.file; // file passed from client
+      console.log(file);
+
+      Book.findById(id).then(existingBook => {
+        if (!existingBook) {
+          return res.status(200).json({
+            success: false,
+            message: "Book not found."
+          });
+        }
+
+        // const absPath = path.join(__dirname, "../", file.path);
+        // console.log(absPath);
+        // existingBook.file = absPath;
+
+        existingBook.file = file.path; // relative path
+
+        existingBook
+          .save()
+          .then(editedBook => {
+            res.status(200).json({
+              success: true,
+              message: "File uploaded successfully.",
+              data: editedBook
+            });
+          })
+          .catch(err => {
+            console.log(err);
+            let message = "Something went wrong :( Check the form for errors.";
+            if (err.code === 11000) {
+              message = "Book with the given name already exists.";
+            }
+            return res.status(200).json({
+              success: false,
+              message: message
+            });
+          });
+      });
+    });
+  } else {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid credentials!"
+    });
+  }
+});
+
+router.post("/upload/delete/:id", authCheck, (req, res) => {
+  const id = req.params.id;
+
+  if (req.user.roles.indexOf("Admin") > -1) {
+    upload(req, res, function(err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(500).json(err);
+      } else if (err) {
+        return res.status(500).json(err);
+      }
+
+      Book.findById(id).then(existingBook => {
+        if (!existingBook) {
+          return res.status(200).json({
+            success: false,
+            message: "Book not found."
+          });
+        }
+
+        existingBook.file = "";
+
+        existingBook
+          .save()
+          .then(editedBook => {
+            res.status(200).json({
+              success: true,
+              message: "File deleted successfully.",
+              data: editedBook
+            });
+          })
+          .catch(err => {
+            console.log(err);
+            let message = "Something went wrong :(";
+            if (err.code === 11000) {
+              message = "Book with the given name already exists.";
+            }
+            return res.status(200).json({
+              success: false,
+              message: message
+            });
+          });
+      });
+    });
+  } else {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid credentials!"
+    });
+  }
+});
+
+router.get("/download/:id", authCheck, (req, res) => {
+  const id = req.params.id;
+
+  Book.findById(id)
+    .then(existingBook => {
+      if (!existingBook) {
+        return res.status(200).json({
+          success: false,
+          message: "Book not found."
+        });
+      }
+
+      const file = existingBook.file;
+      console.log(file);
+
+      if (!file || file === undefined || file === "") {
+        return res.status(200).json({
+          success: false,
+          message: "Book file not found."
+        });
+      }
+
+      // Download file
+      return res.download(file);
+    })
+    .catch(err => {
+      console.log(err);
+      const message = "Something went wrong :(";
+      return res.status(200).json({
+        success: false,
+        message: message
+      });
+    });
 });
 
 module.exports = router;

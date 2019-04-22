@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Redirect } from "react-router-dom";
+import MyBookFiles from "./MyBookFiles";
 import MyBookLikes from "./MyBookLikes";
 import MyBookReviews from "./MyBookReviews";
 import ProfileFilterButtons from "./ProfileFilterButtons";
@@ -24,6 +25,7 @@ class Profile extends Component {
 
   componentDidMount = async () => await this.loadUserProfile();
 
+  loadBookDownloads = () => this.setState({ action: "Files" });
   loadBookLikes = () => this.setState({ action: "Likes" });
   loadBookReviews = () => this.setState({ action: "Reviews" });
   loadEditProfile = () => this.setState({ action: "Edit" });
@@ -66,6 +68,7 @@ class Profile extends Component {
           <TitleWithValue title="Roles" value={roles.join(" ")} />
           <ProfileFilterButtons
             action={action}
+            loadBookDownloads={this.loadBookDownloads}
             loadBookLikes={this.loadBookLikes}
             loadBookReviews={this.loadBookReviews}
             loadEditProfile={this.loadEditProfile}
@@ -73,6 +76,7 @@ class Profile extends Component {
           />
         </ProfileSection>
 
+        {action === "Files" ? <MyBookFiles /> : null}
         {action === "Likes" ? <MyBookLikes /> : null}
         {action === "Reviews" ? <MyBookReviews /> : null}
       </Fragment>

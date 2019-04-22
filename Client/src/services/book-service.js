@@ -1,4 +1,4 @@
-import { get, post, remove } from "../data/crud";
+import { get, post, remove, upload, download } from "../data/crud";
 import { dbConstants } from "../constants/constants";
 
 const filterAvailableBooks = async books => {
@@ -31,6 +31,11 @@ const bookService = {
     post(dbConstants.bookReviewByIdUrl + id, review),
   deleteBookReviewByIdIndex: (bookId, reviewIndex) =>
     post(dbConstants.bookReviewDeleteByIdIndexUrl + bookId + "/" + reviewIndex),
+  uploaFileByBookId: (id, data) =>
+    upload(dbConstants.bookFileUploadByIdUrl + id, data),
+  downloadFileByBookId: id =>
+    download(dbConstants.bookFileDownloadByIdUrl + id),
+  deleteFileByBookId: id => post(dbConstants.bookFileDeleteByIdUrl + id),
   getStats: () => get(dbConstants.statsUrl)
 };
 
