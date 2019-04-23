@@ -3,6 +3,8 @@ import BookDetailsRow from "./BookDetailsRow";
 import CustomButton from "../common/CustomButton";
 import bookService from "../../services/book-service";
 import { toCurrency } from "../../services/helpers";
+import notificationService from "../../services/notification-service";
+import { notificationMessages } from "../../constants/constants";
 
 const BookDetailsView = props => {
   const getBookName = absPath => absPath.split("\\").pop();
@@ -11,9 +13,17 @@ const BookDetailsView = props => {
     event.preventDefault();
 
     const { book } = props;
+    console.log(book.file);
 
     // Fetch dload file
     const result = await bookService.downloadFileByBookId(book._id);
+    console.log(result);
+
+    const { ok } = result;
+    if (!ok) {
+      notificationService.errorMsg(notificationMessages.bookFileNotFoundMsg);
+      return;
+    }
 
     // Create blob link to download
     const blob = await result.blob();

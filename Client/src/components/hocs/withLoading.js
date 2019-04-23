@@ -9,7 +9,7 @@ const withLoading = WrappedComponent => {
       const { isLoading, ...otherProps } = this.props;
 
       if (isLoading) {
-        notificationService.loadingMsg(notificationMessages.loadingMsg);
+        // notificationService.loadingMsg(notificationMessages.loadingMsg);
         return <Loading />;
       }
 

@@ -46,7 +46,7 @@ const dbConstants = {
 
 // Input notifications
 const notifications = {
-  welcomeMsg: "Welcome to our book store",
+  welcomeMsg: "Welcome to our online store",
   goToHome: "Go to home",
   goToStore: "Go to store",
   viewOrders: "View your orders",
@@ -79,6 +79,7 @@ const notificationMessages = {
   bookRemovedFromCartMsg: "Book removed from cart",
   bookInfoUpdatedMsg: "Book info & price updated",
   bookQuantityUpdatedMsg: "Book quantity updated",
+  bookFileNotFoundMsg: "Book file not found",
   bookNotFoundMsg: "Book not found",
   // Cart
   cartEmptyMsg: "Cart is empty",
@@ -107,7 +108,7 @@ const paths = {
   logoutName: "Logout",
   // home
   indexPath: "/",
-  indexName: "Book store",
+  indexName: "Online store",
   homePath: "/home",
   homeName: "Home",
   // books
